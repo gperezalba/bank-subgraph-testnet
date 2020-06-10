@@ -35,6 +35,15 @@ function setName(walletAddress: Address, name: string): void {
 
     wallet.name = name;
     wallet.save();
+
+    let _name = Name.load(name);
+
+    if (_name == null) {
+        _name = new Name(name);
+    }
+
+    _name.name = name;
+    _name.save();
 }
 
 function setOwner(id: string, newOwner: Address): void {
