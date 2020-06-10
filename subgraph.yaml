@@ -1,0 +1,23 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Contract
+    network: mainnet
+    source:
+      address: "0x0ff3Cd14bA715da75608C4aa56B95F2e86B2037d"
+      abi: Contract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - DeployIdentity
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: DeployIdentity(indexed address,indexed address,address,indexed address,string,bytes32)
+          handler: handleDeployIdentity
+      file: ./src/mapping.ts
