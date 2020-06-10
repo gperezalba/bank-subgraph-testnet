@@ -144,8 +144,8 @@ templates:
         - event: FactoryForward(indexed uint256,address)
           handler: handleFactoryForward
         - event: NewOwner(address,address,address)
-          handler: handleNewOwner
+          handler: handleIdentityNewOwner
         - event: NewRecovery(address,address)
-          handler: handleNewRecovery
+          handler: handleIdentityNewRecovery
         - event: NewWallet(address,address,address)
-          handler: handleNewWallet
+          handler: handleIdentityNewWallet
