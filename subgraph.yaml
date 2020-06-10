@@ -121,7 +121,7 @@ templates:
         - name: Wallet
           file: ./abis/Wallet.json
       eventHandlers:
-        - event: Transfer(indexed address,indexed uint256,indexed address,uint256,uint256,bytes)
+        - event: Transfer(indexed address,indexed uint256,indexed address,uint256,uint256,string)
           handler: handleTransfer
   - name: Identity
     kind: ethereum/contract
