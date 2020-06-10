@@ -11,11 +11,11 @@ import {
 
 import { Token as TokenContract } from "../generated/templates/Token/Token"
 
-import { createTransaction } from "./token"
+import { createTransaction } from "./transaction"
 
 export function handleTransfer(event: Transfer): void {
     let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
-    let tx = Transaction.load(txId);
+    /*let tx = Transaction.load(txId);
 
     if (tx == null) {
         let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
@@ -32,7 +32,7 @@ export function handleTransfer(event: Transfer): void {
         );
 
         tx = Transaction.load(txId);
-    }
+    }*/
 
     let bankTxId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
     let bankTransaction = BankTransaction.load(bankTxId);
@@ -41,7 +41,7 @@ export function handleTransfer(event: Transfer): void {
         bankTransaction = new BankTransaction(bankTxId);
     }
 
-    bankTransaction.transaction = tx.id;
+    bankTransaction.transaction = txId;
     bankTransaction.kind = event.params.kind;
     bankTransaction.concept = event.params.data.toHexString();
     

@@ -8,7 +8,7 @@ import {
 import { loadWallet } from "./wallet"
 
 export function handleForward(event: Forward): void {
-    //updateLastModification(event.address.toString(), event.block.timestamp);
+    updateLastModification(event.address.toString(), event.block.timestamp);
 }
 
 export function handleFactoryForward(event: FactoryForward): void {
