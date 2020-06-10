@@ -32,7 +32,7 @@ export function addToken(tokenAddress: Address): void {
         } else {
             token.tokenSymbol = "PI";
             token.tokenName = "PI";
-            token.tokenDecimals = "18";
+            token.tokenDecimals = 18;
             token.totalSupply = zeroBD();
             token.holders = [];
         }
