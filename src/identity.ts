@@ -36,14 +36,14 @@ export function handleIdentityNewRecovery(event: NewRecovery): void {
 }
 
 export function handleIdentityNewWallet(event: NewWallet): void {
-    /*let identity = Identity.load(event.address.toHexString());
+    let identity = Identity.load(event.address.toString());
 
     if (identity !== null) {
-        let wallet = loadWallet(event.params.current, true);
-        identity.wallet = wallet.id;
-        identity.save();
-        updateLastModification(event.address.toHexString(), event.block.timestamp);
-    }*/
+        //let wallet = loadWallet(event.params.current, true);
+        //identity.wallet = wallet.id;
+        //identity.save();
+        updateLastModification(event.address.toString(), event.block.timestamp);
+    }
 }
   
 function updateLastModification(identityAddress: string, timestamp: BigInt): void {
