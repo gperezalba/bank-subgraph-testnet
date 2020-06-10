@@ -21,71 +21,71 @@ dataSources:
         - event: DeployIdentity(indexed address,indexed address,address,indexed address,string,bytes32)
           handler: handleDeployIdentity
       file: ./src/identityFactory.ts
-  - kind: ethereum/contract
-    name: NameService
-    network: mainnet
-    source:
-      address: "0xD0a2e5D3b8c6CF11db4DaBf6f8A702E60A098233"
-      abi: NameService
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.3
-      language: wasm/assemblyscript
-      entities:
-        - CreateName
-        - ChangeWallet
-        - ChangeOwner
-      abis:
-        - name: NameService
-          file: ./abis/NameService.json
-      eventHandlers:
-        - event: CreateName(string,indexed address,indexed address)
-          handler: handleCreateName
-        - event: ChangeWallet(string,indexed address)
-          handler: handleChangeWallet
-        - event: ChangeOwner(string,indexed address)
-          handler: handleChangeOwner
-      file: ./src/nameService.ts
-  - kind: ethereum/contract
-    name: Controller
-    network: mainnet
-    source:
-      address: "0x0ff3Cd14bA715da75608C4aa56B95F2e86B2037d"
-      abi: Controller
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.3
-      language: wasm/assemblyscript
-      entities:
-        - NewToken
-      abis:
-        - name: Controller
-          file: ./abis/Controller.json
-        - name: Token
-          file: ./abis/Token.json
-      eventHandlers:
-        - event: NewToken(address)
-          handler: handleTokenCreated
-      file: ./src/controller.ts
-  - kind: ethereum/contract
-    name: Balance
-    network: mainnet
-    source:
-      address: "0xD474378e5FcF23f498c433C7352394aD51A4CfE4"
-      abi: Balance
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.3
-      language: wasm/assemblyscript
-      entities:
-        - Token
-      abis:
-        - name: Balance
-          file: ./abis/Balance.json
-      callHandlers:
-        - function: f()
-          handler: handleGetBalance
-      file: ./src/balance.ts
+  # - kind: ethereum/contract
+  #   name: NameService
+  #   network: mainnet
+  #   source:
+  #     address: "0xD0a2e5D3b8c6CF11db4DaBf6f8A702E60A098233"
+  #     abi: NameService
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.3
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - CreateName
+  #       - ChangeWallet
+  #       - ChangeOwner
+  #     abis:
+  #       - name: NameService
+  #         file: ./abis/NameService.json
+  #     eventHandlers:
+  #       - event: CreateName(string,indexed address,indexed address)
+  #         handler: handleCreateName
+  #       - event: ChangeWallet(string,indexed address)
+  #         handler: handleChangeWallet
+  #       - event: ChangeOwner(string,indexed address)
+  #         handler: handleChangeOwner
+  #     file: ./src/nameService.ts
+  # - kind: ethereum/contract
+  #   name: Controller
+  #   network: mainnet
+  #   source:
+  #     address: "0x0ff3Cd14bA715da75608C4aa56B95F2e86B2037d"
+  #     abi: Controller
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.3
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - NewToken
+  #     abis:
+  #       - name: Controller
+  #         file: ./abis/Controller.json
+  #       - name: Token
+  #         file: ./abis/Token.json
+  #     eventHandlers:
+  #       - event: NewToken(address)
+  #         handler: handleTokenCreated
+  #     file: ./src/controller.ts
+  # - kind: ethereum/contract
+  #   name: Balance
+  #   network: mainnet
+  #   source:
+  #     address: "0xD474378e5FcF23f498c433C7352394aD51A4CfE4"
+  #     abi: Balance
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.3
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - Token
+  #     abis:
+  #       - name: Balance
+  #         file: ./abis/Balance.json
+  #     callHandlers:
+  #       - function: f()
+  #         handler: handleGetBalance
+  #     file: ./src/balance.ts
 templates:
   - name: Token
     kind: ethereum/contract
