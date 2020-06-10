@@ -60,8 +60,8 @@ export function handleTransfer(event: Transfer): void {
 
     bankTransaction.save();
 
-    pushWalletBankTransaction(bankTransaction as BankTransaction, event.params.to.toHexString());
-    pushWalletBankTransaction(bankTransaction as BankTransaction, event.address.toHexString());
+    //pushWalletBankTransaction(bankTransaction as BankTransaction, event.params.to.toHexString());
+    //pushWalletBankTransaction(bankTransaction as BankTransaction, event.address.toHexString());
 }
 
 export function pushWalletTransaction(tx: Transaction, walletAddress: string): void {
