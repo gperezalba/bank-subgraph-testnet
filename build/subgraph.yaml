@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: IdentityFactory
@@ -16,11 +16,12 @@ dataSources:
         - DeployIdentity
       abis:
         - name: IdentityFactory
-          file: ./abis/IdentityFactory.json
+          file: IdentityFactory\abis\IdentityFactory.json
       eventHandlers:
-        - event: DeployIdentity(indexed address,indexed address,address,indexed address,string,bytes32)
+        - event: DeployIdentity(indexed address,indexed address,address,indexed
+            address,string,bytes32)
           handler: handleDeployIdentity
-      file: ./src/identityFactory.ts
+      file: IdentityFactory\IdentityFactory.wasm
   - kind: ethereum/contract
     name: NameService
     network: mainnet
@@ -37,7 +38,7 @@ dataSources:
         - ChangeOwner
       abis:
         - name: NameService
-          file: ./abis/NameService.json
+          file: NameService\abis\NameService.json
       eventHandlers:
         - event: CreateName(string,indexed address,indexed address)
           handler: handleCreateName
@@ -45,7 +46,7 @@ dataSources:
           handler: handleChangeWallet
         - event: ChangeOwner(string,indexed address)
           handler: handleChangeOwner
-      file: ./src/nameService.ts
+      file: NameService\NameService.wasm
   - kind: ethereum/contract
     name: Controller
     network: mainnet
@@ -60,13 +61,13 @@ dataSources:
         - NewToken
       abis:
         - name: Controller
-          file: ./abis/Controller.json
+          file: Controller\abis\Controller.json
         - name: Token
-          file: ./abis/Token.json
+          file: Controller\abis\Token.json
       eventHandlers:
         - event: NewToken(address)
           handler: handleTokenCreated
-      file: ./src/controller.ts
+      file: Controller\Controller.wasm
   - kind: ethereum/contract
     name: Balance
     network: mainnet
@@ -81,11 +82,11 @@ dataSources:
         - Token
       abis:
         - name: Balance
-          file: ./abis/Balance.json
+          file: Balance\abis\Balance.json
       callHandlers:
         - function: f()
           handler: handleGetBalance
-      file: ./src/balance.ts
+      file: Balance\Balance.wasm
 templates:
   - name: Token
     kind: ethereum/contract
@@ -96,12 +97,12 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.1
       language: wasm/assemblyscript
-      file: ./src/token.ts
+      file: templates\Token\Token.wasm
       entities:
         - Transfer
       abis:
         - name: Token
-          file: ./abis/Token.json
+          file: Token\abis\Token.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256,indexed bytes)
           handler: handleTransfer
@@ -114,12 +115,12 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.1
       language: wasm/assemblyscript
-      file: ./src/wallet.ts
+      file: templates\Wallet\Wallet.wasm
       entities:
         - Transfer
       abis:
         - name: Wallet
-          file: ./abis/Wallet.json
+          file: Wallet\abis\Wallet.json
       eventHandlers:
         - event: Transfer(indexed address,indexed uint256,indexed address,uint256,uint256,bytes)
           handler: handleTransfer
@@ -132,12 +133,12 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.1
       language: wasm/assemblyscript
-      file: ./src/identity.ts
+      file: templates\Identity\Identity.wasm
       entities:
         - Identity
       abis:
         - name: Identity
-          file: ./abis/Identity.json
+          file: Identity\abis\Identity.json
       eventHandlers:
         - event: Forward(indexed address,uint256,bytes)
           handler: handleForward
