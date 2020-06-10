@@ -40,7 +40,7 @@ export function handleIdentityNewWallet(event: NewWallet): void {
 
     if (identity !== null) {
         let wallet = loadWallet(event.params.current, true);
-        //identity.wallet = wallet.id;
+        identity.wallet = wallet.id;
         identity.save();
         updateLastModification(event.address.toString(), event.block.timestamp);
     }
