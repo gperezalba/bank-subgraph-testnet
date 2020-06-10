@@ -15,11 +15,11 @@ import { addToken } from "./controller"
 import { zeroBD, getBalance } from "./helpers"
 
 export function handleTransfer(event: Transfer): void {
-    addToken(event.address);
+    /*addToken(event.address);
     updateTokenBalance(event.address, event.params.to.toHexString());
     updateTokenBalance(event.address, event.params.from.toHexString());
     addTokenHolder(event.address.toHexString(), event.params.to.toHexString());
-    newTransaction(event);
+    newTransaction(event);*/
 }
 
 /***************************************************************/
