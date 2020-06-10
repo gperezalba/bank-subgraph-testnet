@@ -43,7 +43,7 @@ export function handleTransfer(event: Transfer): void {
 
     bankTransaction.transaction = txId;
     bankTransaction.kind = event.params.kind;
-    //bankTransaction.concept = event.params.data.toString();
+    bankTransaction.concept = event.params.data.toHexString();
     
     let bankFee = BankFee.load(bankTxId);
 
