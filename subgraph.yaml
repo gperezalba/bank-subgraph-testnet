@@ -21,31 +21,31 @@ dataSources:
         - event: DeployIdentity(indexed address,indexed address,address,indexed address,string,bytes32)
           handler: handleDeployIdentity
       file: ./src/identityFactory.ts
-  # - kind: ethereum/contract
-  #   name: NameService
-  #   network: mainnet
-  #   source:
-  #     address: "0xD0a2e5D3b8c6CF11db4DaBf6f8A702E60A098233"
-  #     abi: NameService
-  #   mapping:
-  #     kind: ethereum/events
-  #     apiVersion: 0.0.3
-  #     language: wasm/assemblyscript
-  #     entities:
-  #       - CreateName
-  #       - ChangeWallet
-  #       - ChangeOwner
-  #     abis:
-  #       - name: NameService
-  #         file: ./abis/NameService.json
-  #     eventHandlers:
-  #       - event: CreateName(string,indexed address,indexed address)
-  #         handler: handleCreateName
-  #       - event: ChangeWallet(string,indexed address)
-  #         handler: handleChangeWallet
-  #       - event: ChangeOwner(string,indexed address)
-  #         handler: handleChangeOwner
-  #     file: ./src/nameService.ts
+  - kind: ethereum/contract
+    name: NameService
+    network: mainnet
+    source:
+      address: "0xD0a2e5D3b8c6CF11db4DaBf6f8A702E60A098233"
+      abi: NameService
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - CreateName
+        - ChangeWallet
+        - ChangeOwner
+      abis:
+        - name: NameService
+          file: ./abis/NameService.json
+      eventHandlers:
+        - event: CreateName(string,indexed address,indexed address)
+          handler: handleCreateName
+        - event: ChangeWallet(string,indexed address)
+          handler: handleChangeWallet
+        - event: ChangeOwner(string,indexed address)
+          handler: handleChangeOwner
+      file: ./src/nameService.ts
   # - kind: ethereum/contract
   #   name: Controller
   #   network: mainnet
