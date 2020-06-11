@@ -50,7 +50,7 @@ export function isNullEthValue(value: string): boolean {
   return value == '0x0000000000000000000000000000000000000000000000000000000000000001'
 }
 
-export function getBalance(address: Address, tokenAddress: Address): BigDecimal {
-  let contract = Balance.bind(tokenAddress);
+export function getBalance(address: Address): BigDecimal {
+  let contract = Balance.bind(Address.fromString("0xD474378e5FcF23f498c433C7352394aD51A4CfE4"));
   return contract.getBalance(address).toBigDecimal();
 }
