@@ -122,6 +122,8 @@ templates:
           file: ./abis/Wallet.json
         - name: Token
           file: ./abis/Token.json
+        - name: Balance
+          file: ./abis/Balance.json
       eventHandlers:
         - event: Transfer(indexed address,indexed uint256,indexed address,uint256,uint256,string)
           handler: handleTransfer
