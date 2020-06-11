@@ -10,6 +10,8 @@ import { Token as TokenContract } from "../generated/templates/Token/Token"
 import { zeroBD, getBalance } from "./helpers"
 import { loadWallet } from "./wallet";
 
+const PI_ADDRESS = "0x0000000000000000000000000000000000000000";
+
 export function createTokenBalance(tokenAddress: Address, walletAddress: string): void {
     let token = Token.load(tokenAddress.toHexString());
 
@@ -48,7 +50,7 @@ export function createTokenBalance(tokenAddress: Address, walletAddress: string)
 export function updateTokenBalance(tokenAddress: Address, walletAddress: string): void {
     let token = Token.load(tokenAddress.toHexString());
 
-    if ((token !== null) && (tokenAddress != Address.fromI32(0)) ) { //Si el token no existe no hago nada
+    if ((token !== null) && (tokenAddress.toHexString() != PI_ADDRESS) ) { //Si el token no existe no hago nada
 
         let id = tokenAddress.toHexString().concat('-').concat(walletAddress);
         let tokenBalance = TokenBalance.load(id);
