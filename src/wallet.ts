@@ -12,8 +12,17 @@ import {
 import { Token as TokenContract } from "../generated/templates/Token/Token"
 
 import { createTransaction } from "./transaction"
+import { updateTokenBalance } from "./tokenBalance"
+
+const PI_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export function handleTransfer(event: Transfer): void {
+
+    if (event.params.tokenAddress.toHexString() == PI_ADDRESS) {
+        updateTokenBalance(Address.fromString(PI_ADDRESS), event.params.to.toHexString());
+        updateTokenBalance(Address.fromString(PI_ADDRESS), event.address.toHexString());
+    }
+
     let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
     let tx = Transaction.load(txId);
 
