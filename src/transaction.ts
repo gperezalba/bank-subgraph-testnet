@@ -66,8 +66,8 @@ export function createTransaction(
     let fromWallet = loadWallet(from, false);
     let toWallet = loadWallet(to, false);
 
-    tx.from = from.toHexString();
-    tx.to = to.toHexString();
+    tx.from = fromWallet.id;
+    tx.to = toWallet.id;
     tx.currency = currency;
     tx.amount = amount;
     tx.data = data;
