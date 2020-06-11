@@ -18,10 +18,10 @@ const PI_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export function handleTransfer(event: Transfer): void {
 
-    /*if (event.params.tokenAddress.toHexString() == PI_ADDRESS) {
+    if (event.params.tokenAddress.toHexString() == PI_ADDRESS) {
         updateTokenBalance(event.params.tokenAddress, event.params.to.toHexString());
         updateTokenBalance(event.params.tokenAddress, event.address.toHexString());
-    }*/
+    }
 
     let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
     let tx = Transaction.load(txId);
