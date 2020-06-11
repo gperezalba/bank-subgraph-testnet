@@ -5,12 +5,16 @@ import {
     Transaction, Wallet
 } from "../generated/schema"
 
-import { pushWalletTransaction } from "./wallet"
+import { pushWalletTransaction, loadWallet } from "./wallet"
 import { handleTokenMint, handleTokenBurn } from "./token";
 
 export function newTransaction(event: Transfer): void {
 
     let fromWallet = Wallet.load(event.params.from.toHexString());
+
+    if (fromWallet == null) {
+        fromWallet = loadWallet(event.params.from, false);
+    }
 
     if (!fromWallet.isBankUser) {
         let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
