@@ -66,7 +66,7 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
     let tokenBalance = TokenBalance.load(id);
     
     if (tokenAddress == Address.fromI32(0)) {
-        tokenBalance.balance = getBalance(Address.fromString(walletAddress), tokenAddress);
+        //tokenBalance.balance = getBalance(Address.fromString(walletAddress), tokenAddress);
     } else {
         let token = TokenContract.bind(tokenAddress);
         tokenBalance.balance = token.balanceOf(Address.fromString(walletAddress)).toBigDecimal();
