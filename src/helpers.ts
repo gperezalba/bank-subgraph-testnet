@@ -51,6 +51,6 @@ export function isNullEthValue(value: string): boolean {
 }
 
 export function getBalance(address: Address): BigDecimal {
-  let contract = Balance.bind(Address.fromString("0xD474378e5FcF23f498c433C7352394aD51A4CfE4"));
+  let contract = Balance.bind(Address.fromHexString("0xD474378e5FcF23f498c433C7352394aD51A4CfE4"));
   return contract.getBalance(address).toBigDecimal();
 }
