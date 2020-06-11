@@ -12,7 +12,7 @@ export function newTransaction(event: Transfer): void {
 
     let fromWallet = Wallet.load(event.params.from.toHexString());
 
-    if (fromWallet != null) {
+    if (fromWallet == null) {
         let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
         let tx = Transaction.load(txId);
 
