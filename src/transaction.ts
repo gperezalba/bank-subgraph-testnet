@@ -16,30 +16,27 @@ export function newTransaction(event: Transfer): void {
         fromWallet = loadWallet(event.params.from, false);
     }
 
-    if (fromWallet != null) {
+    if (!fromWallet.isBankUser) {
+        let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
+        let tx = Transaction.load(txId);
 
-        if (!fromWallet.isBankUser) {
+        if (tx == null) {
             let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
-            let tx = Transaction.load(txId);
-
-            if (tx == null) {
-                let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
-                tx = createTransaction(
-                    txId, 
-                    event.params.from, 
-                    event.params.to, 
-                    event.address.toHexString(), 
-                    event.params.value.toBigDecimal(), 
-                    event.params.data, 
-                    event.block.timestamp, 
-                    event.transaction.gasUsed.toBigDecimal().times(event.transaction.gasPrice.toBigDecimal()),
-                    false
-                );
-            }
-
-            pushWalletTransaction(tx as Transaction, event.params.to.toHexString());
-            pushWalletTransaction(tx as Transaction, event.params.from.toHexString());
+            tx = createTransaction(
+                txId, 
+                event.params.from, 
+                event.params.to, 
+                event.address.toHexString(), 
+                event.params.value.toBigDecimal(), 
+                event.params.data, 
+                event.block.timestamp, 
+                event.transaction.gasUsed.toBigDecimal().times(event.transaction.gasPrice.toBigDecimal()),
+                false
+            );
         }
+
+        pushWalletTransaction(tx as Transaction, event.params.to.toHexString());
+        pushWalletTransaction(tx as Transaction, event.params.from.toHexString());
     }
 
     if (event.params.from == Address.fromI32(0)) {

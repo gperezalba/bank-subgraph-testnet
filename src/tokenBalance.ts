@@ -8,6 +8,7 @@ import {
 
 import { Token as TokenContract } from "../generated/templates/Token/Token"
 import { zeroBD, getBalance } from "./helpers"
+import { loadWallet } from "./wallet";
 
 export function createTokenBalance(tokenAddress: Address, walletAddress: string): void {
     let token = Token.load(tokenAddress.toHexString());
@@ -24,7 +25,7 @@ export function createTokenBalance(tokenAddress: Address, walletAddress: string)
             let wallet = Wallet.load(walletAddress);
 
             if (wallet == null) { //Si no existe el wallet lo creo
-                wallet = new Wallet(walletAddress);
+                wallet = loadWallet(Address.fromString(walletAddress), false)
                 //Añado al wallet este tokenBalance ya que como lo acabo de crear no lo tendrá
                 wallet.balances.push(tokenBalance.id);
             }
