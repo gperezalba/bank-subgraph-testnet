@@ -13,32 +13,33 @@ export function newTransaction(event: Transfer): void {
     let fromWallet = Wallet.load(event.params.from.toHexString());
 
     if (fromWallet == null) {
-        loadWallet(event.params.from, false);
+        fromWallet = loadWallet(event.params.from, false);
     }
 
-    fromWallet = Wallet.load(event.params.from.toHexString());
+    if (fromWallet != null) {
 
-    if (!fromWallet.isBankUser) {
-        let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
-        let tx = Transaction.load(txId);
-
-        if (tx == null) {
+        if (!fromWallet.isBankUser) {
             let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
-            tx = createTransaction(
-                txId, 
-                event.params.from, 
-                event.params.to, 
-                event.address.toHexString(), 
-                event.params.value.toBigDecimal(), 
-                event.params.data, 
-                event.block.timestamp, 
-                event.transaction.gasUsed.toBigDecimal().times(event.transaction.gasPrice.toBigDecimal()),
-                false
-            );
-        }
+            let tx = Transaction.load(txId);
 
-        pushWalletTransaction(tx as Transaction, event.params.to.toHexString());
-        pushWalletTransaction(tx as Transaction, event.params.from.toHexString());
+            if (tx == null) {
+                let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
+                tx = createTransaction(
+                    txId, 
+                    event.params.from, 
+                    event.params.to, 
+                    event.address.toHexString(), 
+                    event.params.value.toBigDecimal(), 
+                    event.params.data, 
+                    event.block.timestamp, 
+                    event.transaction.gasUsed.toBigDecimal().times(event.transaction.gasPrice.toBigDecimal()),
+                    false
+                );
+            }
+
+            pushWalletTransaction(tx as Transaction, event.params.to.toHexString());
+            pushWalletTransaction(tx as Transaction, event.params.from.toHexString());
+        }
     }
 
     if (event.params.from == Address.fromI32(0)) {
