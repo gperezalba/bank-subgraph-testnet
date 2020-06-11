@@ -1,5 +1,5 @@
 import { BigInt, BigDecimal, Address } from '@graphprotocol/graph-ts'
-import { Balance } from '../generated/Balance/Balance'
+import { Balance } from '../generated/templates/Balance/Balance'
 
 /************************************
  ********** Helpers ***********

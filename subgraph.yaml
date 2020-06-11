@@ -153,3 +153,21 @@ templates:
           handler: handleIdentityNewRecovery
         - event: NewWallet(address,address,address)
           handler: handleIdentityNewWallet
+  - name: Balance
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: Balance
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      file: ./src/balance.ts
+      entities:
+        - Balance
+      abis:
+        - name: Balance
+          file: ./abis/Balance.json
+      callHandlers:
+        - function: f()
+          handler: handleGetBalance
