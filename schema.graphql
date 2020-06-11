@@ -25,7 +25,6 @@ type Wallet @entity {
     isBankUser: Boolean
     balances: [TokenBalance!] @derivedFrom(field: "wallet")
     transactions: [Transaction!]
-    bankTransactions: [BankTransaction!]
 }
 
 type Name @entity {
@@ -53,8 +52,8 @@ type BankTransaction @entity {
 
 type Transaction @entity {
     id: ID! #event.transaction.hash.toHex() + "-" + event.logIndex.toString()
-    from: Bytes!
-    to: Bytes!
+    from: Wallet!
+    to: Wallet!
     currency: Token!
     amount: BigDecimal!
     data: Bytes!

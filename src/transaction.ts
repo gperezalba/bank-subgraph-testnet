@@ -63,8 +63,8 @@ export function createTransaction(
 {
     let tx = new Transaction(txId);
 
-    tx.from = from;
-    tx.to = to;
+    tx.from = from.toHexString();
+    tx.to = to.toHexString();
     tx.currency = currency;
     tx.amount = amount;
     tx.data = data;

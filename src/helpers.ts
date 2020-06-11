@@ -54,5 +54,4 @@ export function getBalance(address: Address): BigDecimal {
   let contractAddress = "0xf572c44F3e9b503886806F3c2caCD4D8891c705a";
   let contract = Balance.bind(Address.fromString(contractAddress) as Address);
   return contract.getBalance(address).toBigDecimal();
-  //return BigDecimal.fromString('0');
 }

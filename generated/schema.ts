@@ -296,26 +296,6 @@ export class Wallet extends Entity {
       this.set("transactions", Value.fromStringArray(value as Array<string>));
     }
   }
-
-  get bankTransactions(): Array<string> | null {
-    let value = this.get("bankTransactions");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toStringArray();
-    }
-  }
-
-  set bankTransactions(value: Array<string> | null) {
-    if (value === null) {
-      this.unset("bankTransactions");
-    } else {
-      this.set(
-        "bankTransactions",
-        Value.fromStringArray(value as Array<string>)
-      );
-    }
-  }
 }
 
 export class Name extends Entity {
@@ -588,22 +568,22 @@ export class Transaction extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get from(): Bytes {
+  get from(): string {
     let value = this.get("from");
-    return value.toBytes();
+    return value.toString();
   }
 
-  set from(value: Bytes) {
-    this.set("from", Value.fromBytes(value));
+  set from(value: string) {
+    this.set("from", Value.fromString(value));
   }
 
-  get to(): Bytes {
+  get to(): string {
     let value = this.get("to");
-    return value.toBytes();
+    return value.toString();
   }
 
-  set to(value: Bytes) {
-    this.set("to", Value.fromBytes(value));
+  set to(value: string) {
+    this.set("to", Value.fromString(value));
   }
 
   get currency(): string {
