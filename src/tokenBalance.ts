@@ -50,7 +50,7 @@ export function createTokenBalance(tokenAddress: Address, walletAddress: string)
 export function updateTokenBalance(tokenAddress: Address, walletAddress: string): void {
     let token = Token.load(tokenAddress.toHexString());
 
-    if ((token !== null) && (tokenAddress.toHexString() != PI_ADDRESS) ) { //Si el token no existe no hago nada
+    if (token !== null) { //Si el token no existe no hago nada
 
         let id = tokenAddress.toHexString().concat('-').concat(walletAddress);
         let tokenBalance = TokenBalance.load(id);
@@ -67,7 +67,7 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
     let id = tokenAddress.toHexString().concat('-').concat(walletAddress);
     let tokenBalance = TokenBalance.load(id);
     
-    if (tokenAddress == Address.fromI32(0)) {
+    if (tokenAddress.toHexString() == PI_ADDRESS) {
         tokenBalance.balance = getBalance(Address.fromString(walletAddress), tokenAddress);
     } else {
         let token = TokenContract.bind(tokenAddress);
