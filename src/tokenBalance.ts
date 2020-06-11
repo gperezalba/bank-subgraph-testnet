@@ -8,7 +8,7 @@ import {
 
 import { Token as TokenContract } from "../generated/templates/Token/Token"
 import { zeroBD, getBalance } from "./helpers"
-import { loadWallet } from "./wallet";
+import { loadWallet, getPiBalance } from "./wallet";
 
 const PI_ADDRESS = "0x0000000000000000000000000000000000000000";
 
@@ -68,7 +68,13 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
     let tokenBalance = TokenBalance.load(id);
     
     if (tokenAddress.toHexString() == PI_ADDRESS) {
-        tokenBalance.balance = getBalance(Address.fromString(walletAddress));
+        //tokenBalance.balance = getBalance(Address.fromString(walletAddress));
+        let wallet = Wallet.load(walletAddress);
+        if (wallet != null) {
+            if (wallet.isBankUser) {
+                tokenBalance.balance = getPiBalance(Address.fromString(walletAddress));
+            }
+        }
     } else {
         let token = TokenContract.bind(tokenAddress);
         tokenBalance.balance = token.balanceOf(Address.fromString(walletAddress)).toBigDecimal();

@@ -1,4 +1,4 @@
-import { Address, Bytes } from "@graphprotocol/graph-ts"
+import { Address, Bytes, BigDecimal } from "@graphprotocol/graph-ts"
 import { Transfer } from "../generated/templates/Wallet/Wallet"
 
 import { 
@@ -9,7 +9,7 @@ import {
     BankFee
 } from "../generated/schema"
 
-import { Token as TokenContract } from "../generated/templates/Token/Token"
+import { Wallet as WalletContract } from "../generated/templates/Wallet/Wallet"
 
 import { createTransaction } from "./transaction"
 import { updateTokenBalance } from "./tokenBalance"
@@ -126,4 +126,10 @@ export function loadWallet(address: Address, isBankUser: boolean): Wallet {
     wallet.save();
 
     return wallet as Wallet;
+}
+
+export function getPiBalance(walletAddress: Address): BigDecimal {
+    let wallet = WalletContract.bind(walletAddress);
+    let balance = wallet.getInfo().value1;
+    return balance[balance.length - 1].toBigDecimal();
 }
