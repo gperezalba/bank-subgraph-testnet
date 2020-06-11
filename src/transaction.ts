@@ -13,8 +13,10 @@ export function newTransaction(event: Transfer): void {
     let fromWallet = Wallet.load(event.params.from.toHexString());
 
     if (fromWallet == null) {
-        fromWallet = loadWallet(event.params.from, false);
+        loadWallet(event.params.from, false);
     }
+
+    fromWallet = Wallet.load(event.params.from.toHexString());
 
     if (!fromWallet.isBankUser) {
         let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
