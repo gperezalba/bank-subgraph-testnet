@@ -11,7 +11,6 @@ import { Token as TokenContract } from "../generated/templates/Token/Token"
 import { Token as TokenTemplate } from "../generated/templates"
 import { pushWalletTransaction } from "./wallet"
 import { updateTokenBalance, createTokenBalance } from "./tokenBalance"
-import { zeroBD } from "./helpers"
 import { newTransaction } from "./transaction"
 
 const PI_ADDRESS = "0x0000000000000000000000000000000000000000";

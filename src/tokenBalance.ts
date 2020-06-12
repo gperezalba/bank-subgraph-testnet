@@ -7,8 +7,8 @@ import {
 } from "../generated/schema"
 
 import { Token as TokenContract } from "../generated/templates/Token/Token"
-import { zeroBD, getBalance } from "./helpers"
 import { loadWallet, getPiBalance } from "./wallet";
+import { Balance } from '../generated/templates/Balance/Balance'
 
 const PI_ADDRESS = "0x0000000000000000000000000000000000000000";
 
@@ -22,7 +22,7 @@ export function createTokenBalance(tokenAddress: Address, walletAddress: string)
         if (tokenBalance == null) { //Si no existe el tokenBalance lo creo
             tokenBalance = new TokenBalance(id);
             tokenBalance.token = token.id;
-            tokenBalance.balance = zeroBD();
+            tokenBalance.balance = BigDecimal.fromString('0');
             tokenBalance.updated = false;
 
             let wallet = Wallet.load(walletAddress);
@@ -69,16 +69,16 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
     let tokenBalance = TokenBalance.load(id);
     
     if (tokenAddress.toHexString() == PI_ADDRESS) {
-        /*let balance = getBalance(Address.fromString(walletAddress));
+        let balance = getBalance(Address.fromString(walletAddress));
         if (balance != (BigInt.fromI32(-1).toBigDecimal())) {
             tokenBalance.balance = balance;
             tokenBalance.updated = true;
         } else {
             tokenBalance.balance = BigDecimal.fromString('0');
             tokenBalance.updated = false;
-        }*/
+        }
 
-        let wallet = Wallet.load(walletAddress);
+        /*let wallet = Wallet.load(walletAddress);
         if (wallet != null) {
             if (wallet.isBankUser) {
                 let balance = getPiBalance(Address.fromString(walletAddress));
@@ -91,7 +91,7 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
                     tokenBalance.updated = false;
                 }
             }
-        }
+        }*/
     } else {
         let token = TokenContract.bind(tokenAddress);
         let balance = token.try_balanceOf(Address.fromString(walletAddress));
@@ -107,3 +107,15 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
 
     tokenBalance.save();
 }
+
+export function getBalance(address: Address): BigDecimal {
+    let contractAddress = "0x5949dfB697785aE91675835dd094386B44d5251f";
+    let contract = Balance.bind(Address.fromString(contractAddress) as Address);
+    let balance = contract.try_getBalance(address);
+  
+    if (!balance.reverted) {
+      return balance.value.toBigDecimal();
+    } else {
+      return BigInt.fromI32(-1).toBigDecimal();
+    }
+  }
