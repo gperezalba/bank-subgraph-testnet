@@ -188,6 +188,15 @@ export class Token extends Entity {
       this.set("holders", Value.fromStringArray(value as Array<string>));
     }
   }
+
+  get updated(): boolean {
+    let value = this.get("updated");
+    return value.toBoolean();
+  }
+
+  set updated(value: boolean) {
+    this.set("updated", Value.fromBoolean(value));
+  }
 }
 
 export class Wallet extends Entity {
@@ -427,6 +436,15 @@ export class TokenBalance extends Entity {
 
   set balance(value: BigDecimal) {
     this.set("balance", Value.fromBigDecimal(value));
+  }
+
+  get updated(): boolean {
+    let value = this.get("updated");
+    return value.toBoolean();
+  }
+
+  set updated(value: boolean) {
+    this.set("updated", Value.fromBoolean(value));
   }
 }
 
@@ -746,90 +764,5 @@ export class BankFee extends Entity {
     } else {
       this.set("info", Value.fromString(value as string));
     }
-  }
-}
-
-export class Market extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id !== null, "Cannot save Market entity without an ID");
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save Market entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
-    );
-    store.set("Market", id.toString(), this);
-  }
-
-  static load(id: string): Market | null {
-    return store.get("Market", id) as Market | null;
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get currency1(): Bytes {
-    let value = this.get("currency1");
-    return value.toBytes();
-  }
-
-  set currency1(value: Bytes) {
-    this.set("currency1", Value.fromBytes(value));
-  }
-
-  get currency2(): Bytes {
-    let value = this.get("currency2");
-    return value.toBytes();
-  }
-
-  set currency2(value: Bytes) {
-    this.set("currency2", Value.fromBytes(value));
-  }
-
-  get currency1Balance(): BigDecimal {
-    let value = this.get("currency1Balance");
-    return value.toBigDecimal();
-  }
-
-  set currency1Balance(value: BigDecimal) {
-    this.set("currency1Balance", Value.fromBigDecimal(value));
-  }
-
-  get currency2Balance(): BigDecimal {
-    let value = this.get("currency2Balance");
-    return value.toBigDecimal();
-  }
-
-  set currency2Balance(value: BigDecimal) {
-    this.set("currency2Balance", Value.fromBigDecimal(value));
-  }
-
-  get change(): BigDecimal {
-    let value = this.get("change");
-    return value.toBigDecimal();
-  }
-
-  set change(value: BigDecimal) {
-    this.set("change", Value.fromBigDecimal(value));
-  }
-
-  get commission(): BigDecimal {
-    let value = this.get("commission");
-    return value.toBigDecimal();
-  }
-
-  set commission(value: BigDecimal) {
-    this.set("commission", Value.fromBigDecimal(value));
   }
 }

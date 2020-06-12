@@ -1,4 +1,4 @@
-import { Address } from "@graphprotocol/graph-ts"
+import { Address, BigDecimal } from "@graphprotocol/graph-ts"
 
 import { 
     Token,
@@ -77,7 +77,15 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
         }
     } else {
         let token = TokenContract.bind(tokenAddress);
-        tokenBalance.balance = token.balanceOf(Address.fromString(walletAddress)).toBigDecimal();
+        let balance = token.try_balanceOf(Address.fromString(walletAddress));
+
+        if (!balance.reverted) {
+            tokenBalance.balance = balance.value.toBigDecimal();
+            tokenBalance.updated = true;
+        } else {
+            tokenBalance.balance = BigDecimal.fromString('0');
+            tokenBalance.updated = false;
+        }
     }
 
     tokenBalance.save();

@@ -19,9 +19,3 @@ export class Identity extends DataSourceTemplate {
     DataSourceTemplate.create("Identity", [address.toHex()]);
   }
 }
-
-export class Balance extends DataSourceTemplate {
-  static create(address: Address): void {
-    DataSourceTemplate.create("Balance", [address.toHex()]);
-  }
-}

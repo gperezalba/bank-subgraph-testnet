@@ -67,25 +67,6 @@ dataSources:
         - event: NewToken(address)
           handler: handleTokenCreated
       file: ./src/controller.ts
-  # - kind: ethereum/contract
-  #   name: Balance
-  #   network: mainnet
-  #   source:
-  #     address: "0xD474378e5FcF23f498c433C7352394aD51A4CfE4"
-  #     abi: Balance
-  #   mapping:
-  #     kind: ethereum/events
-  #     apiVersion: 0.0.3
-  #     language: wasm/assemblyscript
-  #     entities:
-  #       - Token
-  #     abis:
-  #       - name: Balance
-  #         file: ./abis/Balance.json
-  #     callHandlers:
-  #       - function: f()
-  #         handler: handleGetBalance
-  #     file: ./src/balance.ts
 templates:
   - name: Token
     kind: ethereum/contract
@@ -153,21 +134,21 @@ templates:
           handler: handleIdentityNewRecovery
         - event: NewWallet(address,address,address)
           handler: handleIdentityNewWallet
-  - name: Balance
-    kind: ethereum/contract
-    network: mainnet
-    source:
-      abi: Balance
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.1
-      language: wasm/assemblyscript
-      file: ./src/balance.ts
-      entities:
-        - Balance
-      abis:
-        - name: Balance
-          file: ./abis/Balance.json
-      callHandlers:
-        - function: f()
-          handler: handleGetBalance
+  # - name: Balance
+  #   kind: ethereum/contract
+  #   network: mainnet
+  #   source:
+  #     abi: Balance
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.1
+  #     language: wasm/assemblyscript
+  #     file: ./src/balance.ts
+  #     entities:
+  #       - Balance
+  #     abis:
+  #       - name: Balance
+  #         file: ./abis/Balance.json
+  #     callHandlers:
+  #       - function: f()
+  #         handler: handleGetBalance

@@ -16,6 +16,7 @@ type Token @entity {
     tokenName: String!
     totalSupply: BigDecimal!
     holders: [TokenBalance!]
+    updated: Boolean!
 }
 
 type Wallet @entity {
@@ -39,6 +40,7 @@ type TokenBalance @entity {
     token: Token!
     wallet: Wallet!
     balance: BigDecimal!
+    updated: Boolean!
 }
 
 type BankTransaction @entity {
@@ -69,14 +71,4 @@ type BankFee @entity {
     fee: BigDecimal
     kind: BigInt 
     info: String
-}
-
-type Market @entity {
-    id: ID!
-    currency1: Bytes!
-    currency2: Bytes!
-    currency1Balance: BigDecimal!
-    currency2Balance: BigDecimal!
-    change: BigDecimal!
-    commission: BigDecimal!
 }
