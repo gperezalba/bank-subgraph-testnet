@@ -1,4 +1,4 @@
-import { Address, BigDecimal } from "@graphprotocol/graph-ts"
+import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts"
 
 import { 
     Token,
@@ -69,16 +69,26 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
     
     if (tokenAddress.toHexString() == PI_ADDRESS) {
         /*let balance = getBalance(Address.fromString(walletAddress));
-        tokenBalance.balance = balance[0];
-        tokenBalance.updated = balance[1];*/
+        if (balance != (BigInt.fromI32(-1).toBigDecimal())) {
+            tokenBalance.balance = balance;
+            tokenBalance.updated = true;
+        } else {
+            tokenBalance.balance = BigDecimal.fromString('0');
+            tokenBalance.updated = false;
+        }*/
 
         let wallet = Wallet.load(walletAddress);
         if (wallet != null) {
             if (wallet.isBankUser) {
                 let balance = getPiBalance(Address.fromString(walletAddress));
 
-                tokenBalance.balance = balance[0];
-                tokenBalance.updated = balance[1];
+                if (balance != (BigInt.fromI32(-1).toBigDecimal())) {
+                    tokenBalance.balance = balance;
+                    tokenBalance.updated = true;
+                } else {
+                    tokenBalance.balance = BigDecimal.fromString('0');
+                    tokenBalance.updated = false;
+                }
             }
         }
     } else {

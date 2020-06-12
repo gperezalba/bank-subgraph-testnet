@@ -50,14 +50,14 @@ export function isNullEthValue(value: string): boolean {
   return value == '0x0000000000000000000000000000000000000000000000000000000000000001'
 }
 
-export function getBalance(address: Address): [BigDecimal, boolean] {
+export function getBalance(address: Address): BigDecimal {
   let contractAddress = "0xf572c44F3e9b503886806F3c2caCD4D8891c705a";
   let contract = Balance.bind(Address.fromString(contractAddress) as Address);
   let balance = contract.try_getBalance(address);
 
   if (!balance.reverted) {
-    return [balance.value.toBigDecimal(), true];
+    return balance.value.toBigDecimal();
   } else {
-    return [BigDecimal.fromString('0'), false];
+    return BigInt.fromI32(-1).toBigDecimal();
   }
 }
