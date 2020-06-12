@@ -83,6 +83,8 @@ export function createToken(tokenAddress: Address): void {
             token.totalSupply = BigDecimal.fromString('0');
             token.updated = true;
         }
+
+        TokenTemplate.create(tokenAddress);
     }
   
     token.save();
