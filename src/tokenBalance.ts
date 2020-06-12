@@ -68,11 +68,17 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
     let tokenBalance = TokenBalance.load(id);
     
     if (tokenAddress.toHexString() == PI_ADDRESS) {
-        //tokenBalance.balance = getBalance(Address.fromString(walletAddress));
+        /*let balance = getBalance(Address.fromString(walletAddress));
+        tokenBalance.balance = balance[0];
+        tokenBalance.updated = balance[1];*/
+
         let wallet = Wallet.load(walletAddress);
         if (wallet != null) {
             if (wallet.isBankUser) {
-                tokenBalance.balance = getPiBalance(Address.fromString(walletAddress));
+                let balance = getPiBalance(Address.fromString(walletAddress));
+
+                tokenBalance.balance = balance[0];
+                tokenBalance.updated = balance[1];
             }
         }
     } else {

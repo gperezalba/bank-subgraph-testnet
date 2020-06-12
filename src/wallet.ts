@@ -108,8 +108,13 @@ export function loadWallet(address: Address, isBankUser: boolean): Wallet {
     return wallet as Wallet;
 }
 
-export function getPiBalance(walletAddress: Address): BigDecimal {
+export function getPiBalance(walletAddress: Address): [BigDecimal, boolean] {
     let wallet = WalletContract.bind(walletAddress);
-    let balance = wallet.getInfo().value1;
-    return balance[balance.length - 1].toBigDecimal();
+    let balance = wallet.try_getInfo();
+
+    if (!balance.reverted) {
+        return [balance.value.value1[balance.value.value1.length - 1].toBigDecimal(), true];
+    } else {
+        return [BigDecimal.fromString('0'), false];
+    }
 }
