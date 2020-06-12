@@ -81,6 +81,7 @@ export function createToken(tokenAddress: Address): void {
             token.tokenName = "PI";
             token.tokenDecimals = 18;
             token.totalSupply = BigDecimal.fromString('0');
+            token.holders = [];
             token.updated = true;
         }
 
