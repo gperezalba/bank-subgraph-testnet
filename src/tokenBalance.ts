@@ -23,6 +23,7 @@ export function createTokenBalance(tokenAddress: Address, walletAddress: string)
             tokenBalance = new TokenBalance(id);
             tokenBalance.token = token.id;
             tokenBalance.balance = zeroBD();
+            tokenBalance.updated = false;
 
             let wallet = Wallet.load(walletAddress);
 
