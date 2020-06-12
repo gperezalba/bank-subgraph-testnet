@@ -76,6 +76,8 @@ export function createToken(tokenAddress: Address): void {
                 token.updated = false;
             }
 
+            token.holders = [];
+
         } else {
             token.tokenSymbol = "PI";
             token.tokenName = "PI";
