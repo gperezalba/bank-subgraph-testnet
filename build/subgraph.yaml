@@ -6,7 +6,7 @@ dataSources:
     name: IdentityFactory
     network: mainnet
     source:
-      address: "0x56dF004138fF2488A8D1f1Bc31ffcaCC88F9c462"
+      address: "0x19334e19FF2519A142053405EA2B45Fa7F10eD24"
       abi: IdentityFactory
     mapping:
       kind: ethereum/events
@@ -26,7 +26,7 @@ dataSources:
     name: NameService
     network: mainnet
     source:
-      address: "0xD0a2e5D3b8c6CF11db4DaBf6f8A702E60A098233"
+      address: "0x7dbc415f5B7Ac2b658372b185BE821F561F54731"
       abi: NameService
     mapping:
       kind: ethereum/events
@@ -51,7 +51,7 @@ dataSources:
     name: Controller
     network: mainnet
     source:
-      address: "0x0ff3Cd14bA715da75608C4aa56B95F2e86B2037d"
+      address: "0x7d561c50ee3beAb09670829c1eAe5cA8C208F196"
       abi: Controller
     mapping:
       kind: ethereum/events
@@ -68,25 +68,6 @@ dataSources:
         - event: NewToken(address)
           handler: handleTokenCreated
       file: Controller\Controller.wasm
-  - kind: ethereum/contract
-    name: Balance
-    network: mainnet
-    source:
-      address: "0xD474378e5FcF23f498c433C7352394aD51A4CfE4"
-      abi: Balance
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.3
-      language: wasm/assemblyscript
-      entities:
-        - Token
-      abis:
-        - name: Balance
-          file: Balance\abis\Balance.json
-      callHandlers:
-        - function: f()
-          handler: handleGetBalance
-      file: Balance\Balance.wasm
 templates:
   - name: Token
     kind: ethereum/contract
@@ -121,9 +102,16 @@ templates:
       abis:
         - name: Wallet
           file: Wallet\abis\Wallet.json
+        - name: Token
+          file: Wallet\abis\Token.json
+        - name: Balance
+          file: Wallet\abis\Balance.json
       eventHandlers:
-        - event: Transfer(indexed address,indexed uint256,indexed address,uint256,uint256,bytes)
+        - event: Transfer(indexed address,indexed uint256,indexed
+            address,uint256,uint256,string)
           handler: handleTransfer
+        - event: Receive(indexed address,indexed address,uint256)
+          handler: handleReceive
   - name: Identity
     kind: ethereum/contract
     network: mainnet
@@ -145,8 +133,8 @@ templates:
         - event: FactoryForward(indexed uint256,address)
           handler: handleFactoryForward
         - event: NewOwner(address,address,address)
-          handler: handleNewOwner
+          handler: handleIdentityNewOwner
         - event: NewRecovery(address,address)
-          handler: handleNewRecovery
+          handler: handleIdentityNewRecovery
         - event: NewWallet(address,address,address)
-          handler: handleNewWallet
+          handler: handleIdentityNewWallet

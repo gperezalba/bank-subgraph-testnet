@@ -16,6 +16,7 @@ type Token @entity {
     tokenName: String!
     totalSupply: BigDecimal!
     holders: [TokenBalance!]
+    updated: Boolean!
 }
 
 type Wallet @entity {
@@ -25,7 +26,6 @@ type Wallet @entity {
     isBankUser: Boolean
     balances: [TokenBalance!] @derivedFrom(field: "wallet")
     transactions: [Transaction!]
-    bankTransactions: [BankTransaction!]
 }
 
 type Name @entity {
@@ -40,6 +40,7 @@ type TokenBalance @entity {
     token: Token!
     wallet: Wallet!
     balance: BigDecimal!
+    updated: Boolean!
 }
 
 type BankTransaction @entity {
@@ -53,8 +54,8 @@ type BankTransaction @entity {
 
 type Transaction @entity {
     id: ID! #event.transaction.hash.toHex() + "-" + event.logIndex.toString()
-    from: Bytes!
-    to: Bytes!
+    from: Wallet!
+    to: Wallet!
     currency: Token!
     amount: BigDecimal!
     data: Bytes!
@@ -70,14 +71,4 @@ type BankFee @entity {
     fee: BigDecimal
     kind: BigInt 
     info: String
-}
-
-type Market @entity {
-    id: ID!
-    currency1: Bytes!
-    currency2: Bytes!
-    currency1Balance: BigDecimal!
-    currency2Balance: BigDecimal!
-    change: BigDecimal!
-    commission: BigDecimal!
 }

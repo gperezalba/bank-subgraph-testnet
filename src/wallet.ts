@@ -1,5 +1,5 @@
 import { Address, Bytes, BigDecimal, BigInt } from "@graphprotocol/graph-ts"
-import { Transfer } from "../generated/templates/Wallet/Wallet"
+import { Transfer, Receive } from "../generated/templates/Wallet/Wallet"
 
 import { 
     Wallet,
@@ -73,6 +73,36 @@ export function handleTransfer(event: Transfer): void {
     //pushWalletBankTransaction(bankTransaction as BankTransaction, event.address.toHexString());
     pushWalletTransaction(tx as Transaction, event.params.to.toHexString());
     pushWalletTransaction(tx as Transaction, event.address.toHexString());
+}
+
+export function handleReceive(event: Receive): void {
+    if (event.params.tokenAddress.toHexString() == PI_ADDRESS) {
+        updateTokenBalance(event.params.tokenAddress, event.params._from.toHexString());
+        updateTokenBalance(event.params.tokenAddress, event.address.toHexString());
+
+        let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
+        let tx = Transaction.load(txId);
+
+        if (tx == null) {
+            let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
+            createTransaction(
+                txId, 
+                event.params._from, 
+                event.address, 
+                event.params.tokenAddress.toHexString(), 
+                event.params.value.toBigDecimal(), 
+                new Bytes(0), 
+                event.block.timestamp, 
+                event.transaction.gasUsed.toBigDecimal().times(event.transaction.gasPrice.toBigDecimal()),
+                true
+            );
+
+            tx = Transaction.load(txId);
+        }
+
+        pushWalletTransaction(tx as Transaction, event.params._from.toHexString());
+        pushWalletTransaction(tx as Transaction, event.address.toHexString());
+    }
 }
 
 export function pushWalletTransaction(tx: Transaction, walletAddress: string): void {

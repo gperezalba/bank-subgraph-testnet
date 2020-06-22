@@ -108,6 +108,8 @@ templates:
       eventHandlers:
         - event: Transfer(indexed address,indexed uint256,indexed address,uint256,uint256,string)
           handler: handleTransfer
+        - event: Receive(indexed address,indexed address,uint256)
+          handler: handleReceive
   - name: Identity
     kind: ethereum/contract
     network: mainnet
