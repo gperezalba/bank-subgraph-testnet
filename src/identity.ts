@@ -8,41 +8,41 @@ import {
 import { loadWallet } from "./wallet"
 
 export function handleForward(event: Forward): void {
-    updateLastModification(event.address.toString(), event.block.timestamp);
+    updateLastModification(event.address.toHexString(), event.block.timestamp);
 }
 
 export function handleFactoryForward(event: FactoryForward): void {
-    updateLastModification(event.address.toString(), event.block.timestamp);
+    updateLastModification(event.address.toHexString(), event.block.timestamp);
 }
 
 export function handleIdentityNewOwner(event: NewOwner): void {
-    let identity = Identity.load(event.address.toString());
+    let identity = Identity.load(event.address.toHexString());
 
     if (identity !== null) {
         identity.owner = event.params.current;
         identity.save();
-        updateLastModification(event.address.toString(), event.block.timestamp);
+        updateLastModification(event.address.toHexString(), event.block.timestamp);
     }
 }
   
 export function handleIdentityNewRecovery(event: NewRecovery): void {
-    let identity = Identity.load(event.address.toString());
+    let identity = Identity.load(event.address.toHexString());
 
     if (identity !== null) {
         identity.recovery = event.params.current;
         identity.save();
-        updateLastModification(event.address.toString(), event.block.timestamp);
+        updateLastModification(event.address.toHexString(), event.block.timestamp);
     }
 }
 
 export function handleIdentityNewWallet(event: NewWallet): void {
-    let identity = Identity.load(event.address.toString());
+    let identity = Identity.load(event.address.toHexString());
 
     if (identity !== null) {
         let wallet = loadWallet(event.params.current, true);
         identity.wallet = wallet.id;
         identity.save();
-        updateLastModification(event.address.toString(), event.block.timestamp);
+        updateLastModification(event.address.toHexString(), event.block.timestamp);
     }
 }
   

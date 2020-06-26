@@ -97,7 +97,7 @@ export function addTokenHolder(tokenAddress: string, holder: string): void {
     let token = Token.load(tokenAddress);
 
     if (token !== null) { //Si el token no existe no hago nada
-        let id = tokenAddress.toString().concat('-').concat(holder);
+        let id = tokenAddress.concat('-').concat(holder);
         let tokenBalance = TokenBalance.load(id);
 
         if (tokenBalance == null) {
