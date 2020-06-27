@@ -96,19 +96,20 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
 
 export function pushCommodity(commodityId: string, tokenAddress: Address, walletAddress: string): void {
     updateTokenBalance(tokenAddress, walletAddress);
-    
+
     let id = tokenAddress.toHexString().concat('-').concat(walletAddress);
     let tokenBalance = TokenBalance.load(id);
 
     let array = tokenBalance.commodities;
     array.push(commodityId);
     tokenBalance.commodities = array;
-    tokenBalance.balance = tokenBalance.balance.plus(BigDecimal.fromString('1'));
 
     tokenBalance.save();
 }
 
 export function popCommodity(commodityId: string, tokenAddress: Address, walletAddress: string): void {
+    updateTokenBalance(tokenAddress, walletAddress);
+
     let id = tokenAddress.toHexString().concat('-').concat(walletAddress);
     let tokenBalance = TokenBalance.load(id);
 
@@ -118,7 +119,6 @@ export function popCommodity(commodityId: string, tokenAddress: Address, walletA
         array.splice(index, 1);
     }
     tokenBalance.commodities = array;
-    tokenBalance.balance = tokenBalance.balance.minus(BigDecimal.fromString('1'));
 
     tokenBalance.save();
 }    
