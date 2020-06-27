@@ -11,6 +11,7 @@ import { loadWallet, getPiBalance } from "./wallet";
 import { Balance } from '../generated/templates/Balance/Balance'
 
 const PI_ADDRESS = "0x0000000000000000000000000000000000000000";
+const ONE_ETHER = "1000000000000000000";
 
 export function createTokenBalance(tokenAddress: Address, walletAddress: string): void {
     let token = Token.load(tokenAddress.toHexString());
@@ -82,9 +83,14 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
         let token = TokenContract.bind(tokenAddress);
         let balance = token.try_balanceOf(Address.fromString(walletAddress));
 
+        let tokenEntity = Token.load(tokenAddress.toHexString());
+
         if (!balance.reverted) {
             tokenBalance.balance = balance.value.toBigDecimal();
             tokenBalance.updated = true;
+            if (tokenEntity.isNFT) {
+                tokenBalance.balance = tokenBalance.balance.times(BigDecimal.fromString(ONE_ETHER));
+            }
         } else {
             tokenBalance.balance = BigDecimal.fromString('0');
             tokenBalance.updated = false;
