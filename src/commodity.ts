@@ -22,7 +22,7 @@ export function handleTransfer(event: Transfer): void {
         burnCommodity(event.address.toHexString(), event.params._tokenId);
     } else {
         //pushCommodity(commodityId, event.address, event.params._to.toHexString());
-        //addTokenHolder(event.address.toHexString(), event.params._to.toHexString());
+        addTokenHolder(event.address.toHexString(), event.params._to.toHexString());
     }
 
     updateOwner(event.address.toHexString(), event.params._tokenId, event.params._from, event.params._to);

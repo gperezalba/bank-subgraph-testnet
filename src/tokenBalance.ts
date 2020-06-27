@@ -95,6 +95,8 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
 }
 
 export function pushCommodity(commodityId: string, tokenAddress: Address, walletAddress: string): void {
+    updateTokenBalance(tokenAddress, walletAddress);
+    
     let id = tokenAddress.toHexString().concat('-').concat(walletAddress);
     let tokenBalance = TokenBalance.load(id);
 
