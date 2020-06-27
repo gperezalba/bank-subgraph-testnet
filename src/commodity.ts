@@ -21,11 +21,11 @@ export function handleTransfer(event: Transfer): void {
     if (event.params._to == Address.fromString(ZERO_ADDRESS)) {
         burnCommodity(event.address.toHexString(), event.params._tokenId);
     } else {
-        pushCommodity(commodityId, event.address, event.params._to.toHexString());
-        addTokenHolder(event.address.toHexString(), event.params._to.toHexString());
+        //pushCommodity(commodityId, event.address, event.params._to.toHexString());
+        //addTokenHolder(event.address.toHexString(), event.params._to.toHexString());
     }
 
-    //updateOwner(event.address.toHexString(), event.params._tokenId, event.params._from, event.params._to);
+    updateOwner(event.address.toHexString(), event.params._tokenId, event.params._from, event.params._to);
     newTransaction(event);
 }
 
