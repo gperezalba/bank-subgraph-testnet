@@ -92,7 +92,7 @@ export function createToken(tokenAddress: Address, isNFT: boolean, category: Big
         token.nftCategory = category;
 
         if (isNFT) {
-            ERC721Template.create(tokenAddress);
+            //ERC721Template.create(tokenAddress);
         } else {
             TokenTemplate.create(tokenAddress);
         }

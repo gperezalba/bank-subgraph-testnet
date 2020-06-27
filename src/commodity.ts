@@ -33,71 +33,63 @@ export function handleNewJson(event: NewJson): void {
 
     let commodity = Commodity.load(id);
 
+    let gold = Gold.load(id);
+    let diamond = Diamond.load(id);
+
     if (commodity == null) {
         commodity = new Commodity(id);
-
-        commodity.tokenId = event.params.tokenId;
-
         if (token.nftCategory == BigInt.fromI32(1)) {
-            let gold = new Gold(id);
-            let token = ERC721.bind(event.address);
-            gold.token = event.address.toHexString();
-            gold.owner = ZERO_ADDRESS;
-            gold.isLive = true;
-
-            let ref = token.try_getRefById(event.params.tokenId);
-
-            if (!ref.reverted) {
-                gold.reference = ref.value;
-            } else {
-                gold.reference = "reverted";
-            }
-
-            let json: Array<BigInt> = event.params.json;
-            gold.weight_brute = json[0].toBigDecimal();
-            gold.law = json[1].toBigDecimal();
-            gold.weight_fine = json[2].toBigDecimal();
-
-            gold.save();
-            commodity.gold = id;
-        } else if (token.nftCategory == BigInt.fromI32(2)) {
-            let diamond = new Diamond(id);
-            let token = ERC721.bind(event.address);
-            diamond.token = event.address.toHexString();
-            diamond.owner = ZERO_ADDRESS;
-            diamond.isLive = true;
-
-            let ref = token.try_getRefById(event.params.tokenId);
-
-            if (!ref.reverted) {
-                diamond.reference = ref.value;
-            } else {
-                diamond.reference = "reverted";
-            }
-
-            let json: Array<BigInt> = event.params.json;
-            diamond.color = json[0].toBigDecimal();
-            diamond.clarity = json[1].toBigDecimal();
-            diamond.cut = json[2].toBigDecimal();
-            diamond.carat_weight = json[3].toBigDecimal();
-
-            diamond.save();
-            commodity.diamond = id;
+            gold = new Gold(id);
+        } else {
+            diamond = new Diamond(id);
         }
-    } else {
-        if (token.nftCategory == BigInt.fromI32(1)) {
-            let gold = new Gold(id);
-            
-            gold.isLive = true;
+    }
 
-            gold.save();
-        } else if (token.nftCategory == BigInt.fromI32(2)) {
-            let diamond = new Diamond(id);
-            
-            diamond.isLive = true;
+    commodity.tokenId = event.params.tokenId;
 
-            diamond.save();
+    if (token.nftCategory == BigInt.fromI32(1)) {
+        let token = ERC721.bind(event.address);
+        gold.token = event.address.toHexString();
+        gold.owner = ZERO_ADDRESS;
+        gold.isLive = true;
+
+        let ref = token.try_getRefById(event.params.tokenId);
+
+        if (!ref.reverted) {
+            gold.reference = ref.value;
+        } else {
+            gold.reference = "reverted";
         }
+
+        let json: Array<BigInt> = event.params.json;
+        gold.weight_brute = json[0].toBigDecimal();
+        gold.law = json[1].toBigDecimal();
+        gold.weight_fine = json[2].toBigDecimal();
+
+        gold.save();
+        commodity.gold = id;
+    } else if (token.nftCategory == BigInt.fromI32(2)) {
+        let token = ERC721.bind(event.address);
+        diamond.token = event.address.toHexString();
+        diamond.owner = ZERO_ADDRESS;
+        diamond.isLive = true;
+
+        let ref = token.try_getRefById(event.params.tokenId);
+
+        if (!ref.reverted) {
+            diamond.reference = ref.value;
+        } else {
+            diamond.reference = "reverted";
+        }
+
+        let json: Array<BigInt> = event.params.json;
+        diamond.color = json[0].toBigDecimal();
+        diamond.clarity = json[1].toBigDecimal();
+        diamond.cut = json[2].toBigDecimal();
+        diamond.carat_weight = json[3].toBigDecimal();
+
+        diamond.save();
+        commodity.diamond = id;
     }
 
     commodity.save();
@@ -120,6 +112,62 @@ function updateOwner(tokenAddress: string, tokenId: BigInt, from: Address, to: A
 
         diamond.save();
     }
+}
+
+export function mintCommodity(event: Transfer): void {
+    let token = Token.load(event.address.toHexString());
+    let id = event.address.toHexString().concat("-").concat(event.params._tokenId.toString());
+
+    let commodity = Commodity.load(id);
+    let gold = Gold.load(id);
+    let diamond = Diamond.load(id);
+
+    if (commodity == null) {
+        commodity = new Commodity(id);
+        if (token.nftCategory == BigInt.fromI32(1)) {
+            gold = new Gold(id);
+        } else {
+            diamond = new Diamond(id);
+        }
+    }
+
+    commodity.tokenId = event.params._tokenId;
+
+    if (token.nftCategory == BigInt.fromI32(1)) {
+        let token = ERC721.bind(event.address);
+        gold.token = event.address.toHexString();
+        gold.owner = ZERO_ADDRESS;
+        gold.isLive = true;
+
+        let ref = token.try_getRefById(event.params._tokenId);
+
+        if (!ref.reverted) {
+            gold.reference = ref.value;
+        } else {
+            gold.reference = "reverted";
+        }
+
+        gold.save();
+        commodity.gold = id;
+    } else if (token.nftCategory == BigInt.fromI32(2)) {
+        let token = ERC721.bind(event.address);
+        diamond.token = event.address.toHexString();
+        diamond.owner = ZERO_ADDRESS;
+        diamond.isLive = true;
+
+        let ref = token.try_getRefById(event.params._tokenId);
+
+        if (!ref.reverted) {
+            diamond.reference = ref.value;
+        } else {
+            diamond.reference = "reverted";
+        }
+
+        diamond.save();
+        commodity.diamond = id;
+    }
+
+    commodity.save();
 }
 
 function burnCommodity(tokenAddress: string, tokenId: BigInt): void {
