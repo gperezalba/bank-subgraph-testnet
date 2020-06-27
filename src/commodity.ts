@@ -65,9 +65,9 @@ export function handleNewJson(event: NewJson): void {
         }
 
         let json: Array<BigInt> = event.params.json;
-        gold.weight_brute = json[0].toBigDecimal();
-        gold.law = json[1].toBigDecimal();
-        gold.weight_fine = json[2].toBigDecimal();
+        gold.weight_brute = json[0].toBigDecimal().times(BigDecimal.fromString(ONE_ETHER));
+        gold.law = json[1].toBigDecimal().times(BigDecimal.fromString(ONE_ETHER));
+        gold.weight_fine = json[2].toBigDecimal().times(BigDecimal.fromString(ONE_ETHER));
 
         gold.save();
         commodity.gold = id;
