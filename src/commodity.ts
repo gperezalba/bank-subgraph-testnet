@@ -7,6 +7,7 @@ import { loadWallet, pushWalletTransaction } from "./wallet";
 import { createTransaction } from "./transaction";
 
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+const ONE_ETHER = "1000000000000000000";
 
 export function handleTransfer(event: Transfer): void {
 
@@ -210,7 +211,7 @@ function newTransaction(event: Transfer): void {
                 event.params._from, 
                 event.params._to, 
                 event.address.toHexString(), 
-                event.params._tokenId.toBigDecimal(), 
+                event.params._tokenId.toBigDecimal().times(BigDecimal.fromString(ONE_ETHER)), 
                 new Bytes(0), 
                 event.block.timestamp, 
                 event.transaction.gasUsed.toBigDecimal().times(event.transaction.gasPrice.toBigDecimal()),
