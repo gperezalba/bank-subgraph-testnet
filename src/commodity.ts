@@ -12,15 +12,17 @@ export function handleTransfer(event: Transfer): void {
 
     let commodityId = event.address.toHexString().concat("-").concat(event.params._tokenId.toString());
 
+    if (event.params._from == Address.fromString(ZERO_ADDRESS)) {
+        mintCommodity(event);
+    } else {
+        popCommodity(commodityId, event.address, event.params._from.toHexString());
+    }
+
     if (event.params._to == Address.fromString(ZERO_ADDRESS)) {
         burnCommodity(event.address.toHexString(), event.params._tokenId);
     } else {
         pushCommodity(commodityId, event.address, event.params._to.toHexString());
         addTokenHolder(event.address.toHexString(), event.params._to.toHexString());
-    }
-
-    if (event.params._from != Address.fromString(ZERO_ADDRESS)) {
-        popCommodity(commodityId, event.address, event.params._from.toHexString());
     }
 
     updateOwner(event.address.toHexString(), event.params._tokenId, event.params._from, event.params._to);
