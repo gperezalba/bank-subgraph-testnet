@@ -18,7 +18,7 @@ export function handleTransfer(event: Transfer): void {
         popCommodity(commodityId, event.address, event.params._from.toHexString());
     }
 
-    if (event.params._to == Address.fromString(ZERO_ADDRESS)) {
+    /*if (event.params._to == Address.fromString(ZERO_ADDRESS)) {
         burnCommodity(event.address.toHexString(), event.params._tokenId);
     } else {
         pushCommodity(commodityId, event.address, event.params._to.toHexString());
@@ -26,7 +26,7 @@ export function handleTransfer(event: Transfer): void {
     }
 
     updateOwner(event.address.toHexString(), event.params._tokenId, event.params._from, event.params._to);
-    newTransaction(event);
+    newTransaction(event);*/
 }
 
 export function handleNewJson(event: NewJson): void {
