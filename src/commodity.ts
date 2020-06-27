@@ -25,8 +25,8 @@ export function handleTransfer(event: Transfer): void {
         addTokenHolder(event.address.toHexString(), event.params._to.toHexString());
     }
 
-    updateOwner(event.address.toHexString(), event.params._tokenId, event.params._from, event.params._to);
-    //newTransaction(event);
+    //updateOwner(event.address.toHexString(), event.params._tokenId, event.params._from, event.params._to);
+    newTransaction(event);
 }
 
 export function handleNewJson(event: NewJson): void {
