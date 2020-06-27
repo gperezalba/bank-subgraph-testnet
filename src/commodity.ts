@@ -1,8 +1,10 @@
 import { Transfer, ERC721, NewJson } from "../generated/templates/ERC721/ERC721";
-import { Token, Commodity, Gold, Diamond } from "../generated/schema";
-import { BigDecimal, BigInt, Address } from "@graphprotocol/graph-ts";
+import { Token, Commodity, Gold, Diamond, Wallet, Transaction } from "../generated/schema";
+import { BigDecimal, BigInt, Address, Bytes } from "@graphprotocol/graph-ts";
 import { pushCommodity, popCommodity } from "./tokenBalance";
 import { addTokenHolder } from "./token";
+import { loadWallet, pushWalletTransaction } from "./wallet";
+import { createTransaction } from "./transaction";
 
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
@@ -22,6 +24,7 @@ export function handleTransfer(event: Transfer): void {
     }
 
     updateOwner(event.address.toHexString(), event.params._tokenId, event.params._from, event.params._to);
+    newTransaction(event);
 }
 
 export function handleNewJson(event: NewJson): void {
@@ -135,5 +138,37 @@ function burnCommodity(tokenAddress: string, tokenId: BigInt): void {
         diamond.isLive = false;
 
         diamond.save();
+    }
+}
+
+function newTransaction(event: Transfer): void {
+
+    let fromWallet = Wallet.load(event.params._from.toHexString());
+
+    if (fromWallet == null) {
+        fromWallet = loadWallet(event.params._from, false);
+    }
+
+    if (!fromWallet.isBankUser) {
+        let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
+        let tx = Transaction.load(txId);
+
+        if (tx == null) {
+            let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
+            tx = createTransaction(
+                txId, 
+                event.params._from, 
+                event.params._to, 
+                event.address.toHexString(), 
+                event.params._tokenId.toBigDecimal(), 
+                new Bytes(0), 
+                event.block.timestamp, 
+                event.transaction.gasUsed.toBigDecimal().times(event.transaction.gasPrice.toBigDecimal()),
+                false
+            );
+        }
+
+        pushWalletTransaction(tx as Transaction, event.params._to.toHexString());
+        pushWalletTransaction(tx as Transaction, event.params._from.toHexString());
     }
 }
