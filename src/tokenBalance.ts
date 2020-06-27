@@ -23,6 +23,7 @@ export function createTokenBalance(tokenAddress: Address, walletAddress: string)
             tokenBalance = new TokenBalance(id);
             tokenBalance.token = token.id;
             tokenBalance.balance = BigDecimal.fromString('0');
+            tokenBalance.commodities = [];
             tokenBalance.updated = false;
 
             let wallet = Wallet.load(walletAddress);
@@ -77,21 +78,6 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
             tokenBalance.balance = BigDecimal.fromString('0');
             tokenBalance.updated = false;
         }
-
-        /*let wallet = Wallet.load(walletAddress);
-        if (wallet != null) {
-            if (wallet.isBankUser) {
-                let balance = getPiBalance(Address.fromString(walletAddress));
-
-                if (balance != (BigInt.fromI32(-1).toBigDecimal())) {
-                    tokenBalance.balance = balance;
-                    tokenBalance.updated = true;
-                } else {
-                    tokenBalance.balance = BigDecimal.fromString('0');
-                    tokenBalance.updated = false;
-                }
-            }
-        }*/
     } else {
         let token = TokenContract.bind(tokenAddress);
         let balance = token.try_balanceOf(Address.fromString(walletAddress));
@@ -107,6 +93,33 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
 
     tokenBalance.save();
 }
+
+export function pushCommodity(commodityId: string, tokenAddress: Address, walletAddress: string): void {
+    let id = tokenAddress.toHexString().concat('-').concat(walletAddress);
+    let tokenBalance = TokenBalance.load(id);
+
+    let array = tokenBalance.commodities;
+    array.push(commodityId);
+    tokenBalance.commodities = array;
+    tokenBalance.balance = tokenBalance.balance.plus(BigDecimal.fromString('1'));
+
+    tokenBalance.save();
+}
+
+export function popCommodity(commodityId: string, tokenAddress: Address, walletAddress: string): void {
+    let id = tokenAddress.toHexString().concat('-').concat(walletAddress);
+    let tokenBalance = TokenBalance.load(id);
+
+    let array = tokenBalance.commodities;
+    let index = array.indexOf(commodityId);
+    if (index > -1) {
+        array.splice(index, 1);
+    }
+    tokenBalance.commodities = array;
+    tokenBalance.balance = tokenBalance.balance.minus(BigDecimal.fromString('1'));
+
+    tokenBalance.save();
+}    
 
 export function getBalance(address: Address): BigDecimal {
     let contractAddress = "0x5949dfB697785aE91675835dd094386B44d5251f";

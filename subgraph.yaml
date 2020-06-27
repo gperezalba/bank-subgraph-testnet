@@ -66,6 +66,8 @@ dataSources:
       eventHandlers:
         - event: NewToken(address)
           handler: handleTokenCreated
+        - event: NewNFToken(address,uint256)
+          handler: handleNewNFToken
       file: ./src/controller.ts
 templates:
   - name: Token
@@ -136,6 +138,26 @@ templates:
           handler: handleIdentityNewRecovery
         - event: NewWallet(address,address,address)
           handler: handleIdentityNewWallet
+  - name: ERC721
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: ERC721
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      file: ./src/commodity.ts
+      entities:
+        - Transfer
+      abis:
+        - name: ERC721
+          file: ./abis/ERC721.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer 
+        - event: NewJson(indexed uint256,uint256[])
+          handler: handleNewJson
   # - name: Balance
   #   kind: ethereum/contract
   #   network: mainnet

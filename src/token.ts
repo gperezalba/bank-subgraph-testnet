@@ -12,12 +12,13 @@ import { Token as TokenTemplate } from "../generated/templates"
 import { pushWalletTransaction } from "./wallet"
 import { updateTokenBalance, createTokenBalance } from "./tokenBalance"
 import { newTransaction } from "./transaction"
+import { ERC721 as ERC721Template } from "../generated/templates"
 
 const PI_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export function handleTransfer(event: Transfer): void {
     //creo la entidad si no existe, aunque siempre existirá
-    createToken(event.address);
+    createToken(event.address, false, BigInt.fromI32(0));
     //actualizo los tokenBalance de ambas partes y si no existe lo crea
     updateTokenBalance(event.address, event.params.to.toHexString());
     updateTokenBalance(event.address, event.params.from.toHexString());
@@ -31,7 +32,7 @@ export function handleTransfer(event: Transfer): void {
 // TOKEN
 /***************************************************************/
 
-export function createToken(tokenAddress: Address): void {
+export function createToken(tokenAddress: Address, isNFT: boolean, category: BigInt): void {
     let token = Token.load(tokenAddress.toHexString());
   
     if (token == null) {
@@ -87,7 +88,16 @@ export function createToken(tokenAddress: Address): void {
             token.updated = true;
         }
 
-        TokenTemplate.create(tokenAddress);
+        token.isNFT = isNFT;
+        token.nftCategory = category;
+
+        if (isNFT) {
+            ERC721Template.create(tokenAddress);
+        } else {
+            TokenTemplate.create(tokenAddress);
+        }
+
+        
     }
   
     token.save();

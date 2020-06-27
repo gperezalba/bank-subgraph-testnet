@@ -1,148 +1,137 @@
 [
   {
+    "constant": true,
     "inputs": [
       {
-        "internalType": "address payable",
-        "name": "_owner",
+        "name": "",
         "type": "address"
-      },
+      }
+    ],
+    "name": "kinds",
+    "outputs": [
       {
-        "internalType": "address",
-        "name": "_switcher",
-        "type": "address"
+        "name": "",
+        "type": "uint256"
       }
     ],
     "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "kind",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "contractAddress",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "isFactory",
-        "type": "bool"
-      }
-    ],
-    "name": "NewAddress",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "newCommission",
-        "type": "uint256"
-      }
-    ],
-    "name": "NewCommission",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "tokenA",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "tokenB",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "market",
-        "type": "address"
-      }
-    ],
-    "name": "NewMarket",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "old",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "current",
-        "type": "address"
-      }
-    ],
-    "name": "NewOwner",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "old",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "current",
-        "type": "address"
-      }
-    ],
-    "name": "NewSwitcher",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "newToken",
-        "type": "address"
-      }
-    ],
-    "name": "NewToken",
-    "type": "event"
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "constant": true,
     "inputs": [
       {
-        "internalType": "uint256",
         "name": "",
-        "type": "uint256"
+        "type": "address"
       }
     ],
-    "name": "addresses",
+    "name": "isFactory",
     "outputs": [
       {
-        "internalType": "address",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isToken",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isNFToken",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "on",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      },
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "markets",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "switcher",
+    "outputs": [
+      {
         "name": "",
         "type": "address"
       }
@@ -157,7 +146,6 @@
     "name": "commission",
     "outputs": [
       {
-        "internalType": "uint256",
         "name": "",
         "type": "uint256"
       }
@@ -170,191 +158,159 @@
     "constant": true,
     "inputs": [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "isFactory",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "isToken",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "kinds",
-    "outputs": [
-      {
-        "internalType": "uint256",
         "name": "",
         "type": "uint256"
       }
     ],
+    "name": "addresses",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "constant": true,
     "inputs": [
       {
-        "internalType": "address",
-        "name": "",
+        "name": "_owner",
         "type": "address"
       },
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "markets",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
+        "name": "_switcher",
         "type": "address"
       }
     ],
     "payable": false,
-    "stateMutability": "view",
-    "type": "function"
+    "stateMutability": "nonpayable",
+    "type": "constructor"
   },
   {
-    "constant": true,
-    "inputs": [],
-    "name": "on",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
+    "anonymous": false,
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_kind",
+        "indexed": false,
+        "name": "old",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "current",
+        "type": "address"
+      }
+    ],
+    "name": "NewOwner",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "old",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "current",
+        "type": "address"
+      }
+    ],
+    "name": "NewSwitcher",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "kind",
         "type": "uint256"
       },
       {
-        "internalType": "address",
-        "name": "_address",
+        "indexed": false,
+        "name": "contractAddress",
         "type": "address"
       },
       {
-        "internalType": "bool",
-        "name": "_isFactory",
+        "indexed": false,
+        "name": "isFactory",
         "type": "bool"
       }
     ],
-    "name": "setNewAddress",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "name": "NewAddress",
+    "type": "event"
   },
   {
-    "constant": false,
+    "anonymous": false,
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_token1",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_token2",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_market",
+        "indexed": false,
+        "name": "newToken",
         "type": "address"
       }
     ],
-    "name": "setNewMarket",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "name": "NewToken",
+    "type": "event"
   },
   {
-    "constant": false,
+    "anonymous": false,
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_tokenAddress",
+        "indexed": false,
+        "name": "newToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "category",
+        "type": "uint256"
+      }
+    ],
+    "name": "NewNFToken",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "tokenA",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "tokenB",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "market",
         "type": "address"
       }
     ],
-    "name": "setNewToken",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "name": "NewMarket",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "newCommission",
+        "type": "uint256"
+      }
+    ],
+    "name": "NewCommission",
+    "type": "event"
   },
   {
     "constant": false,
     "inputs": [
       {
-        "internalType": "address",
         "name": "_new",
         "type": "address"
       }
@@ -369,7 +325,6 @@
     "constant": false,
     "inputs": [
       {
-        "internalType": "address",
         "name": "_newSwitcher",
         "type": "address"
       }
@@ -382,38 +337,98 @@
   },
   {
     "constant": false,
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_newCommission",
-        "type": "uint256"
-      }
-    ],
-    "name": "setTxCommission",
+    "inputs": [],
+    "name": "toggleSwitch",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": true,
-    "inputs": [],
-    "name": "switcher",
-    "outputs": [
+    "constant": false,
+    "inputs": [
       {
-        "internalType": "address",
-        "name": "",
+        "name": "_kind",
+        "type": "uint256"
+      },
+      {
+        "name": "_address",
         "type": "address"
+      },
+      {
+        "name": "_isFactory",
+        "type": "bool"
       }
     ],
+    "name": "setNewAddress",
+    "outputs": [],
     "payable": false,
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "constant": false,
-    "inputs": [],
-    "name": "toggleSwitch",
+    "inputs": [
+      {
+        "name": "_tokenAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setNewToken",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_tokenAddress",
+        "type": "address"
+      },
+      {
+        "name": "_category",
+        "type": "uint256"
+      }
+    ],
+    "name": "setNewNFToken",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_token1",
+        "type": "address"
+      },
+      {
+        "name": "_token2",
+        "type": "address"
+      },
+      {
+        "name": "_market",
+        "type": "address"
+      }
+    ],
+    "name": "setNewMarket",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_newCommission",
+        "type": "uint256"
+      }
+    ],
+    "name": "setTxCommission",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",

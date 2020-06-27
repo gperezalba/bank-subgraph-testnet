@@ -15,76 +15,6 @@ import {
   CallResult
 } from "@graphprotocol/graph-ts";
 
-export class NewAddress extends EthereumEvent {
-  get params(): NewAddress__Params {
-    return new NewAddress__Params(this);
-  }
-}
-
-export class NewAddress__Params {
-  _event: NewAddress;
-
-  constructor(event: NewAddress) {
-    this._event = event;
-  }
-
-  get kind(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-
-  get contractAddress(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get isFactory(): boolean {
-    return this._event.parameters[2].value.toBoolean();
-  }
-}
-
-export class NewCommission extends EthereumEvent {
-  get params(): NewCommission__Params {
-    return new NewCommission__Params(this);
-  }
-}
-
-export class NewCommission__Params {
-  _event: NewCommission;
-
-  constructor(event: NewCommission) {
-    this._event = event;
-  }
-
-  get newCommission(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-}
-
-export class NewMarket extends EthereumEvent {
-  get params(): NewMarket__Params {
-    return new NewMarket__Params(this);
-  }
-}
-
-export class NewMarket__Params {
-  _event: NewMarket;
-
-  constructor(event: NewMarket) {
-    this._event = event;
-  }
-
-  get tokenA(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get tokenB(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get market(): Address {
-    return this._event.parameters[2].value.toAddress();
-  }
-}
-
 export class NewOwner extends EthereumEvent {
   get params(): NewOwner__Params {
     return new NewOwner__Params(this);
@@ -129,6 +59,32 @@ export class NewSwitcher__Params {
   }
 }
 
+export class NewAddress extends EthereumEvent {
+  get params(): NewAddress__Params {
+    return new NewAddress__Params(this);
+  }
+}
+
+export class NewAddress__Params {
+  _event: NewAddress;
+
+  constructor(event: NewAddress) {
+    this._event = event;
+  }
+
+  get kind(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get contractAddress(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get isFactory(): boolean {
+    return this._event.parameters[2].value.toBoolean();
+  }
+}
+
 export class NewToken extends EthereumEvent {
   get params(): NewToken__Params {
     return new NewToken__Params(this);
@@ -147,38 +103,85 @@ export class NewToken__Params {
   }
 }
 
+export class NewNFToken extends EthereumEvent {
+  get params(): NewNFToken__Params {
+    return new NewNFToken__Params(this);
+  }
+}
+
+export class NewNFToken__Params {
+  _event: NewNFToken;
+
+  constructor(event: NewNFToken) {
+    this._event = event;
+  }
+
+  get newToken(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get category(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class NewMarket extends EthereumEvent {
+  get params(): NewMarket__Params {
+    return new NewMarket__Params(this);
+  }
+}
+
+export class NewMarket__Params {
+  _event: NewMarket;
+
+  constructor(event: NewMarket) {
+    this._event = event;
+  }
+
+  get tokenA(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get tokenB(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get market(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+}
+
+export class NewCommission extends EthereumEvent {
+  get params(): NewCommission__Params {
+    return new NewCommission__Params(this);
+  }
+}
+
+export class NewCommission__Params {
+  _event: NewCommission;
+
+  constructor(event: NewCommission) {
+    this._event = event;
+  }
+
+  get newCommission(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class Controller extends SmartContract {
   static bind(address: Address): Controller {
     return new Controller("Controller", address);
   }
 
-  addresses(param0: BigInt): Address {
-    let result = super.call("addresses", [
-      EthereumValue.fromUnsignedBigInt(param0)
-    ]);
-
-    return result[0].toAddress();
-  }
-
-  try_addresses(param0: BigInt): CallResult<Address> {
-    let result = super.tryCall("addresses", [
-      EthereumValue.fromUnsignedBigInt(param0)
-    ]);
-    if (result.reverted) {
-      return new CallResult();
-    }
-    let value = result.value;
-    return CallResult.fromValue(value[0].toAddress());
-  }
-
-  commission(): BigInt {
-    let result = super.call("commission", []);
+  kinds(param0: Address): BigInt {
+    let result = super.call("kinds", [EthereumValue.fromAddress(param0)]);
 
     return result[0].toBigInt();
   }
 
-  try_commission(): CallResult<BigInt> {
-    let result = super.tryCall("commission", []);
+  try_kinds(param0: Address): CallResult<BigInt> {
+    let result = super.tryCall("kinds", [EthereumValue.fromAddress(param0)]);
     if (result.reverted) {
       return new CallResult();
     }
@@ -218,19 +221,36 @@ export class Controller extends SmartContract {
     return CallResult.fromValue(value[0].toBoolean());
   }
 
-  kinds(param0: Address): BigInt {
-    let result = super.call("kinds", [EthereumValue.fromAddress(param0)]);
+  isNFToken(param0: Address): boolean {
+    let result = super.call("isNFToken", [EthereumValue.fromAddress(param0)]);
 
-    return result[0].toBigInt();
+    return result[0].toBoolean();
   }
 
-  try_kinds(param0: Address): CallResult<BigInt> {
-    let result = super.tryCall("kinds", [EthereumValue.fromAddress(param0)]);
+  try_isNFToken(param0: Address): CallResult<boolean> {
+    let result = super.tryCall("isNFToken", [
+      EthereumValue.fromAddress(param0)
+    ]);
     if (result.reverted) {
       return new CallResult();
     }
     let value = result.value;
-    return CallResult.fromValue(value[0].toBigInt());
+    return CallResult.fromValue(value[0].toBoolean());
+  }
+
+  on(): boolean {
+    let result = super.call("on", []);
+
+    return result[0].toBoolean();
+  }
+
+  try_on(): CallResult<boolean> {
+    let result = super.tryCall("on", []);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBoolean());
   }
 
   markets(param0: Address, param1: Address): Address {
@@ -252,21 +272,6 @@ export class Controller extends SmartContract {
     }
     let value = result.value;
     return CallResult.fromValue(value[0].toAddress());
-  }
-
-  on(): boolean {
-    let result = super.call("on", []);
-
-    return result[0].toBoolean();
-  }
-
-  try_on(): CallResult<boolean> {
-    let result = super.tryCall("on", []);
-    if (result.reverted) {
-      return new CallResult();
-    }
-    let value = result.value;
-    return CallResult.fromValue(value[0].toBoolean());
   }
 
   owner(): Address {
@@ -292,6 +297,40 @@ export class Controller extends SmartContract {
 
   try_switcher(): CallResult<Address> {
     let result = super.tryCall("switcher", []);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toAddress());
+  }
+
+  commission(): BigInt {
+    let result = super.call("commission", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_commission(): CallResult<BigInt> {
+    let result = super.tryCall("commission", []);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBigInt());
+  }
+
+  addresses(param0: BigInt): Address {
+    let result = super.call("addresses", [
+      EthereumValue.fromUnsignedBigInt(param0)
+    ]);
+
+    return result[0].toAddress();
+  }
+
+  try_addresses(param0: BigInt): CallResult<Address> {
+    let result = super.tryCall("addresses", [
+      EthereumValue.fromUnsignedBigInt(param0)
+    ]);
     if (result.reverted) {
       return new CallResult();
     }
@@ -330,112 +369,6 @@ export class ConstructorCall__Outputs {
   _call: ConstructorCall;
 
   constructor(call: ConstructorCall) {
-    this._call = call;
-  }
-}
-
-export class SetNewAddressCall extends EthereumCall {
-  get inputs(): SetNewAddressCall__Inputs {
-    return new SetNewAddressCall__Inputs(this);
-  }
-
-  get outputs(): SetNewAddressCall__Outputs {
-    return new SetNewAddressCall__Outputs(this);
-  }
-}
-
-export class SetNewAddressCall__Inputs {
-  _call: SetNewAddressCall;
-
-  constructor(call: SetNewAddressCall) {
-    this._call = call;
-  }
-
-  get _kind(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get _address(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get _isFactory(): boolean {
-    return this._call.inputValues[2].value.toBoolean();
-  }
-}
-
-export class SetNewAddressCall__Outputs {
-  _call: SetNewAddressCall;
-
-  constructor(call: SetNewAddressCall) {
-    this._call = call;
-  }
-}
-
-export class SetNewMarketCall extends EthereumCall {
-  get inputs(): SetNewMarketCall__Inputs {
-    return new SetNewMarketCall__Inputs(this);
-  }
-
-  get outputs(): SetNewMarketCall__Outputs {
-    return new SetNewMarketCall__Outputs(this);
-  }
-}
-
-export class SetNewMarketCall__Inputs {
-  _call: SetNewMarketCall;
-
-  constructor(call: SetNewMarketCall) {
-    this._call = call;
-  }
-
-  get _token1(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get _token2(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get _market(): Address {
-    return this._call.inputValues[2].value.toAddress();
-  }
-}
-
-export class SetNewMarketCall__Outputs {
-  _call: SetNewMarketCall;
-
-  constructor(call: SetNewMarketCall) {
-    this._call = call;
-  }
-}
-
-export class SetNewTokenCall extends EthereumCall {
-  get inputs(): SetNewTokenCall__Inputs {
-    return new SetNewTokenCall__Inputs(this);
-  }
-
-  get outputs(): SetNewTokenCall__Outputs {
-    return new SetNewTokenCall__Outputs(this);
-  }
-}
-
-export class SetNewTokenCall__Inputs {
-  _call: SetNewTokenCall;
-
-  constructor(call: SetNewTokenCall) {
-    this._call = call;
-  }
-
-  get _tokenAddress(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class SetNewTokenCall__Outputs {
-  _call: SetNewTokenCall;
-
-  constructor(call: SetNewTokenCall) {
     this._call = call;
   }
 }
@@ -500,6 +433,172 @@ export class SetSwitcherCall__Outputs {
   }
 }
 
+export class ToggleSwitchCall extends EthereumCall {
+  get inputs(): ToggleSwitchCall__Inputs {
+    return new ToggleSwitchCall__Inputs(this);
+  }
+
+  get outputs(): ToggleSwitchCall__Outputs {
+    return new ToggleSwitchCall__Outputs(this);
+  }
+}
+
+export class ToggleSwitchCall__Inputs {
+  _call: ToggleSwitchCall;
+
+  constructor(call: ToggleSwitchCall) {
+    this._call = call;
+  }
+}
+
+export class ToggleSwitchCall__Outputs {
+  _call: ToggleSwitchCall;
+
+  constructor(call: ToggleSwitchCall) {
+    this._call = call;
+  }
+}
+
+export class SetNewAddressCall extends EthereumCall {
+  get inputs(): SetNewAddressCall__Inputs {
+    return new SetNewAddressCall__Inputs(this);
+  }
+
+  get outputs(): SetNewAddressCall__Outputs {
+    return new SetNewAddressCall__Outputs(this);
+  }
+}
+
+export class SetNewAddressCall__Inputs {
+  _call: SetNewAddressCall;
+
+  constructor(call: SetNewAddressCall) {
+    this._call = call;
+  }
+
+  get _kind(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _address(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _isFactory(): boolean {
+    return this._call.inputValues[2].value.toBoolean();
+  }
+}
+
+export class SetNewAddressCall__Outputs {
+  _call: SetNewAddressCall;
+
+  constructor(call: SetNewAddressCall) {
+    this._call = call;
+  }
+}
+
+export class SetNewTokenCall extends EthereumCall {
+  get inputs(): SetNewTokenCall__Inputs {
+    return new SetNewTokenCall__Inputs(this);
+  }
+
+  get outputs(): SetNewTokenCall__Outputs {
+    return new SetNewTokenCall__Outputs(this);
+  }
+}
+
+export class SetNewTokenCall__Inputs {
+  _call: SetNewTokenCall;
+
+  constructor(call: SetNewTokenCall) {
+    this._call = call;
+  }
+
+  get _tokenAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetNewTokenCall__Outputs {
+  _call: SetNewTokenCall;
+
+  constructor(call: SetNewTokenCall) {
+    this._call = call;
+  }
+}
+
+export class SetNewNFTokenCall extends EthereumCall {
+  get inputs(): SetNewNFTokenCall__Inputs {
+    return new SetNewNFTokenCall__Inputs(this);
+  }
+
+  get outputs(): SetNewNFTokenCall__Outputs {
+    return new SetNewNFTokenCall__Outputs(this);
+  }
+}
+
+export class SetNewNFTokenCall__Inputs {
+  _call: SetNewNFTokenCall;
+
+  constructor(call: SetNewNFTokenCall) {
+    this._call = call;
+  }
+
+  get _tokenAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _category(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+}
+
+export class SetNewNFTokenCall__Outputs {
+  _call: SetNewNFTokenCall;
+
+  constructor(call: SetNewNFTokenCall) {
+    this._call = call;
+  }
+}
+
+export class SetNewMarketCall extends EthereumCall {
+  get inputs(): SetNewMarketCall__Inputs {
+    return new SetNewMarketCall__Inputs(this);
+  }
+
+  get outputs(): SetNewMarketCall__Outputs {
+    return new SetNewMarketCall__Outputs(this);
+  }
+}
+
+export class SetNewMarketCall__Inputs {
+  _call: SetNewMarketCall;
+
+  constructor(call: SetNewMarketCall) {
+    this._call = call;
+  }
+
+  get _token1(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _token2(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _market(): Address {
+    return this._call.inputValues[2].value.toAddress();
+  }
+}
+
+export class SetNewMarketCall__Outputs {
+  _call: SetNewMarketCall;
+
+  constructor(call: SetNewMarketCall) {
+    this._call = call;
+  }
+}
+
 export class SetTxCommissionCall extends EthereumCall {
   get inputs(): SetTxCommissionCall__Inputs {
     return new SetTxCommissionCall__Inputs(this);
@@ -526,32 +625,6 @@ export class SetTxCommissionCall__Outputs {
   _call: SetTxCommissionCall;
 
   constructor(call: SetTxCommissionCall) {
-    this._call = call;
-  }
-}
-
-export class ToggleSwitchCall extends EthereumCall {
-  get inputs(): ToggleSwitchCall__Inputs {
-    return new ToggleSwitchCall__Inputs(this);
-  }
-
-  get outputs(): ToggleSwitchCall__Outputs {
-    return new ToggleSwitchCall__Outputs(this);
-  }
-}
-
-export class ToggleSwitchCall__Inputs {
-  _call: ToggleSwitchCall;
-
-  constructor(call: ToggleSwitchCall) {
-    this._call = call;
-  }
-}
-
-export class ToggleSwitchCall__Outputs {
-  _call: ToggleSwitchCall;
-
-  constructor(call: ToggleSwitchCall) {
     this._call = call;
   }
 }

@@ -17,6 +17,8 @@ type Token @entity {
     totalSupply: BigDecimal!
     holders: [TokenBalance!]
     updated: Boolean!
+    isNFT: Boolean!
+    nftCategory: BigInt
 }
 
 type Wallet @entity {
@@ -40,6 +42,7 @@ type TokenBalance @entity {
     token: Token!
     wallet: Wallet!
     balance: BigDecimal!
+    commodities: [Commodity!]
     updated: Boolean!
 }
 
@@ -71,4 +74,36 @@ type BankFee @entity {
     fee: BigDecimal
     kind: BigInt 
     info: String
+}
+
+type Commodity @entity {
+  id: ID!
+  tokenId: BigInt!
+  gold: Gold
+  diamond: Diamond
+}
+
+type Gold @entity {
+  id: ID!
+  owner: Wallet!
+  reference: String!
+  token: Token!
+  weight_brute: BigDecimal
+  weight_fine: BigDecimal
+  law: BigDecimal
+  isLive: Boolean
+  commodity: Commodity! @derivedFrom(field: "gold")
+}
+
+type Diamond @entity {
+  id: ID!
+  owner: Wallet!
+  reference: String!
+  token: Token!
+  color: BigDecimal
+  clarity: BigDecimal #cambiar a BigDecimal para filtrar?
+  cut: BigDecimal
+  carat_weight: BigDecimal
+  isLive: Boolean
+  commodity: Commodity! @derivedFrom(field: "diamond")
 }
