@@ -7,7 +7,6 @@ import { loadWallet, pushWalletTransaction } from "./wallet";
 import { createTransaction } from "./transaction";
 
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
-const ONE_ETHER = 1000000000000000000;
 
 export function handleTransfer(event: Transfer): void {
 
@@ -65,9 +64,9 @@ export function handleNewJson(event: NewJson): void {
         }
 
         let json: Array<BigInt> = event.params.json;
-        gold.weight_brute = json[0].times(BigInt.fromI32(ONE_ETHER as i32));
-        gold.law = json[1].times(BigInt.fromI32(ONE_ETHER as i32));
-        gold.weight_fine = json[2].times(BigInt.fromI32(ONE_ETHER as i32));
+        gold.weight_brute = json[0];
+        gold.law = json[1];
+        gold.weight_fine = json[2];
 
         gold.save();
         commodity.gold = id;
@@ -211,7 +210,7 @@ function newTransaction(event: Transfer): void {
                 event.params._from, 
                 event.params._to, 
                 event.address.toHexString(), 
-                event.params._tokenId.times(BigInt.fromI32(ONE_ETHER as i32)),
+                event.params._tokenId,
                 new Bytes(0), 
                 event.block.timestamp, 
                 event.transaction.gasUsed.times(event.transaction.gasPrice),
