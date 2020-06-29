@@ -155,6 +155,8 @@ templates:
       abis:
         - name: ERC721
           file: ERC721\abis\ERC721.json
+        - name: Token
+          file: ERC721\abis\Token.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer

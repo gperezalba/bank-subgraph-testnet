@@ -14,7 +14,7 @@ type Token @entity {
     tokenDecimals: Int!
     tokenSymbol: String!
     tokenName: String!
-    totalSupply: BigDecimal!
+    totalSupply: BigInt!
     holders: [TokenBalance!]
     updated: Boolean!
     isNFT: Boolean!
@@ -41,7 +41,7 @@ type TokenBalance @entity {
     id: ID! #token_address-wallet_address
     token: Token!
     wallet: Wallet!
-    balance: BigDecimal!
+    balance: BigInt!
     commodities: [Commodity!]
     updated: Boolean!
 }
@@ -60,9 +60,9 @@ type Transaction @entity {
     from: Wallet!
     to: Wallet!
     currency: Token!
-    amount: BigDecimal!
+    amount: BigInt!
     data: Bytes!
-    fee: BigDecimal!
+    fee: BigInt!
     timestamp: BigInt!
     isBankTransaction: Boolean
     bankTransaction: BankTransaction @derivedFrom(field: "transaction")
@@ -71,7 +71,7 @@ type Transaction @entity {
 type BankFee @entity {
     id: ID! #event.transaction.hash.toHex()
     transaction: BankTransaction! @derivedFrom(field: "bankFee")
-    fee: BigDecimal
+    fee: BigInt
     kind: BigInt 
     info: String
 }
@@ -88,9 +88,9 @@ type Gold @entity {
   owner: Wallet!
   reference: String!
   token: Token!
-  weight_brute: BigDecimal
-  weight_fine: BigDecimal
-  law: BigDecimal
+  weight_brute: BigInt
+  weight_fine: BigInt
+  law: BigInt
   isLive: Boolean
   commodity: Commodity! @derivedFrom(field: "gold")
 }
@@ -100,10 +100,10 @@ type Diamond @entity {
   owner: Wallet!
   reference: String!
   token: Token!
-  color: BigDecimal
-  clarity: BigDecimal #cambiar a BigDecimal para filtrar?
-  cut: BigDecimal
-  carat_weight: BigDecimal
+  color: BigInt
+  clarity: BigInt #cambiar a BigDecimal para filtrar?
+  cut: BigInt
+  carat_weight: BigInt
   isLive: Boolean
   commodity: Commodity! @derivedFrom(field: "diamond")
 }

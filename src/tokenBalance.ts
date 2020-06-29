@@ -23,7 +23,7 @@ export function createTokenBalance(tokenAddress: Address, walletAddress: string)
         if (tokenBalance == null) { //Si no existe el tokenBalance lo creo
             tokenBalance = new TokenBalance(id);
             tokenBalance.token = token.id;
-            tokenBalance.balance = BigDecimal.fromString('0');
+            tokenBalance.balance = BigInt.fromI32(0);
             tokenBalance.commodities = [];
             tokenBalance.updated = false;
 
@@ -72,11 +72,11 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
     
     if (tokenAddress.toHexString() == PI_ADDRESS) {
         let balance = getBalance(Address.fromString(walletAddress));
-        if (balance != (BigInt.fromI32(-1).toBigDecimal())) {
+        if (balance != (BigInt.fromI32(-1))) {
             tokenBalance.balance = balance;
             tokenBalance.updated = true;
         } else {
-            tokenBalance.balance = BigDecimal.fromString('0');
+            tokenBalance.balance = BigInt.fromI32(0);
             tokenBalance.updated = false;
         }
     } else {
@@ -86,13 +86,13 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
         let tokenEntity = Token.load(tokenAddress.toHexString());
 
         if (!balance.reverted) {
-            tokenBalance.balance = balance.value.toBigDecimal();
+            tokenBalance.balance = balance.value;
             tokenBalance.updated = true;
             if (tokenEntity.isNFT) {
-                tokenBalance.balance = tokenBalance.balance.times(BigDecimal.fromString(ONE_ETHER));
+                tokenBalance.balance = tokenBalance.balance.times(BigInt.fromI32(ONE_ETHER as i32));
             }
         } else {
-            tokenBalance.balance = BigDecimal.fromString('0');
+            tokenBalance.balance = BigInt.fromI32(0);
             tokenBalance.updated = false;
         }
     }
@@ -129,14 +129,14 @@ export function popCommodity(commodityId: string, tokenAddress: Address, walletA
     tokenBalance.save();
 }    
 
-export function getBalance(address: Address): BigDecimal {
+export function getBalance(address: Address): BigInt {
     let contractAddress = "0x5949dfB697785aE91675835dd094386B44d5251f";
     let contract = Balance.bind(Address.fromString(contractAddress) as Address);
     let balance = contract.try_getBalance(address);
   
     if (!balance.reverted) {
-      return balance.value.toBigDecimal();
+      return balance.value;
     } else {
-      return BigInt.fromI32(-1).toBigDecimal();
+      return BigInt.fromI32(-1);
     }
   }

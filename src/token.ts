@@ -66,9 +66,9 @@ export function createToken(tokenAddress: Address, isNFT: boolean, category: Big
             }
 
             if (!supply.reverted) {
-                token.totalSupply = supply.value.toBigDecimal();
+                token.totalSupply = supply.value;
             } else {
-                token.totalSupply = BigDecimal.fromString('0');
+                token.totalSupply = BigInt.fromI32(0);
             }
 
             if ((!symbol.reverted) && (!name.reverted) && (!decimals.reverted) && (!supply.reverted)) {
@@ -83,7 +83,7 @@ export function createToken(tokenAddress: Address, isNFT: boolean, category: Big
             token.tokenSymbol = "PI";
             token.tokenName = "PI";
             token.tokenDecimals = 18;
-            token.totalSupply = BigDecimal.fromString('0');
+            token.totalSupply = BigInt.fromI32(0);
             token.holders = [];
             token.updated = true;
         }
@@ -125,7 +125,7 @@ export function addTokenHolder(tokenAddress: string, holder: string): void {
     }
 }
 
-export function handleTokenMint(id: string, amount: BigDecimal): void {
+export function handleTokenMint(id: string, amount: BigInt): void {
     let token = Token.load(id);
 
     if (token !== null) {
@@ -134,7 +134,7 @@ export function handleTokenMint(id: string, amount: BigDecimal): void {
     }
 }
   
-export function handleTokenBurn(id: string, amount: BigDecimal): void {
+export function handleTokenBurn(id: string, amount: BigInt): void {
     let token = Token.load(id);
 
     if (token !== null) {

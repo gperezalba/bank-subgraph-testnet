@@ -33,10 +33,10 @@ export function handleTransfer(event: Transfer): void {
             event.address, 
             event.params.to, 
             event.params.tokenAddress.toHexString(), 
-            event.params.value.toBigDecimal(), 
+            event.params.value, 
             new Bytes(0), 
             event.block.timestamp, 
-            event.transaction.gasUsed.toBigDecimal().times(event.transaction.gasPrice.toBigDecimal()),
+            event.transaction.gasUsed.times(event.transaction.gasPrice),
             true
         );
 
@@ -61,7 +61,7 @@ export function handleTransfer(event: Transfer): void {
     }
 
     bankFee.kind = event.params.kind;
-    bankFee.fee = event.params.commission.toBigDecimal();
+    bankFee.fee = event.params.commission;
 
     bankFee.save();
 
@@ -69,8 +69,6 @@ export function handleTransfer(event: Transfer): void {
 
     bankTransaction.save();
 
-    //pushWalletBankTransaction(bankTransaction as BankTransaction, event.params.to.toHexString());
-    //pushWalletBankTransaction(bankTransaction as BankTransaction, event.address.toHexString());
     pushWalletTransaction(tx as Transaction, event.params.to.toHexString());
     pushWalletTransaction(tx as Transaction, event.address.toHexString());
 }
@@ -90,10 +88,10 @@ export function handleReceive(event: Receive): void {
                 event.params._from, 
                 event.address, 
                 event.params.tokenAddress.toHexString(), 
-                event.params.value.toBigDecimal(), 
+                event.params.value, 
                 new Bytes(0), 
                 event.block.timestamp, 
-                event.transaction.gasUsed.toBigDecimal().times(event.transaction.gasPrice.toBigDecimal()),
+                event.transaction.gasUsed.times(event.transaction.gasPrice),
                 true
             );
 
@@ -138,13 +136,13 @@ export function loadWallet(address: Address, isBankUser: boolean): Wallet {
     return wallet as Wallet;
 }
 
-export function getPiBalance(walletAddress: Address): BigDecimal {
+export function getPiBalance(walletAddress: Address): BigInt {
     let wallet = WalletContract.bind(walletAddress);
     let balance = wallet.try_getInfo();
 
     if (!balance.reverted) {
-        return balance.value.value1[balance.value.value1.length - 1].toBigDecimal();
+        return balance.value.value1[balance.value.value1.length - 1];
     } else {
-        return BigInt.fromI32(-1).toBigDecimal();
+        return BigInt.fromI32(-1);
     }
 }

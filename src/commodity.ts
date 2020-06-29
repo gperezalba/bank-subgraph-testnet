@@ -7,7 +7,7 @@ import { loadWallet, pushWalletTransaction } from "./wallet";
 import { createTransaction } from "./transaction";
 
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
-const ONE_ETHER = "1000000000000000000";
+const ONE_ETHER = 1000000000000000000;
 
 export function handleTransfer(event: Transfer): void {
 
@@ -65,9 +65,9 @@ export function handleNewJson(event: NewJson): void {
         }
 
         let json: Array<BigInt> = event.params.json;
-        gold.weight_brute = json[0].toBigDecimal().times(BigDecimal.fromString(ONE_ETHER));
-        gold.law = json[1].toBigDecimal().times(BigDecimal.fromString(ONE_ETHER));
-        gold.weight_fine = json[2].toBigDecimal().times(BigDecimal.fromString(ONE_ETHER));
+        gold.weight_brute = json[0].times(BigInt.fromI32(ONE_ETHER as i32));
+        gold.law = json[1].times(BigInt.fromI32(ONE_ETHER as i32));
+        gold.weight_fine = json[2].times(BigInt.fromI32(ONE_ETHER as i32));
 
         gold.save();
         commodity.gold = id;
@@ -86,10 +86,10 @@ export function handleNewJson(event: NewJson): void {
         }
 
         let json: Array<BigInt> = event.params.json;
-        diamond.color = json[0].toBigDecimal();
-        diamond.clarity = json[1].toBigDecimal();
-        diamond.cut = json[2].toBigDecimal();
-        diamond.carat_weight = json[3].toBigDecimal();
+        diamond.color = json[0];
+        diamond.clarity = json[1];
+        diamond.cut = json[2];
+        diamond.carat_weight = json[3];
 
         diamond.save();
         commodity.diamond = id;
@@ -211,10 +211,10 @@ function newTransaction(event: Transfer): void {
                 event.params._from, 
                 event.params._to, 
                 event.address.toHexString(), 
-                event.params._tokenId.toBigDecimal().times(BigDecimal.fromString(ONE_ETHER)), 
+                event.params._tokenId.times(BigInt.fromI32(ONE_ETHER as i32)),
                 new Bytes(0), 
                 event.block.timestamp, 
-                event.transaction.gasUsed.toBigDecimal().times(event.transaction.gasPrice.toBigDecimal()),
+                event.transaction.gasUsed.times(event.transaction.gasPrice),
                 false
             );
         }
