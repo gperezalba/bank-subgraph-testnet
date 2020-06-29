@@ -11,7 +11,6 @@ import { loadWallet, getPiBalance } from "./wallet";
 import { Balance } from '../generated/templates/Balance/Balance'
 
 const PI_ADDRESS = "0x0000000000000000000000000000000000000000";
-const ONE_ETHER = "1000000000000000000";
 
 export function createTokenBalance(tokenAddress: Address, walletAddress: string): void {
     let token = Token.load(tokenAddress.toHexString());
@@ -89,7 +88,7 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
             tokenBalance.balance = balance.value;
             tokenBalance.updated = true;
             if (tokenEntity.isNFT) {
-                tokenBalance.balance = tokenBalance.balance.times(BigInt.fromI32(ONE_ETHER as i32));
+                tokenBalance.balance = tokenBalance.balance.times(getOneEther());
             }
         } else {
             tokenBalance.balance = BigInt.fromI32(0);
@@ -139,4 +138,12 @@ export function getBalance(address: Address): BigInt {
     } else {
       return BigInt.fromI32(-1);
     }
-  }
+}
+
+export function getOneEther(): BigInt {
+    let n = BigInt.fromI32(1);
+    for(let i = 0; i < 18; i++) {
+        n = n.times(BigInt.fromI32(10));
+    }
+    return n;
+}
