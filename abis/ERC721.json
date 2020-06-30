@@ -83,6 +83,18 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "FakeToken",
+    "type": "event"
+  },
+  {
     "constant": false,
     "inputs": [
       {

@@ -92,6 +92,7 @@ type Gold @entity {
   weight_fine: BigInt
   law: BigInt
   isLive: Boolean
+  isFake: Boolean
   commodity: Commodity! @derivedFrom(field: "gold")
 }
 
@@ -105,5 +106,6 @@ type Diamond @entity {
   cut: BigInt
   carat_weight: BigInt
   isLive: Boolean
+  isFake: Boolean
   commodity: Commodity! @derivedFrom(field: "diamond")
 }

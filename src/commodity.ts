@@ -1,4 +1,4 @@
-import { Transfer, ERC721, NewJson } from "../generated/templates/ERC721/ERC721";
+import { Transfer, ERC721, NewJson, FakeToken } from "../generated/templates/ERC721/ERC721";
 import { Token, Commodity, Gold, Diamond, Wallet, Transaction } from "../generated/schema";
 import { BigDecimal, BigInt, Address, Bytes } from "@graphprotocol/graph-ts";
 import { pushCommodity, popCommodity } from "./tokenBalance";
@@ -220,5 +220,24 @@ function newTransaction(event: Transfer): void {
 
         pushWalletTransaction(tx as Transaction, event.params._to.toHexString());
         pushWalletTransaction(tx as Transaction, event.params._from.toHexString());
+    }
+}
+
+export function handleFakeToken(event: FakeToken): void {
+    let token = Token.load(event.address.toHexString());
+    let id = event.address.toHexString().concat("-").concat(event.params.tokenId.toString());
+
+    if (token.nftCategory == BigInt.fromI32(1)) {
+        let gold = Gold.load(id);
+        
+        gold.isFake = true;
+
+        gold.save();
+    } else if (token.nftCategory == BigInt.fromI32(2)) {
+        let diamond = Diamond.load(id);
+        
+        diamond.isFake = true;
+
+        diamond.save();
     }
 }

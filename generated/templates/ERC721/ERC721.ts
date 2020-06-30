@@ -115,6 +115,24 @@ export class NewJson__Params {
   }
 }
 
+export class FakeToken extends EthereumEvent {
+  get params(): FakeToken__Params {
+    return new FakeToken__Params(this);
+  }
+}
+
+export class FakeToken__Params {
+  _event: FakeToken;
+
+  constructor(event: FakeToken) {
+    this._event = event;
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class ERC721 extends SmartContract {
   static bind(address: Address): ERC721 {
     return new ERC721("ERC721", address);

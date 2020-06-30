@@ -1001,6 +1001,15 @@ export class Gold extends Entity {
     this.set("isLive", Value.fromBoolean(value));
   }
 
+  get isFake(): boolean {
+    let value = this.get("isFake");
+    return value.toBoolean();
+  }
+
+  set isFake(value: boolean) {
+    this.set("isFake", Value.fromBoolean(value));
+  }
+
   get commodity(): string {
     let value = this.get("commodity");
     return value.toString();
@@ -1143,6 +1152,15 @@ export class Diamond extends Entity {
 
   set isLive(value: boolean) {
     this.set("isLive", Value.fromBoolean(value));
+  }
+
+  get isFake(): boolean {
+    let value = this.get("isFake");
+    return value.toBoolean();
+  }
+
+  set isFake(value: boolean) {
+    this.set("isFake", Value.fromBoolean(value));
   }
 
   get commodity(): string {

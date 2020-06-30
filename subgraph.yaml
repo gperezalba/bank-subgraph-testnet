@@ -160,6 +160,8 @@ templates:
           handler: handleTransfer 
         - event: NewJson(indexed uint256,uint256[])
           handler: handleNewJson
+        - event: FakeToken(indexed uint256)
+          handler: handleFakeToken
   # - name: Balance
   #   kind: ethereum/contract
   #   network: mainnet
