@@ -54,6 +54,7 @@ export function handleNewJson(event: NewJson): void {
         gold.token = event.address.toHexString();
         gold.owner = ZERO_ADDRESS;
         gold.isLive = true;
+        gold.isFake = false;
 
         let ref = token.try_getRefById(event.params.tokenId);
 
@@ -75,6 +76,7 @@ export function handleNewJson(event: NewJson): void {
         diamond.token = event.address.toHexString();
         diamond.owner = ZERO_ADDRESS;
         diamond.isLive = true;
+        diamond.isFake = false;
 
         let ref = token.try_getRefById(event.params.tokenId);
 
