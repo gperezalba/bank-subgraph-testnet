@@ -39,6 +39,10 @@ export class Forward__Params {
   get data(): Bytes {
     return this._event.parameters[2].value.toBytes();
   }
+
+  get result(): Bytes {
+    return this._event.parameters[3].value.toBytes();
+  }
 }
 
 export class FactoryForward extends EthereumEvent {
@@ -183,39 +187,14 @@ export class Identity extends SmartContract {
     return CallResult.fromValue(value[0].toString());
   }
 
-  forwardFactory(_factory: Address, _data: Bytes): Address {
-    let result = super.call("forwardFactory", [
-      EthereumValue.fromAddress(_factory),
-      EthereumValue.fromBytes(_data)
-    ]);
-
-    return result[0].toAddress();
-  }
-
-  try_forwardFactory(_factory: Address, _data: Bytes): CallResult<Address> {
-    let result = super.tryCall("forwardFactory", [
-      EthereumValue.fromAddress(_factory),
-      EthereumValue.fromBytes(_data)
-    ]);
-    if (result.reverted) {
-      return new CallResult();
-    }
-    let value = result.value;
-    return CallResult.fromValue(value[0].toAddress());
-  }
-
-  globalIndex(param0: BigInt): BigInt {
-    let result = super.call("globalIndex", [
-      EthereumValue.fromUnsignedBigInt(param0)
-    ]);
+  kinds(param0: Address): BigInt {
+    let result = super.call("kinds", [EthereumValue.fromAddress(param0)]);
 
     return result[0].toBigInt();
   }
 
-  try_globalIndex(param0: BigInt): CallResult<BigInt> {
-    let result = super.tryCall("globalIndex", [
-      EthereumValue.fromUnsignedBigInt(param0)
-    ]);
+  try_kinds(param0: Address): CallResult<BigInt> {
+    let result = super.tryCall("kinds", [EthereumValue.fromAddress(param0)]);
     if (result.reverted) {
       return new CallResult();
     }
@@ -223,44 +202,19 @@ export class Identity extends SmartContract {
     return CallResult.fromValue(value[0].toBigInt());
   }
 
-  kindOfAddress(param0: Address): BigInt {
-    let result = super.call("kindOfAddress", [
-      EthereumValue.fromAddress(param0)
-    ]);
+  rechargeAmount(): BigInt {
+    let result = super.call("rechargeAmount", []);
 
     return result[0].toBigInt();
   }
 
-  try_kindOfAddress(param0: Address): CallResult<BigInt> {
-    let result = super.tryCall("kindOfAddress", [
-      EthereumValue.fromAddress(param0)
-    ]);
+  try_rechargeAmount(): CallResult<BigInt> {
+    let result = super.tryCall("rechargeAmount", []);
     if (result.reverted) {
       return new CallResult();
     }
     let value = result.value;
     return CallResult.fromValue(value[0].toBigInt());
-  }
-
-  addressesByKind(param0: BigInt, param1: BigInt): Address {
-    let result = super.call("addressesByKind", [
-      EthereumValue.fromUnsignedBigInt(param0),
-      EthereumValue.fromUnsignedBigInt(param1)
-    ]);
-
-    return result[0].toAddress();
-  }
-
-  try_addressesByKind(param0: BigInt, param1: BigInt): CallResult<Address> {
-    let result = super.tryCall("addressesByKind", [
-      EthereumValue.fromUnsignedBigInt(param0),
-      EthereumValue.fromUnsignedBigInt(param1)
-    ]);
-    if (result.reverted) {
-      return new CallResult();
-    }
-    let value = result.value;
-    return CallResult.fromValue(value[0].toAddress());
   }
 
   wallet(): Address {
@@ -278,25 +232,34 @@ export class Identity extends SmartContract {
     return CallResult.fromValue(value[0].toAddress());
   }
 
-  forward(_destination: Address, _data: Bytes): Bytes {
-    let result = super.call("forward", [
-      EthereumValue.fromAddress(_destination),
-      EthereumValue.fromBytes(_data)
-    ]);
+  version(): BigInt {
+    let result = super.call("version", []);
 
-    return result[0].toBytes();
+    return result[0].toBigInt();
   }
 
-  try_forward(_destination: Address, _data: Bytes): CallResult<Bytes> {
-    let result = super.tryCall("forward", [
-      EthereumValue.fromAddress(_destination),
-      EthereumValue.fromBytes(_data)
-    ]);
+  try_version(): CallResult<BigInt> {
+    let result = super.tryCall("version", []);
     if (result.reverted) {
       return new CallResult();
     }
     let value = result.value;
-    return CallResult.fromValue(value[0].toBytes());
+    return CallResult.fromValue(value[0].toBigInt());
+  }
+
+  facetCategory(): BigInt {
+    let result = super.call("facetCategory", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_facetCategory(): CallResult<BigInt> {
+    let result = super.tryCall("facetCategory", []);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBigInt());
   }
 
   owner(): Address {
@@ -359,33 +322,90 @@ export class Identity extends SmartContract {
     return CallResult.fromValue(value[0].toAddress());
   }
 
-  getAddressesByKind(_kind: BigInt): Array<Address> {
-    let result = super.call("getAddressesByKind", [
-      EthereumValue.fromUnsignedBigInt(_kind)
+  selectors(param0: BigInt): Bytes {
+    let result = super.call("selectors", [
+      EthereumValue.fromUnsignedBigInt(param0)
     ]);
 
-    return result[0].toAddressArray();
+    return result[0].toBytes();
   }
 
-  try_getAddressesByKind(_kind: BigInt): CallResult<Array<Address>> {
-    let result = super.tryCall("getAddressesByKind", [
-      EthereumValue.fromUnsignedBigInt(_kind)
+  try_selectors(param0: BigInt): CallResult<Bytes> {
+    let result = super.tryCall("selectors", [
+      EthereumValue.fromUnsignedBigInt(param0)
     ]);
     if (result.reverted) {
       return new CallResult();
     }
     let value = result.value;
-    return CallResult.fromValue(value[0].toAddressArray());
+    return CallResult.fromValue(value[0].toBytes());
   }
 
-  indexOf(param0: Address): BigInt {
-    let result = super.call("indexOf", [EthereumValue.fromAddress(param0)]);
+  forward(_destination: Address, _data: Bytes): Bytes {
+    let result = super.call("forward", [
+      EthereumValue.fromAddress(_destination),
+      EthereumValue.fromBytes(_data)
+    ]);
+
+    return result[0].toBytes();
+  }
+
+  try_forward(_destination: Address, _data: Bytes): CallResult<Bytes> {
+    let result = super.tryCall("forward", [
+      EthereumValue.fromAddress(_destination),
+      EthereumValue.fromBytes(_data)
+    ]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBytes());
+  }
+
+  forwardFactory(_factory: Address, _data: Bytes): Address {
+    let result = super.call("forwardFactory", [
+      EthereumValue.fromAddress(_factory),
+      EthereumValue.fromBytes(_data)
+    ]);
+
+    return result[0].toAddress();
+  }
+
+  try_forwardFactory(_factory: Address, _data: Bytes): CallResult<Address> {
+    let result = super.tryCall("forwardFactory", [
+      EthereumValue.fromAddress(_factory),
+      EthereumValue.fromBytes(_data)
+    ]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toAddress());
+  }
+
+  getSelectors(): Array<Bytes> {
+    let result = super.call("getSelectors", []);
+
+    return result[0].toBytesArray();
+  }
+
+  try_getSelectors(): CallResult<Array<Bytes>> {
+    let result = super.tryCall("getSelectors", []);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBytesArray());
+  }
+
+  getFacetCategory(): BigInt {
+    let result = super.call("getFacetCategory", []);
 
     return result[0].toBigInt();
   }
 
-  try_indexOf(param0: Address): CallResult<BigInt> {
-    let result = super.tryCall("indexOf", [EthereumValue.fromAddress(param0)]);
+  try_getFacetCategory(): CallResult<BigInt> {
+    let result = super.tryCall("getFacetCategory", []);
     if (result.reverted) {
       return new CallResult();
     }
@@ -420,168 +440,6 @@ export class SetOwnerCall__Outputs {
   _call: SetOwnerCall;
 
   constructor(call: SetOwnerCall) {
-    this._call = call;
-  }
-}
-
-export class SetFirstWalletCall extends EthereumCall {
-  get inputs(): SetFirstWalletCall__Inputs {
-    return new SetFirstWalletCall__Inputs(this);
-  }
-
-  get outputs(): SetFirstWalletCall__Outputs {
-    return new SetFirstWalletCall__Outputs(this);
-  }
-}
-
-export class SetFirstWalletCall__Inputs {
-  _call: SetFirstWalletCall;
-
-  constructor(call: SetFirstWalletCall) {
-    this._call = call;
-  }
-
-  get _walletAddress(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class SetFirstWalletCall__Outputs {
-  _call: SetFirstWalletCall;
-
-  constructor(call: SetFirstWalletCall) {
-    this._call = call;
-  }
-}
-
-export class ForwardFactoryCall extends EthereumCall {
-  get inputs(): ForwardFactoryCall__Inputs {
-    return new ForwardFactoryCall__Inputs(this);
-  }
-
-  get outputs(): ForwardFactoryCall__Outputs {
-    return new ForwardFactoryCall__Outputs(this);
-  }
-}
-
-export class ForwardFactoryCall__Inputs {
-  _call: ForwardFactoryCall;
-
-  constructor(call: ForwardFactoryCall) {
-    this._call = call;
-  }
-
-  get _factory(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get _data(): Bytes {
-    return this._call.inputValues[1].value.toBytes();
-  }
-}
-
-export class ForwardFactoryCall__Outputs {
-  _call: ForwardFactoryCall;
-
-  constructor(call: ForwardFactoryCall) {
-    this._call = call;
-  }
-
-  get value0(): Address {
-    return this._call.outputValues[0].value.toAddress();
-  }
-}
-
-export class ForwardCall extends EthereumCall {
-  get inputs(): ForwardCall__Inputs {
-    return new ForwardCall__Inputs(this);
-  }
-
-  get outputs(): ForwardCall__Outputs {
-    return new ForwardCall__Outputs(this);
-  }
-}
-
-export class ForwardCall__Inputs {
-  _call: ForwardCall;
-
-  constructor(call: ForwardCall) {
-    this._call = call;
-  }
-
-  get _destination(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get _data(): Bytes {
-    return this._call.inputValues[1].value.toBytes();
-  }
-}
-
-export class ForwardCall__Outputs {
-  _call: ForwardCall;
-
-  constructor(call: ForwardCall) {
-    this._call = call;
-  }
-
-  get value0(): Bytes {
-    return this._call.outputValues[0].value.toBytes();
-  }
-}
-
-export class SetStateCall extends EthereumCall {
-  get inputs(): SetStateCall__Inputs {
-    return new SetStateCall__Inputs(this);
-  }
-
-  get outputs(): SetStateCall__Outputs {
-    return new SetStateCall__Outputs(this);
-  }
-}
-
-export class SetStateCall__Inputs {
-  _call: SetStateCall;
-
-  constructor(call: SetStateCall) {
-    this._call = call;
-  }
-
-  get _newState(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-}
-
-export class SetStateCall__Outputs {
-  _call: SetStateCall;
-
-  constructor(call: SetStateCall) {
-    this._call = call;
-  }
-}
-
-export class RemoveAddressCall extends EthereumCall {
-  get inputs(): RemoveAddressCall__Inputs {
-    return new RemoveAddressCall__Inputs(this);
-  }
-
-  get outputs(): RemoveAddressCall__Outputs {
-    return new RemoveAddressCall__Outputs(this);
-  }
-}
-
-export class RemoveAddressCall__Inputs {
-  _call: RemoveAddressCall;
-
-  constructor(call: RemoveAddressCall) {
-    this._call = call;
-  }
-}
-
-export class RemoveAddressCall__Outputs {
-  _call: RemoveAddressCall;
-
-  constructor(call: RemoveAddressCall) {
     this._call = call;
   }
 }
@@ -646,44 +504,6 @@ export class SetWalletCall__Outputs {
   }
 }
 
-export class ForwardValueCall extends EthereumCall {
-  get inputs(): ForwardValueCall__Inputs {
-    return new ForwardValueCall__Inputs(this);
-  }
-
-  get outputs(): ForwardValueCall__Outputs {
-    return new ForwardValueCall__Outputs(this);
-  }
-}
-
-export class ForwardValueCall__Inputs {
-  _call: ForwardValueCall;
-
-  constructor(call: ForwardValueCall) {
-    this._call = call;
-  }
-
-  get _destination(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get _data(): Bytes {
-    return this._call.inputValues[1].value.toBytes();
-  }
-}
-
-export class ForwardValueCall__Outputs {
-  _call: ForwardValueCall;
-
-  constructor(call: ForwardValueCall) {
-    this._call = call;
-  }
-
-  get value0(): Bytes {
-    return this._call.outputValues[0].value.toBytes();
-  }
-}
-
 export class SetRecoveryCall extends EthereumCall {
   get inputs(): SetRecoveryCall__Inputs {
     return new SetRecoveryCall__Inputs(this);
@@ -730,22 +550,6 @@ export class ConstructorCall__Inputs {
   constructor(call: ConstructorCall) {
     this._call = call;
   }
-
-  get _owner(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get _recovery(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get _name(): string {
-    return this._call.inputValues[2].value.toString();
-  }
-
-  get _controllerAddress(): Address {
-    return this._call.inputValues[3].value.toAddress();
-  }
 }
 
 export class ConstructorCall__Outputs {
@@ -778,6 +582,150 @@ export class DefaultCall__Outputs {
   _call: DefaultCall;
 
   constructor(call: DefaultCall) {
+    this._call = call;
+  }
+}
+
+export class ForwardCall extends EthereumCall {
+  get inputs(): ForwardCall__Inputs {
+    return new ForwardCall__Inputs(this);
+  }
+
+  get outputs(): ForwardCall__Outputs {
+    return new ForwardCall__Outputs(this);
+  }
+}
+
+export class ForwardCall__Inputs {
+  _call: ForwardCall;
+
+  constructor(call: ForwardCall) {
+    this._call = call;
+  }
+
+  get _destination(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _data(): Bytes {
+    return this._call.inputValues[1].value.toBytes();
+  }
+}
+
+export class ForwardCall__Outputs {
+  _call: ForwardCall;
+
+  constructor(call: ForwardCall) {
+    this._call = call;
+  }
+
+  get value0(): Bytes {
+    return this._call.outputValues[0].value.toBytes();
+  }
+}
+
+export class ForwardValueCall extends EthereumCall {
+  get inputs(): ForwardValueCall__Inputs {
+    return new ForwardValueCall__Inputs(this);
+  }
+
+  get outputs(): ForwardValueCall__Outputs {
+    return new ForwardValueCall__Outputs(this);
+  }
+}
+
+export class ForwardValueCall__Inputs {
+  _call: ForwardValueCall;
+
+  constructor(call: ForwardValueCall) {
+    this._call = call;
+  }
+
+  get _destination(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _data(): Bytes {
+    return this._call.inputValues[1].value.toBytes();
+  }
+}
+
+export class ForwardValueCall__Outputs {
+  _call: ForwardValueCall;
+
+  constructor(call: ForwardValueCall) {
+    this._call = call;
+  }
+
+  get value0(): Bytes {
+    return this._call.outputValues[0].value.toBytes();
+  }
+}
+
+export class ForwardFactoryCall extends EthereumCall {
+  get inputs(): ForwardFactoryCall__Inputs {
+    return new ForwardFactoryCall__Inputs(this);
+  }
+
+  get outputs(): ForwardFactoryCall__Outputs {
+    return new ForwardFactoryCall__Outputs(this);
+  }
+}
+
+export class ForwardFactoryCall__Inputs {
+  _call: ForwardFactoryCall;
+
+  constructor(call: ForwardFactoryCall) {
+    this._call = call;
+  }
+
+  get _factory(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _data(): Bytes {
+    return this._call.inputValues[1].value.toBytes();
+  }
+}
+
+export class ForwardFactoryCall__Outputs {
+  _call: ForwardFactoryCall;
+
+  constructor(call: ForwardFactoryCall) {
+    this._call = call;
+  }
+
+  get value0(): Address {
+    return this._call.outputValues[0].value.toAddress();
+  }
+}
+
+export class SetStateCall extends EthereumCall {
+  get inputs(): SetStateCall__Inputs {
+    return new SetStateCall__Inputs(this);
+  }
+
+  get outputs(): SetStateCall__Outputs {
+    return new SetStateCall__Outputs(this);
+  }
+}
+
+export class SetStateCall__Inputs {
+  _call: SetStateCall;
+
+  constructor(call: SetStateCall) {
+    this._call = call;
+  }
+
+  get _newState(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class SetStateCall__Outputs {
+  _call: SetStateCall;
+
+  constructor(call: SetStateCall) {
     this._call = call;
   }
 }

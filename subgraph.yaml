@@ -128,7 +128,7 @@ templates:
         - name: Identity
           file: ./abis/Identity.json
       eventHandlers:
-        - event: Forward(indexed address,uint256,bytes)
+        - event: Forward(indexed address,uint256,bytes,bytes)
           handler: handleForward
         - event: FactoryForward(indexed uint256,address)
           handler: handleFactoryForward
