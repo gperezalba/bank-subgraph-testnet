@@ -112,28 +112,6 @@ templates:
           handler: handleTransfer
         - event: Receive(indexed address,indexed address,uint256)
           handler: handleReceive
-  - name: WalletDiamond
-    kind: ethereum/contract
-    network: mainnet
-    source:
-      abi: WalletDiamond
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.1
-      language: wasm/assemblyscript
-      file: ./src/wallet.ts
-      entities:
-        - Transfer
-      abis:
-        - name: WalletDiamond
-          file: ./abis/WalletDiamond.json
-        - name: Token
-          file: ./abis/Token.json
-        - name: Balance
-          file: ./abis/Balance.json
-      eventHandlers:
-        - event: Receive(indexed address,indexed address,uint256)
-          handler: handleReceiveDiamond
   - name: Identity
     kind: ethereum/contract
     network: mainnet

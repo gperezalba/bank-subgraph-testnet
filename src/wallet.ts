@@ -1,6 +1,5 @@
 import { Address, Bytes, BigDecimal, BigInt } from "@graphprotocol/graph-ts"
 import { Transfer, Receive } from "../generated/templates/Wallet/Wallet"
-import { Receive as ReceiveDiamond } from "../generated/templates/WalletDiamond/WalletDiamond"
 
 import { 
     Wallet,
@@ -75,45 +74,6 @@ export function handleTransfer(event: Transfer): void {
 }
 
 export function handleReceive(event: Receive): void {
-    if (event.params.tokenAddress.toHexString() == PI_ADDRESS) {
-
-        let fromWallet = Wallet.load(event.params._from.toHexString());
-
-        if (fromWallet == null) {
-            fromWallet = loadWallet(event.params._from, false);
-        }
-
-        if (!fromWallet.isBankUser) {
-            updateTokenBalance(event.params.tokenAddress, event.params._from.toHexString());
-            updateTokenBalance(event.params.tokenAddress, event.address.toHexString());
-
-            let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
-            let tx = Transaction.load(txId);
-
-            if (tx == null) {
-                let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
-                createTransaction(
-                    txId, 
-                    event.params._from, 
-                    event.address, 
-                    event.params.tokenAddress.toHexString(), 
-                    event.params.value, 
-                    new Bytes(0), 
-                    event.block.timestamp, 
-                    event.transaction.gasUsed.times(event.transaction.gasPrice),
-                    true
-                );
-
-                tx = Transaction.load(txId);
-            }
-
-            pushWalletTransaction(tx as Transaction, event.params._from.toHexString());
-            pushWalletTransaction(tx as Transaction, event.address.toHexString());
-        }
-    }
-}
-
-export function handleReceiveDiamond(event: ReceiveDiamond): void {
     if (event.params.tokenAddress.toHexString() == PI_ADDRESS) {
 
         let fromWallet = Wallet.load(event.params._from.toHexString());

@@ -3,7 +3,6 @@ import { DeployIdentity } from "../generated/IdentityFactory/IdentityFactory"
 import { Identity, Wallet } from "../generated/schema"
 import { Identity as IdentityTemplate } from "../generated/templates"
 import { Wallet as WalletTemplate } from "../generated/templates"
-import { WalletDiamond as WalletTemplateDiamond } from "../generated/templates"
 
 import { loadWallet } from "./wallet"
 
@@ -28,5 +27,4 @@ export function handleDeployIdentity(event: DeployIdentity): void {
 
   IdentityTemplate.create(event.params.identity);
   WalletTemplate.create(event.params.wallet);
-  WalletTemplateDiamond.create(event.params.wallet);
 }
