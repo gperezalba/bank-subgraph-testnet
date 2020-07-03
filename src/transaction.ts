@@ -80,10 +80,10 @@ export function createTransaction(
 
     if (officialFrom != null) {
         tx.officialCategory = officialFrom.category;
-        tx.officialDescription = officialFrom.description
+        tx.officialDescription = officialFrom.id;
     } else if (officialTo != null) {
         tx.officialCategory = officialTo.category;
-        tx.officialDescription = officialTo.description
+        tx.officialDescription = officialTo.id;
     } else {
         tx.officialCategory = BigInt.fromI32(0);
         tx.officialDescription = "";
