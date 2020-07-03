@@ -28,6 +28,9 @@ export function handleNewAddress(event: NewAddress): void {
     } else if (event.params.kind == BigInt.fromI32(9)) {
         official.category = event.params.kind;
         official.description = "P2P-COMMODITY";
+    } else {
+        official.category = event.params.kind;
+        official.description = "Other";
     }
 
     official.save();
