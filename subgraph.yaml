@@ -68,6 +68,10 @@ dataSources:
           handler: handleTokenCreated
         - event: NewNFToken(address,uint256)
           handler: handleNewNFToken
+        - event: NewAddress(uint256,address,bool)
+          handler: handleNewAddress
+        - event: NewMarket(address,address,address)
+          handler: handleNewMarket
       file: ./src/controller.ts
 templates:
   - name: Token

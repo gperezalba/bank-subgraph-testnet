@@ -717,6 +717,40 @@ export class Transaction extends Entity {
       this.set("bankTransaction", Value.fromString(value as string));
     }
   }
+
+  get officialCategory(): BigInt | null {
+    let value = this.get("officialCategory");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set officialCategory(value: BigInt | null) {
+    if (value === null) {
+      this.unset("officialCategory");
+    } else {
+      this.set("officialCategory", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get officialDescription(): string | null {
+    let value = this.get("officialDescription");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set officialDescription(value: string | null) {
+    if (value === null) {
+      this.unset("officialDescription");
+    } else {
+      this.set("officialDescription", Value.fromString(value as string));
+    }
+  }
 }
 
 export class BankFee extends Entity {
@@ -1170,5 +1204,54 @@ export class Diamond extends Entity {
 
   set commodity(value: string) {
     this.set("commodity", Value.fromString(value));
+  }
+}
+
+export class Official extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Official entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Official entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Official", id.toString(), this);
+  }
+
+  static load(id: string): Official | null {
+    return store.get("Official", id) as Official | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get category(): BigInt {
+    let value = this.get("category");
+    return value.toBigInt();
+  }
+
+  set category(value: BigInt) {
+    this.set("category", Value.fromBigInt(value));
+  }
+
+  get description(): string {
+    let value = this.get("description");
+    return value.toString();
+  }
+
+  set description(value: string) {
+    this.set("description", Value.fromString(value));
   }
 }

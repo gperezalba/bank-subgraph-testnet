@@ -66,6 +66,8 @@ type Transaction @entity {
     timestamp: BigInt!
     isBankTransaction: Boolean
     bankTransaction: BankTransaction @derivedFrom(field: "transaction")
+    officialCategory: BigInt
+    officialDescription: Official
 }
 
 type BankFee @entity {
@@ -108,4 +110,10 @@ type Diamond @entity {
   isLive: Boolean
   isFake: Boolean
   commodity: Commodity! @derivedFrom(field: "diamond")
+}
+
+type Official @entity {
+    id: ID!
+    category: BigInt!
+    description: String!
 }
