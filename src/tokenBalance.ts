@@ -129,7 +129,7 @@ export function popCommodity(commodityId: string, tokenAddress: Address, walletA
 }    
 
 export function getBalance(address: Address): BigInt {
-    let contractAddress = "0x847D597b51823f2938eB257E2b2507703B4E43B5";
+    let contractAddress = "0x5949dfB697785aE91675835dd094386B44d5251f";
     let contract = Balance.bind(Address.fromString(contractAddress) as Address);
     let balance = contract.try_getBalance(address);
   
