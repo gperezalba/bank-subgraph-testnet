@@ -6,7 +6,7 @@ dataSources:
     name: IdentityFactory
     network: mainnet
     source:
-      address: "0x2b888Ee5c2bEb3e4E8d20fD571A60f8bE8112079"
+      address: "0x9eB87A62C18ba6EF1FEC4D32A4a999450a49820A"
       abi: IdentityFactory
     mapping:
       kind: ethereum/events
@@ -26,7 +26,7 @@ dataSources:
     name: NameService
     network: mainnet
     source:
-      address: "0xE4CC265FEF79b516bb727bB39d7Ba2d244E8266D"
+      address: "0xbdb5af45C3F2C814fcbEb5c3117bA8737D982CEE"
       abi: NameService
     mapping:
       kind: ethereum/events
@@ -51,7 +51,7 @@ dataSources:
     name: Controller
     network: mainnet
     source:
-      address: "0x450c0173e5bB18bebFfbd863d9743Fb1fdd79453"
+      address: "0xdcCB0FE7c182262497B362ea435D4C7A5A67bE40"
       abi: Controller
     mapping:
       kind: ethereum/events
@@ -69,6 +69,10 @@ dataSources:
           handler: handleTokenCreated
         - event: NewNFToken(address,uint256)
           handler: handleNewNFToken
+        - event: NewAddress(uint256,address,bool)
+          handler: handleNewAddress
+        - event: NewMarket(address,address,address)
+          handler: handleNewMarket
       file: Controller\Controller.wasm
 templates:
   - name: Token
@@ -130,7 +134,7 @@ templates:
         - name: Identity
           file: Identity\abis\Identity.json
       eventHandlers:
-        - event: Forward(indexed address,uint256,bytes)
+        - event: Forward(indexed address,uint256,bytes,bytes)
           handler: handleForward
         - event: FactoryForward(indexed uint256,address)
           handler: handleFactoryForward
@@ -162,3 +166,5 @@ templates:
           handler: handleTransfer
         - event: NewJson(indexed uint256,uint256[])
           handler: handleNewJson
+        - event: FakeToken(indexed uint256)
+          handler: handleFakeToken

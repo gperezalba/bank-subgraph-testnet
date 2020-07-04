@@ -26,6 +26,44 @@
         "type": "uint256"
       }
     ],
+    "name": "nfts",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isNFToken",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "tokens",
     "outputs": [
       {
@@ -45,6 +83,20 @@
       {
         "name": "",
         "type": "uint8"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "facetCategory",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
       }
     ],
     "payable": false,
@@ -133,6 +185,25 @@
   },
   {
     "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "selectors",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [],
     "name": "controller",
     "outputs": [
@@ -146,16 +217,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "name": "_identityAddress",
-        "type": "address"
-      },
-      {
-        "name": "_controllerAddress",
-        "type": "address"
-      }
-    ],
+    "inputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -242,6 +304,10 @@
       {
         "name": "_data",
         "type": "string"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
       }
     ],
     "name": "transfer",
@@ -268,6 +334,10 @@
       {
         "name": "_data",
         "type": "string"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
       }
     ],
     "name": "transferSending",
@@ -294,6 +364,10 @@
       {
         "name": "_data",
         "type": "string"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
       }
     ],
     "name": "transferDomain",
@@ -324,6 +398,10 @@
       {
         "name": "_data",
         "type": "string"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
       }
     ],
     "name": "transferExchangeReceiving",
@@ -354,6 +432,10 @@
       {
         "name": "_data",
         "type": "string"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
       }
     ],
     "name": "transferExchangeSending",
@@ -380,6 +462,10 @@
       {
         "name": "_data",
         "type": "string"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
       }
     ],
     "name": "transferDomainSending",
@@ -410,6 +496,10 @@
       {
         "name": "_data",
         "type": "string"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
       }
     ],
     "name": "transferExchangeDomainReceiving",
@@ -440,6 +530,10 @@
       {
         "name": "_data",
         "type": "string"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
       }
     ],
     "name": "transferExchangeDomainSending",
@@ -462,9 +556,133 @@
       {
         "name": "_amount",
         "type": "uint256"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
       }
     ],
     "name": "exchange",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_tokenAddress",
+        "type": "address"
+      },
+      {
+        "name": "_to",
+        "type": "address"
+      },
+      {
+        "name": "_tokenId",
+        "type": "uint256"
+      },
+      {
+        "name": "_data",
+        "type": "string"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
+      }
+    ],
+    "name": "transferNFT",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_tokenAddress",
+        "type": "address"
+      },
+      {
+        "name": "_to",
+        "type": "address"
+      },
+      {
+        "name": "_tokenRef",
+        "type": "string"
+      },
+      {
+        "name": "_data",
+        "type": "string"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
+      }
+    ],
+    "name": "transferNFTRef",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_tokenAddress",
+        "type": "address"
+      },
+      {
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "name": "_tokenId",
+        "type": "uint256"
+      },
+      {
+        "name": "_data",
+        "type": "string"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
+      }
+    ],
+    "name": "transferNFTDomain",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_tokenAddress",
+        "type": "address"
+      },
+      {
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "name": "_tokenRef",
+        "type": "string"
+      },
+      {
+        "name": "_data",
+        "type": "string"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
+      }
+    ],
+    "name": "transferNFTRefDomain",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -496,6 +714,10 @@
       {
         "name": "_exchangeAddress",
         "type": "address"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
       }
     ],
     "name": "setDexOrder",
@@ -517,7 +739,7 @@
         "type": "address"
       },
       {
-        "name": "_amount",
+        "name": "_amountOrId",
         "type": "uint256"
       },
       {
@@ -630,7 +852,49 @@
   {
     "constant": true,
     "inputs": [],
+    "name": "getSelectors",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes4[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getFacetCategory",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
     "name": "getTokens",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getNFTokens",
     "outputs": [
       {
         "name": "",
@@ -862,6 +1126,37 @@
     ],
     "name": "tokenFallback",
     "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_operator",
+        "type": "address"
+      },
+      {
+        "name": "_from",
+        "type": "address"
+      },
+      {
+        "name": "_tokenId",
+        "type": "uint256"
+      },
+      {
+        "name": "_data",
+        "type": "bytes"
+      }
+    ],
+    "name": "onERC721Received",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"

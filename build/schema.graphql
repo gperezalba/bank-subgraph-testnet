@@ -66,6 +66,10 @@ type Transaction @entity {
     timestamp: BigInt!
     isBankTransaction: Boolean
     bankTransaction: BankTransaction @derivedFrom(field: "transaction")
+    nftCategory: BigInt
+    nftDescription: Commodity
+    officialCategory: BigInt
+    officialDescription: Official
 }
 
 type BankFee @entity {
@@ -85,25 +89,33 @@ type Commodity @entity {
 
 type Gold @entity {
   id: ID!
-  owner: Wallet!
-  reference: String!
-  token: Token!
+  owner: Wallet
+  reference: String
+  token: Token
   weight_brute: BigInt
   weight_fine: BigInt
   law: BigInt
   isLive: Boolean
-  commodity: Commodity! @derivedFrom(field: "gold")
+  isFake: Boolean
+  commodity: Commodity @derivedFrom(field: "gold")
 }
 
 type Diamond @entity {
   id: ID!
-  owner: Wallet!
-  reference: String!
-  token: Token!
+  owner: Wallet
+  reference: String
+  token: Token
   color: BigInt
   clarity: BigInt #cambiar a BigDecimal para filtrar?
   cut: BigInt
   carat_weight: BigInt
   isLive: Boolean
-  commodity: Commodity! @derivedFrom(field: "diamond")
+  isFake: Boolean
+  commodity: Commodity @derivedFrom(field: "diamond")
+}
+
+type Official @entity {
+    id: ID!
+    category: BigInt!
+    description: String!
 }
