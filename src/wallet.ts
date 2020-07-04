@@ -116,7 +116,7 @@ export function pushWalletTransaction(tx: Transaction, walletAddress: string): v
     let currency = tx.currency as string;
     let token = Token.load(currency);
 
-    if (token !== null) {
+    if (token != null) {
 
         let wallet = loadWallet(Address.fromString(walletAddress), false);
 

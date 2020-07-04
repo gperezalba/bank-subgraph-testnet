@@ -1,7 +1,7 @@
 import { Transfer, ERC721, NewJson, FakeToken } from "../generated/templates/ERC721/ERC721";
 import { Token, Commodity, Gold, Diamond, Wallet, Transaction } from "../generated/schema";
 import { BigDecimal, BigInt, Address, Bytes } from "@graphprotocol/graph-ts";
-import { pushCommodity, popCommodity } from "./tokenBalance";
+import { pushCommodity, popCommodity, getOneEther } from "./tokenBalance";
 import { addTokenHolder } from "./token";
 import { loadWallet, pushWalletTransaction } from "./wallet";
 import { createTransaction } from "./transaction";
@@ -69,7 +69,7 @@ export function handleNewJson(event: NewJson): void {
         let json: Array<BigInt> = event.params.json;
         gold.weight_brute = json[0];
         gold.law = json[1];
-        gold.weight_fine = json[2];
+        gold.weight_fine = json[0].times(json[1]).div(BigInt.fromI32(1000).times(getOneEther()));
 
         gold.save();
         commodity.gold = id;
