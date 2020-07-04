@@ -718,6 +718,40 @@ export class Transaction extends Entity {
     }
   }
 
+  get nftCategory(): BigInt | null {
+    let value = this.get("nftCategory");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set nftCategory(value: BigInt | null) {
+    if (value === null) {
+      this.unset("nftCategory");
+    } else {
+      this.set("nftCategory", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get nftDescription(): string | null {
+    let value = this.get("nftDescription");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set nftDescription(value: string | null) {
+    if (value === null) {
+      this.unset("nftDescription");
+    } else {
+      this.set("nftDescription", Value.fromString(value as string));
+    }
+  }
+
   get officialCategory(): BigInt | null {
     let value = this.get("officialCategory");
     if (value === null) {

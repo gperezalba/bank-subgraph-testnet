@@ -66,6 +66,8 @@ type Transaction @entity {
     timestamp: BigInt!
     isBankTransaction: Boolean
     bankTransaction: BankTransaction @derivedFrom(field: "transaction")
+    nftCategory: BigInt
+    nftDescription: Commodity
     officialCategory: BigInt
     officialDescription: Official
 }

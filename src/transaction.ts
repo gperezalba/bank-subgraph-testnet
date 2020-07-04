@@ -2,7 +2,7 @@ import { Address, BigDecimal, Bytes, BigInt } from "@graphprotocol/graph-ts"
 import { Transfer } from "../generated/templates/Token/Token"
 
 import { 
-    Transaction, Wallet, Official
+    Transaction, Wallet, Official, Token
 } from "../generated/schema"
 
 import { pushWalletTransaction, loadWallet } from "./wallet"
@@ -74,6 +74,14 @@ export function createTransaction(
     tx.timestamp = timestamp;
     tx.fee = fee;
     tx.isBankTransaction = isBankTransaction;
+
+    let token = Token.load(currency);
+
+    if (token.isNFT) {
+        let commodityId = currency.concat("-").concat(amount.toString());
+        tx.nftCategory = token.nftCategory;
+        tx.nftDescription = commodityId;
+    }
 
     let officialFrom = Official.load(fromWallet.id);
     let officialTo = Official.load(toWallet.id);
