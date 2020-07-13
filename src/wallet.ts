@@ -284,6 +284,10 @@ export function loadWallet(address: Address, isBankUser: boolean): Wallet {
         wallet = new Wallet(address.toHexString());
         wallet.isBankUser = isBankUser;
         wallet.transactions = [];
+        wallet.isToLimited = false;
+        wallet.allowedDestinations = [];
+        wallet.valueLimits = [];
+        wallet.dayLimits = [];
     }
 
     wallet.save();

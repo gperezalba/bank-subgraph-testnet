@@ -24,6 +24,7 @@ export function createTokenBalance(tokenAddress: Address, walletAddress: string)
             tokenBalance.token = token.id;
             tokenBalance.balance = BigInt.fromI32(0);
             tokenBalance.commodities = [];
+            tokenBalance.packables = [];
             tokenBalance.updated = false;
 
             let wallet = Wallet.load(walletAddress);
