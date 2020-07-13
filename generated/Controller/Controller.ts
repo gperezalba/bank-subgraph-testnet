@@ -37,6 +37,28 @@ export class NewOwner__Params {
   }
 }
 
+export class NewBackend extends EthereumEvent {
+  get params(): NewBackend__Params {
+    return new NewBackend__Params(this);
+  }
+}
+
+export class NewBackend__Params {
+  _event: NewBackend;
+
+  constructor(event: NewBackend) {
+    this._event = event;
+  }
+
+  get old(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get current(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
 export class NewSwitcher extends EthereumEvent {
   get params(): NewSwitcher__Params {
     return new NewSwitcher__Params(this);
@@ -101,6 +123,14 @@ export class NewToken__Params {
   get newToken(): Address {
     return this._event.parameters[0].value.toAddress();
   }
+
+  get category(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get isToken(): boolean {
+    return this._event.parameters[2].value.toBoolean();
+  }
 }
 
 export class NewNFToken extends EthereumEvent {
@@ -122,6 +152,36 @@ export class NewNFToken__Params {
 
   get category(): BigInt {
     return this._event.parameters[1].value.toBigInt();
+  }
+
+  get isNFToken(): boolean {
+    return this._event.parameters[2].value.toBoolean();
+  }
+}
+
+export class NewPNFToken extends EthereumEvent {
+  get params(): NewPNFToken__Params {
+    return new NewPNFToken__Params(this);
+  }
+}
+
+export class NewPNFToken__Params {
+  _event: NewPNFToken;
+
+  constructor(event: NewPNFToken) {
+    this._event = event;
+  }
+
+  get newToken(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get category(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get isPNFToken(): boolean {
+    return this._event.parameters[2].value.toBoolean();
   }
 }
 
@@ -169,6 +229,32 @@ export class NewCommission__Params {
   }
 }
 
+export class DiamondCut extends EthereumEvent {
+  get params(): DiamondCut__Params {
+    return new DiamondCut__Params(this);
+  }
+}
+
+export class DiamondCut__Params {
+  _event: DiamondCut;
+
+  constructor(event: DiamondCut) {
+    this._event = event;
+  }
+
+  get selector(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get oldFacet(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get newFacet(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+}
+
 export class Controller extends SmartContract {
   static bind(address: Address): Controller {
     return new Controller("Controller", address);
@@ -187,6 +273,21 @@ export class Controller extends SmartContract {
     }
     let value = result.value;
     return CallResult.fromValue(value[0].toBigInt());
+  }
+
+  backend(): Address {
+    let result = super.call("backend", []);
+
+    return result[0].toAddress();
+  }
+
+  try_backend(): CallResult<Address> {
+    let result = super.tryCall("backend", []);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toAddress());
   }
 
   isFactory(param0: Address): boolean {
@@ -253,6 +354,27 @@ export class Controller extends SmartContract {
     return CallResult.fromValue(value[0].toBoolean());
   }
 
+  facets(param0: BigInt, param1: Bytes): Address {
+    let result = super.call("facets", [
+      EthereumValue.fromUnsignedBigInt(param0),
+      EthereumValue.fromFixedBytes(param1)
+    ]);
+
+    return result[0].toAddress();
+  }
+
+  try_facets(param0: BigInt, param1: Bytes): CallResult<Address> {
+    let result = super.tryCall("facets", [
+      EthereumValue.fromUnsignedBigInt(param0),
+      EthereumValue.fromFixedBytes(param1)
+    ]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toAddress());
+  }
+
   markets(param0: Address, param1: Address): Address {
     let result = super.call("markets", [
       EthereumValue.fromAddress(param0),
@@ -289,6 +411,23 @@ export class Controller extends SmartContract {
     return CallResult.fromValue(value[0].toAddress());
   }
 
+  isPNFToken(param0: Address): boolean {
+    let result = super.call("isPNFToken", [EthereumValue.fromAddress(param0)]);
+
+    return result[0].toBoolean();
+  }
+
+  try_isPNFToken(param0: Address): CallResult<boolean> {
+    let result = super.tryCall("isPNFToken", [
+      EthereumValue.fromAddress(param0)
+    ]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBoolean());
+  }
+
   switcher(): Address {
     let result = super.call("switcher", []);
 
@@ -304,6 +443,21 @@ export class Controller extends SmartContract {
     return CallResult.fromValue(value[0].toAddress());
   }
 
+  cuttable(): boolean {
+    let result = super.call("cuttable", []);
+
+    return result[0].toBoolean();
+  }
+
+  try_cuttable(): CallResult<boolean> {
+    let result = super.tryCall("cuttable", []);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBoolean());
+  }
+
   commission(): BigInt {
     let result = super.call("commission", []);
 
@@ -317,6 +471,21 @@ export class Controller extends SmartContract {
     }
     let value = result.value;
     return CallResult.fromValue(value[0].toBigInt());
+  }
+
+  diamondOwner(): Address {
+    let result = super.call("diamondOwner", []);
+
+    return result[0].toAddress();
+  }
+
+  try_diamondOwner(): CallResult<Address> {
+    let result = super.tryCall("diamondOwner", []);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toAddress());
   }
 
   addresses(param0: BigInt): Address {
@@ -336,6 +505,133 @@ export class Controller extends SmartContract {
     }
     let value = result.value;
     return CallResult.fromValue(value[0].toAddress());
+  }
+
+  upgradable(): boolean {
+    let result = super.call("upgradable", []);
+
+    return result[0].toBoolean();
+  }
+
+  try_upgradable(): CallResult<boolean> {
+    let result = super.tryCall("upgradable", []);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBoolean());
+  }
+}
+
+export class SetDiamondOwnerCall extends EthereumCall {
+  get inputs(): SetDiamondOwnerCall__Inputs {
+    return new SetDiamondOwnerCall__Inputs(this);
+  }
+
+  get outputs(): SetDiamondOwnerCall__Outputs {
+    return new SetDiamondOwnerCall__Outputs(this);
+  }
+}
+
+export class SetDiamondOwnerCall__Inputs {
+  _call: SetDiamondOwnerCall;
+
+  constructor(call: SetDiamondOwnerCall) {
+    this._call = call;
+  }
+
+  get _newDiamondOwner(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetDiamondOwnerCall__Outputs {
+  _call: SetDiamondOwnerCall;
+
+  constructor(call: SetDiamondOwnerCall) {
+    this._call = call;
+  }
+}
+
+export class StopCutsCall extends EthereumCall {
+  get inputs(): StopCutsCall__Inputs {
+    return new StopCutsCall__Inputs(this);
+  }
+
+  get outputs(): StopCutsCall__Outputs {
+    return new StopCutsCall__Outputs(this);
+  }
+}
+
+export class StopCutsCall__Inputs {
+  _call: StopCutsCall;
+
+  constructor(call: StopCutsCall) {
+    this._call = call;
+  }
+}
+
+export class StopCutsCall__Outputs {
+  _call: StopCutsCall;
+
+  constructor(call: StopCutsCall) {
+    this._call = call;
+  }
+}
+
+export class DiamondCutCall extends EthereumCall {
+  get inputs(): DiamondCutCall__Inputs {
+    return new DiamondCutCall__Inputs(this);
+  }
+
+  get outputs(): DiamondCutCall__Outputs {
+    return new DiamondCutCall__Outputs(this);
+  }
+}
+
+export class DiamondCutCall__Inputs {
+  _call: DiamondCutCall;
+
+  constructor(call: DiamondCutCall) {
+    this._call = call;
+  }
+
+  get _addresses(): Array<Address> {
+    return this._call.inputValues[0].value.toAddressArray();
+  }
+}
+
+export class DiamondCutCall__Outputs {
+  _call: DiamondCutCall;
+
+  constructor(call: DiamondCutCall) {
+    this._call = call;
+  }
+}
+
+export class StopUpgradesCall extends EthereumCall {
+  get inputs(): StopUpgradesCall__Inputs {
+    return new StopUpgradesCall__Inputs(this);
+  }
+
+  get outputs(): StopUpgradesCall__Outputs {
+    return new StopUpgradesCall__Outputs(this);
+  }
+}
+
+export class StopUpgradesCall__Inputs {
+  _call: StopUpgradesCall;
+
+  constructor(call: StopUpgradesCall) {
+    this._call = call;
+  }
+}
+
+export class StopUpgradesCall__Outputs {
+  _call: StopUpgradesCall;
+
+  constructor(call: StopUpgradesCall) {
+    this._call = call;
   }
 }
 
@@ -362,6 +658,14 @@ export class ConstructorCall__Inputs {
 
   get _switcher(): Address {
     return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _backend(): Address {
+    return this._call.inputValues[2].value.toAddress();
+  }
+
+  get _facets(): Array<Address> {
+    return this._call.inputValues[3].value.toAddressArray();
   }
 }
 
@@ -399,6 +703,36 @@ export class SetOwnerCall__Outputs {
   _call: SetOwnerCall;
 
   constructor(call: SetOwnerCall) {
+    this._call = call;
+  }
+}
+
+export class SetBackendCall extends EthereumCall {
+  get inputs(): SetBackendCall__Inputs {
+    return new SetBackendCall__Inputs(this);
+  }
+
+  get outputs(): SetBackendCall__Outputs {
+    return new SetBackendCall__Outputs(this);
+  }
+}
+
+export class SetBackendCall__Inputs {
+  _call: SetBackendCall;
+
+  constructor(call: SetBackendCall) {
+    this._call = call;
+  }
+
+  get _new(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetBackendCall__Outputs {
+  _call: SetBackendCall;
+
+  constructor(call: SetBackendCall) {
     this._call = call;
   }
 }
@@ -517,6 +851,14 @@ export class SetNewTokenCall__Inputs {
   get _tokenAddress(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
+
+  get _category(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get _is(): boolean {
+    return this._call.inputValues[2].value.toBoolean();
+  }
 }
 
 export class SetNewTokenCall__Outputs {
@@ -551,12 +893,54 @@ export class SetNewNFTokenCall__Inputs {
   get _category(): BigInt {
     return this._call.inputValues[1].value.toBigInt();
   }
+
+  get _is(): boolean {
+    return this._call.inputValues[2].value.toBoolean();
+  }
 }
 
 export class SetNewNFTokenCall__Outputs {
   _call: SetNewNFTokenCall;
 
   constructor(call: SetNewNFTokenCall) {
+    this._call = call;
+  }
+}
+
+export class SetNewPNFTokenCall extends EthereumCall {
+  get inputs(): SetNewPNFTokenCall__Inputs {
+    return new SetNewPNFTokenCall__Inputs(this);
+  }
+
+  get outputs(): SetNewPNFTokenCall__Outputs {
+    return new SetNewPNFTokenCall__Outputs(this);
+  }
+}
+
+export class SetNewPNFTokenCall__Inputs {
+  _call: SetNewPNFTokenCall;
+
+  constructor(call: SetNewPNFTokenCall) {
+    this._call = call;
+  }
+
+  get _tokenAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _category(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get _is(): boolean {
+    return this._call.inputValues[2].value.toBoolean();
+  }
+}
+
+export class SetNewPNFTokenCall__Outputs {
+  _call: SetNewPNFTokenCall;
+
+  constructor(call: SetNewPNFTokenCall) {
     this._call = call;
   }
 }

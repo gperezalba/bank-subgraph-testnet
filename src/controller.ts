@@ -1,15 +1,19 @@
 import { BigInt } from "@graphprotocol/graph-ts"
-import { NewToken, NewNFToken, NewAddress, NewMarket } from "../generated/Controller/Controller";
+import { NewToken, NewNFToken, NewAddress, NewMarket, NewPNFToken } from "../generated/Controller/Controller";
 
 import { createToken } from "./token"
 import { Official, Token } from "../generated/schema";
 
 export function handleTokenCreated(event: NewToken): void {
-    createToken(event.params.newToken, false, BigInt.fromI32(0));
+    createToken(event.params.newToken, 1, BigInt.fromI32(0));
 }
 
 export function handleNewNFToken(event: NewNFToken): void {
-    createToken(event.params.newToken, true, event.params.category);
+    createToken(event.params.newToken, 2, event.params.category);
+}
+
+export function handleNewPNFToken(event: NewPNFToken): void {
+    createToken(event.params.newToken, 3, event.params.category);
 }
 
 export function handleNewAddress(event: NewAddress): void {
@@ -22,10 +26,22 @@ export function handleNewAddress(event: NewAddress): void {
     if (event.params.kind == BigInt.fromI32(7)) {
         official.category = event.params.kind;
         official.description = "COMMISSIONS";
-    } else if (event.params.kind == BigInt.fromI32(8)) {
+    } else if (event.params.kind == BigInt.fromI32(9)) {
         official.category = event.params.kind;
         official.description = "P2P";
-    } else if (event.params.kind == BigInt.fromI32(9)) {
+    } else if (event.params.kind == BigInt.fromI32(10)) {
+        official.category = event.params.kind;
+        official.description = "P2P-COMMODITY";
+    } else if (event.params.kind == BigInt.fromI32(11)) {
+        official.category = event.params.kind;
+        official.description = "P2P-COMMODITY";
+    } else if (event.params.kind == BigInt.fromI32(12)) {
+        official.category = event.params.kind;
+        official.description = "P2P-COMMODITY";
+    } else if (event.params.kind == BigInt.fromI32(13)) {
+        official.category = event.params.kind;
+        official.description = "P2P-COMMODITY";
+    } else if (event.params.kind == BigInt.fromI32(14)) {
         official.category = event.params.kind;
         official.description = "P2P-COMMODITY";
     } else {

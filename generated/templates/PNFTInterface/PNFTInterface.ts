@@ -36,8 +36,12 @@ export class Transfer__Params {
     return this._event.parameters[1].value.toAddress();
   }
 
-  get _tokenId(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+  get _tokenId(): Bytes {
+    return this._event.parameters[2].value.toBytes();
+  }
+
+  get _amount(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
   }
 }
 
@@ -62,8 +66,12 @@ export class Approval__Params {
     return this._event.parameters[1].value.toAddress();
   }
 
-  get _tokenId(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+  get _tokenId(): Bytes {
+    return this._event.parameters[2].value.toBytes();
+  }
+
+  get _amount(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
   }
 }
 
@@ -106,30 +114,12 @@ export class NewJson__Params {
     this._event = event;
   }
 
-  get tokenId(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
+  get tokenId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
   }
 
   get json(): Array<BigInt> {
     return this._event.parameters[1].value.toBigIntArray();
-  }
-}
-
-export class FakeToken extends EthereumEvent {
-  get params(): FakeToken__Params {
-    return new FakeToken__Params(this);
-  }
-}
-
-export class FakeToken__Params {
-  _event: FakeToken;
-
-  constructor(event: FakeToken) {
-    this._event = event;
-  }
-
-  get tokenId(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
   }
 }
 
@@ -155,9 +145,9 @@ export class NewJsonReference__Params {
   }
 }
 
-export class ERC721 extends SmartContract {
-  static bind(address: Address): ERC721 {
-    return new ERC721("ERC721", address);
+export class PNFTInterface extends SmartContract {
+  static bind(address: Address): PNFTInterface {
+    return new PNFTInterface("PNFTInterface", address);
   }
 
   balanceOf(_owner: Address): BigInt {
@@ -177,42 +167,31 @@ export class ERC721 extends SmartContract {
     return CallResult.fromValue(value[0].toBigInt());
   }
 
-  ownerOf(_tokenId: BigInt): Address {
-    let result = super.call("ownerOf", [
-      EthereumValue.fromUnsignedBigInt(_tokenId)
-    ]);
-
-    return result[0].toAddress();
-  }
-
-  try_ownerOf(_tokenId: BigInt): CallResult<Address> {
-    let result = super.tryCall("ownerOf", [
-      EthereumValue.fromUnsignedBigInt(_tokenId)
-    ]);
-    if (result.reverted) {
-      return new CallResult();
-    }
-    let value = result.value;
-    return CallResult.fromValue(value[0].toAddress());
-  }
-
-  getApproved(_tokenId: BigInt): Address {
+  getApproved(_owner: Address, _destination: Address, _tokenId: Bytes): BigInt {
     let result = super.call("getApproved", [
-      EthereumValue.fromUnsignedBigInt(_tokenId)
+      EthereumValue.fromAddress(_owner),
+      EthereumValue.fromAddress(_destination),
+      EthereumValue.fromFixedBytes(_tokenId)
     ]);
 
-    return result[0].toAddress();
+    return result[0].toBigInt();
   }
 
-  try_getApproved(_tokenId: BigInt): CallResult<Address> {
+  try_getApproved(
+    _owner: Address,
+    _destination: Address,
+    _tokenId: Bytes
+  ): CallResult<BigInt> {
     let result = super.tryCall("getApproved", [
-      EthereumValue.fromUnsignedBigInt(_tokenId)
+      EthereumValue.fromAddress(_owner),
+      EthereumValue.fromAddress(_destination),
+      EthereumValue.fromFixedBytes(_tokenId)
     ]);
     if (result.reverted) {
       return new CallResult();
     }
     let value = result.value;
-    return CallResult.fromValue(value[0].toAddress());
+    return CallResult.fromValue(value[0].toBigInt());
   }
 
   isApprovedForAll(_owner: Address, _operator: Address): boolean {
@@ -237,59 +216,6 @@ export class ERC721 extends SmartContract {
     }
     let value = result.value;
     return CallResult.fromValue(value[0].toBoolean());
-  }
-
-  getIdByRef(_ref: string): BigInt {
-    let result = super.call("getIdByRef", [EthereumValue.fromString(_ref)]);
-
-    return result[0].toBigInt();
-  }
-
-  try_getIdByRef(_ref: string): CallResult<BigInt> {
-    let result = super.tryCall("getIdByRef", [EthereumValue.fromString(_ref)]);
-    if (result.reverted) {
-      return new CallResult();
-    }
-    let value = result.value;
-    return CallResult.fromValue(value[0].toBigInt());
-  }
-
-  getRefById(_tokenId: BigInt): string {
-    let result = super.call("getRefById", [
-      EthereumValue.fromUnsignedBigInt(_tokenId)
-    ]);
-
-    return result[0].toString();
-  }
-
-  try_getRefById(_tokenId: BigInt): CallResult<string> {
-    let result = super.tryCall("getRefById", [
-      EthereumValue.fromUnsignedBigInt(_tokenId)
-    ]);
-    if (result.reverted) {
-      return new CallResult();
-    }
-    let value = result.value;
-    return CallResult.fromValue(value[0].toString());
-  }
-
-  getMetadata(_tokenId: BigInt): Array<BigInt> {
-    let result = super.call("getMetadata", [
-      EthereumValue.fromUnsignedBigInt(_tokenId)
-    ]);
-
-    return result[0].toBigIntArray();
-  }
-
-  try_getMetadata(_tokenId: BigInt): CallResult<Array<BigInt>> {
-    let result = super.tryCall("getMetadata", [
-      EthereumValue.fromUnsignedBigInt(_tokenId)
-    ]);
-    if (result.reverted) {
-      return new CallResult();
-    }
-    let value = result.value;
-    return CallResult.fromValue(value[0].toBigIntArray());
   }
 }
 
@@ -318,12 +244,16 @@ export class SafeTransferFromCall__Inputs {
     return this._call.inputValues[1].value.toAddress();
   }
 
-  get _tokenId(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
+  get _tokenId(): Bytes {
+    return this._call.inputValues[2].value.toBytes();
+  }
+
+  get _amount(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
   }
 
   get _data(): Bytes {
-    return this._call.inputValues[3].value.toBytes();
+    return this._call.inputValues[4].value.toBytes();
   }
 }
 
@@ -360,8 +290,12 @@ export class TransferFromCall__Inputs {
     return this._call.inputValues[1].value.toAddress();
   }
 
-  get _tokenId(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
+  get _tokenId(): Bytes {
+    return this._call.inputValues[2].value.toBytes();
+  }
+
+  get _amount(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
   }
 }
 
@@ -369,6 +303,52 @@ export class TransferFromCall__Outputs {
   _call: TransferFromCall;
 
   constructor(call: TransferFromCall) {
+    this._call = call;
+  }
+}
+
+export class SafeTransferFromApprovedCall extends EthereumCall {
+  get inputs(): SafeTransferFromApprovedCall__Inputs {
+    return new SafeTransferFromApprovedCall__Inputs(this);
+  }
+
+  get outputs(): SafeTransferFromApprovedCall__Outputs {
+    return new SafeTransferFromApprovedCall__Outputs(this);
+  }
+}
+
+export class SafeTransferFromApprovedCall__Inputs {
+  _call: SafeTransferFromApprovedCall;
+
+  constructor(call: SafeTransferFromApprovedCall) {
+    this._call = call;
+  }
+
+  get _from(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _to(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _tokenId(): Bytes {
+    return this._call.inputValues[2].value.toBytes();
+  }
+
+  get _amount(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
+  }
+
+  get _data(): Bytes {
+    return this._call.inputValues[4].value.toBytes();
+  }
+}
+
+export class SafeTransferFromApprovedCall__Outputs {
+  _call: SafeTransferFromApprovedCall;
+
+  constructor(call: SafeTransferFromApprovedCall) {
     this._call = call;
   }
 }
@@ -390,12 +370,20 @@ export class ApproveCall__Inputs {
     this._call = call;
   }
 
-  get _approved(): Address {
+  get _owner(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get _tokenId(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
+  get _approved(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _tokenId(): Bytes {
+    return this._call.inputValues[2].value.toBytes();
+  }
+
+  get _amount(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
   }
 }
 

@@ -17,8 +17,9 @@ type Token @entity {
     totalSupply: BigInt!
     holders: [TokenBalance!]
     updated: Boolean!
-    isNFT: Boolean!
+    tokenKind: BigInt!
     nftCategory: BigInt
+    pnftCategory: BigInt
 }
 
 type Wallet @entity {
@@ -28,6 +29,10 @@ type Wallet @entity {
     isBankUser: Boolean
     balances: [TokenBalance!] @derivedFrom(field: "wallet")
     transactions: [Transaction!]
+    isToLimited: Boolean!
+    allowedDestinations: [Wallet!]
+    valueLimits: [ValueLimit!]
+    dayLimits: [DayLimit!]
 }
 
 type Name @entity {
@@ -43,6 +48,7 @@ type TokenBalance @entity {
     wallet: Wallet!
     balance: BigInt!
     commodities: [Commodity!]
+    packables: [Packable!]
     updated: Boolean!
 }
 
@@ -87,6 +93,15 @@ type Commodity @entity {
   diamond: Diamond
 }
 
+type Packable @entity {
+    id: ID! #wallet + tokenAddress + tokenKind (hacerlo tokenAddress-wallet para usar el start_with?)
+    wallet: Wallet!
+    token: Token!
+    tokenKind: BigInt!
+    tokenId: String!
+    balance: BigInt!
+}
+
 type Gold @entity {
   id: ID!
   owner: Wallet
@@ -118,4 +133,18 @@ type Official @entity {
     id: ID!
     category: BigInt!
     description: String!
+}
+
+type ValueLimit @entity {
+    id: ID!
+    isActive: Boolean!
+    token: Token! 
+    limit: BigInt!
+}
+
+type DayLimit @entity {
+    id: ID!
+    isActive: Boolean!
+    token: Token! 
+    limit: BigInt!
 }

@@ -87,7 +87,7 @@ export function updateBalance(tokenAddress: Address, walletAddress: string): voi
         if (!balance.reverted) {
             tokenBalance.balance = balance.value;
             tokenBalance.updated = true;
-            if (tokenEntity.isNFT) {
+            if ((tokenEntity.tokenKind == BigInt.fromI32(2)) || (tokenEntity.tokenKind == BigInt.fromI32(3))) {
                 tokenBalance.balance = tokenBalance.balance.times(getOneEther());
             }
         } else {

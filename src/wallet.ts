@@ -1,12 +1,14 @@
 import { Address, Bytes, BigDecimal, BigInt } from "@graphprotocol/graph-ts"
-import { Transfer, Receive } from "../generated/templates/Wallet/Wallet"
+import { Transfer, Receive, LimitValue, LimitTo, LimitDaily, UnlimitValue, UnlimitTo, UnlimitDaily } from "../generated/templates/Wallet/Wallet"
 
 import { 
     Wallet,
     Token,
     Transaction,
     BankTransaction,
-    BankFee
+    BankFee,
+    ValueLimit,
+    DayLimit
 } from "../generated/schema"
 
 import { Wallet as WalletContract } from "../generated/templates/Wallet/Wallet"
@@ -108,6 +110,150 @@ export function handleReceive(event: Receive): void {
 
             pushWalletTransaction(tx as Transaction, event.params._from.toHexString());
             pushWalletTransaction(tx as Transaction, event.address.toHexString());
+        }
+    }
+}
+
+export function handleLimitValue(event: LimitValue): void {
+    let wallet = Wallet.load(event.address.toHexString());
+    let isNew = false;
+
+    if (wallet != null) {
+        let id = event.address.toHexString().concat().concat(event.params.token.toHexString());
+        let limit = ValueLimit.load(id);
+
+        if (limit == null) {
+            limit = new ValueLimit(id);
+            isNew = true;
+        }
+
+        limit.isActive = true;
+        limit.token = event.params.token.toHexString();
+        limit.limit = event.params.value;
+
+        limit.save();
+
+        if(isNew) {
+            let valueLimits = wallet.valueLimits;
+            valueLimits.push(limit.id);
+            wallet.valueLimits = valueLimits;
+            wallet.save();
+        }
+    }
+}
+
+export function handleLimitTo(event: LimitTo): void {
+    let wallet = Wallet.load(event.address.toHexString());
+    let destination = event.params.destination.toHexString();
+
+    if (wallet != null) {
+        wallet.isToLimited = true;
+        let allowed = wallet.allowedDestinations;
+
+        if (event.params.isAllowed) {
+            if (!allowed.includes(destination)) {
+                allowed.push(destination);
+            }
+        } else {
+            let index = allowed.indexOf(destination);
+            if (index > -1) {
+                allowed.splice(index, 1);
+            }
+        }
+        wallet.allowedDestinations = allowed;
+        wallet.save();
+    }
+}
+
+export function handleLimitDaily(event: LimitDaily): void {
+    let wallet = Wallet.load(event.address.toHexString());
+    let isNew = false;
+
+    if (wallet != null) {
+        let id = event.address.toHexString().concat().concat(event.params.token.toHexString());
+        let limit = DayLimit.load(id);
+
+        if (limit == null) {
+            limit = new DayLimit(id);
+            isNew = true;
+        }
+
+        limit.isActive = true;
+        limit.token = event.params.token.toHexString();
+        limit.limit = event.params.dayLimit;
+
+        limit.save();
+
+        if(isNew) {
+            let dayLimits = wallet.dayLimits;
+            dayLimits.push(limit.id);
+            wallet.dayLimits = dayLimits;
+            wallet.save();
+        }
+    }
+}
+
+export function handleUnlimitValue(event: UnlimitValue): void {
+    let wallet = Wallet.load(event.address.toHexString());
+    let isNew = false;
+
+    if (wallet != null) {
+        let id = event.address.toHexString().concat().concat(event.params.token.toHexString());
+        let limit = ValueLimit.load(id);
+
+        if (limit == null) {
+            limit = new ValueLimit(id);
+            isNew = true;
+        }
+
+        limit.isActive = false;
+        limit.token = event.params.token.toHexString();
+        limit.limit = BigInt.fromI32(0);
+
+        limit.save();
+
+        if(isNew) {
+            let valueLimits = wallet.valueLimits;
+            valueLimits.push(limit.id);
+            wallet.valueLimits = valueLimits;
+            wallet.save();
+        }
+    }
+}
+
+export function handleUnlimitTo(event: UnlimitTo): void {
+    let wallet = Wallet.load(event.address.toHexString());
+
+    if (wallet != null) {
+        wallet.isToLimited = false;
+        wallet.save();
+    }
+}
+
+export function handleUnlimitDaily(event: UnlimitDaily): void {
+    let wallet = Wallet.load(event.address.toHexString());
+    let isNew = false;
+
+    if (wallet != null) {
+        let id = event.address.toHexString().concat().concat(event.params.token.toHexString());
+        let limit = DayLimit.load(id);
+
+        if (limit == null) {
+            limit = new DayLimit(id);
+            isNew = true;
+        }
+
+        limit.isActive = false;
+        limit.token = event.params.token.toHexString();
+        limit.limit = BigInt.fromI32(0);
+
+        limit.save();
+
+        if(isNew) {
+            let dayLimits = wallet.dayLimits;
+            dayLimits.push(limit.id);
+            wallet.dayLimits = dayLimits;
+            wallet.save();
         }
     }
 }

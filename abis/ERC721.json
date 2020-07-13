@@ -95,6 +95,23 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "old",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "current",
+        "type": "string"
+      }
+    ],
+    "name": "NewJsonReference",
+    "type": "event"
+  },
+  {
     "constant": false,
     "inputs": [
       {

@@ -13,12 +13,13 @@ import { pushWalletTransaction } from "./wallet"
 import { updateTokenBalance, createTokenBalance } from "./tokenBalance"
 import { newTransaction } from "./transaction"
 import { ERC721 as ERC721Template } from "../generated/templates"
+import { PNFTInterface as PNFTInterfaceTemplate } from "../generated/templates"
 
 const PI_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export function handleTransfer(event: Transfer): void {
     //creo la entidad si no existe, aunque siempre existirá
-    createToken(event.address, false, BigInt.fromI32(0));
+    createToken(event.address, 1, BigInt.fromI32(0));
     //actualizo los tokenBalance de ambas partes y si no existe lo crea
     updateTokenBalance(event.address, event.params.to.toHexString());
     updateTokenBalance(event.address, event.params.from.toHexString());
@@ -32,7 +33,7 @@ export function handleTransfer(event: Transfer): void {
 // TOKEN
 /***************************************************************/
 
-export function createToken(tokenAddress: Address, isNFT: boolean, category: BigInt): void {
+export function createToken(tokenAddress: Address, tokenKind: number, category: BigInt): void {
     let token = Token.load(tokenAddress.toHexString());
   
     if (token == null) {
@@ -44,7 +45,6 @@ export function createToken(tokenAddress: Address, isNFT: boolean, category: Big
         
             let symbol = contract.try_symbol();
             let name = contract.try_name();
-            let decimals = contract.try_decimals();
             let supply = contract.try_totalSupply();
 
             if (!symbol.reverted) {
@@ -59,8 +59,13 @@ export function createToken(tokenAddress: Address, isNFT: boolean, category: Big
                 token.tokenName = "";
             }
 
-            if (!decimals.reverted) {
-                token.tokenDecimals = decimals.value;
+            if (tokenKind != 2) {
+                let decimals = contract.try_decimals();
+                if (!decimals.reverted) {
+                    token.tokenDecimals = decimals.value;
+                } else {
+                    token.tokenDecimals = 0;
+                }
             } else {
                 token.tokenDecimals = 0;
             }
@@ -71,7 +76,7 @@ export function createToken(tokenAddress: Address, isNFT: boolean, category: Big
                 token.totalSupply = BigInt.fromI32(0);
             }
 
-            if ((!symbol.reverted) && (!name.reverted) && (!decimals.reverted) && (!supply.reverted)) {
+            if ((!symbol.reverted) && (!name.reverted)) {
                 token.updated = true;
             } else {
                 token.updated = false;
@@ -88,16 +93,17 @@ export function createToken(tokenAddress: Address, isNFT: boolean, category: Big
             token.updated = true;
         }
 
-        token.isNFT = isNFT;
-        token.nftCategory = category;
+        token.tokenKind = BigInt.fromI32(tokenKind);
 
-        if (isNFT) {
-            ERC721Template.create(tokenAddress);
-        } else {
+        if (tokenKind == 1) {
             TokenTemplate.create(tokenAddress);
+        } else if (tokenKind == 2) {
+            token.nftCategory = category;    
+            ERC721Template.create(tokenAddress);
+        } else if (tokenKind == 3) {
+            token.pnftCategory = category;
+            //PNFTInterfaceTemplate.create(tokenAddress);
         }
-
-        
     }
   
     token.save();

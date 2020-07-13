@@ -6,7 +6,7 @@ dataSources:
     name: IdentityFactory
     network: mainnet
     source:
-      address: "0x9eB87A62C18ba6EF1FEC4D32A4a999450a49820A"
+      address: "0xCe9191DA49e00171A168A6d5Db8d998728F76b92"
       abi: IdentityFactory
     mapping:
       kind: ethereum/events
@@ -25,7 +25,7 @@ dataSources:
     name: NameService
     network: mainnet
     source:
-      address: "0xbdb5af45C3F2C814fcbEb5c3117bA8737D982CEE"
+      address: "0xFeAA9226a6d155fb46a18dAfbde12f4b3EF3c977"
       abi: NameService
     mapping:
       kind: ethereum/events
@@ -50,7 +50,7 @@ dataSources:
     name: Controller
     network: mainnet
     source:
-      address: "0xdcCB0FE7c182262497B362ea435D4C7A5A67bE40"
+      address: "0xb3A5c676647B7adeeF7aE8c24F81aaF5BcF1147C"
       abi: Controller
     mapping:
       kind: ethereum/events
@@ -64,10 +64,12 @@ dataSources:
         - name: Token
           file: ./abis/Token.json
       eventHandlers:
-        - event: NewToken(address)
+        - event: NewToken(address,uint256,bool)
           handler: handleTokenCreated
-        - event: NewNFToken(address,uint256)
+        - event: NewNFToken(address,uint256,bool)
           handler: handleNewNFToken
+        - event: NewPNFToken(address,uint256,bool)
+          handler: handleNewPNFToken
         - event: NewAddress(uint256,address,bool)
           handler: handleNewAddress
         - event: NewMarket(address,address,address)
@@ -112,9 +114,9 @@ templates:
         - name: Balance
           file: ./abis/Balance.json
       eventHandlers:
-        - event: Transfer(indexed address,indexed uint256,indexed address,uint256,uint256,string)
+        - event: Transfer(indexed address,indexed uint256,indexed address,bytes32,uint256,uint256,string)
           handler: handleTransfer
-        - event: Receive(indexed address,indexed address,uint256)
+        - event: Receive(indexed address,indexed address,indexed bytes32,uint256)
           handler: handleReceive
   - name: Identity
     kind: ethereum/contract
@@ -166,21 +168,25 @@ templates:
           handler: handleNewJson
         - event: FakeToken(indexed uint256)
           handler: handleFakeToken
-  # - name: Balance
-  #   kind: ethereum/contract
-  #   network: mainnet
-  #   source:
-  #     abi: Balance
-  #   mapping:
-  #     kind: ethereum/events
-  #     apiVersion: 0.0.1
-  #     language: wasm/assemblyscript
-  #     file: ./src/balance.ts
-  #     entities:
-  #       - Balance
-  #     abis:
-  #       - name: Balance
-  #         file: ./abis/Balance.json
-  #     callHandlers:
-  #       - function: f()
-  #         handler: handleGetBalance
+  - name: PNFTInterface
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: PNFTInterface
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      file: ./src/packable.ts
+      entities:
+        - Transfer
+      abis:
+        - name: PNFTInterface
+          file: ./abis/PNFTInterface.json
+        - name: Token
+          file: ./abis/Token.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed bytes32,uint256)
+          handler: handleTransfer 
+        - event: NewJson(indexed bytes32,uint256[5])
+          handler: handleNewJson

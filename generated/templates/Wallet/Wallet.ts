@@ -40,16 +40,20 @@ export class Transfer__Params {
     return this._event.parameters[2].value.toAddress();
   }
 
-  get value(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
+  get tokenId(): Bytes {
+    return this._event.parameters[3].value.toBytes();
   }
 
-  get commission(): BigInt {
+  get value(): BigInt {
     return this._event.parameters[4].value.toBigInt();
   }
 
+  get commission(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+
   get data(): string {
-    return this._event.parameters[5].value.toString();
+    return this._event.parameters[6].value.toString();
   }
 }
 
@@ -74,8 +78,128 @@ export class Receive__Params {
     return this._event.parameters[1].value.toAddress();
   }
 
+  get tokenId(): Bytes {
+    return this._event.parameters[2].value.toBytes();
+  }
+
   get value(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+    return this._event.parameters[3].value.toBigInt();
+  }
+}
+
+export class LimitValue extends EthereumEvent {
+  get params(): LimitValue__Params {
+    return new LimitValue__Params(this);
+  }
+}
+
+export class LimitValue__Params {
+  _event: LimitValue;
+
+  constructor(event: LimitValue) {
+    this._event = event;
+  }
+
+  get token(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get value(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class LimitTo extends EthereumEvent {
+  get params(): LimitTo__Params {
+    return new LimitTo__Params(this);
+  }
+}
+
+export class LimitTo__Params {
+  _event: LimitTo;
+
+  constructor(event: LimitTo) {
+    this._event = event;
+  }
+
+  get destination(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get isAllowed(): boolean {
+    return this._event.parameters[1].value.toBoolean();
+  }
+}
+
+export class LimitDaily extends EthereumEvent {
+  get params(): LimitDaily__Params {
+    return new LimitDaily__Params(this);
+  }
+}
+
+export class LimitDaily__Params {
+  _event: LimitDaily;
+
+  constructor(event: LimitDaily) {
+    this._event = event;
+  }
+
+  get token(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get dayLimit(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class UnlimitValue extends EthereumEvent {
+  get params(): UnlimitValue__Params {
+    return new UnlimitValue__Params(this);
+  }
+}
+
+export class UnlimitValue__Params {
+  _event: UnlimitValue;
+
+  constructor(event: UnlimitValue) {
+    this._event = event;
+  }
+
+  get token(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
+export class UnlimitTo extends EthereumEvent {
+  get params(): UnlimitTo__Params {
+    return new UnlimitTo__Params(this);
+  }
+}
+
+export class UnlimitTo__Params {
+  _event: UnlimitTo;
+
+  constructor(event: UnlimitTo) {
+    this._event = event;
+  }
+}
+
+export class UnlimitDaily extends EthereumEvent {
+  get params(): UnlimitDaily__Params {
+    return new UnlimitDaily__Params(this);
+  }
+}
+
+export class UnlimitDaily__Params {
+  _event: UnlimitDaily;
+
+  constructor(event: UnlimitDaily) {
+    this._event = event;
+  }
+
+  get token(): Address {
+    return this._event.parameters[0].value.toAddress();
   }
 }
 
@@ -249,6 +373,21 @@ export class Wallet extends SmartContract {
     return CallResult.fromValue(value[0].toI32());
   }
 
+  daySpent(param0: Address): BigInt {
+    let result = super.call("daySpent", [EthereumValue.fromAddress(param0)]);
+
+    return result[0].toBigInt();
+  }
+
+  try_daySpent(param0: Address): CallResult<BigInt> {
+    let result = super.tryCall("daySpent", [EthereumValue.fromAddress(param0)]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBigInt());
+  }
+
   facetCategory(): BigInt {
     let result = super.call("facetCategory", []);
 
@@ -264,21 +403,6 @@ export class Wallet extends SmartContract {
     return CallResult.fromValue(value[0].toBigInt());
   }
 
-  isValueLimited(): boolean {
-    let result = super.call("isValueLimited", []);
-
-    return result[0].toBoolean();
-  }
-
-  try_isValueLimited(): CallResult<boolean> {
-    let result = super.tryCall("isValueLimited", []);
-    if (result.reverted) {
-      return new CallResult();
-    }
-    let value = result.value;
-    return CallResult.fromValue(value[0].toBoolean());
-  }
-
   owner(): Address {
     let result = super.call("owner", []);
 
@@ -292,6 +416,40 @@ export class Wallet extends SmartContract {
     }
     let value = result.value;
     return CallResult.fromValue(value[0].toAddress());
+  }
+
+  dayByToken(param0: Address): BigInt {
+    let result = super.call("dayByToken", [EthereumValue.fromAddress(param0)]);
+
+    return result[0].toBigInt();
+  }
+
+  try_dayByToken(param0: Address): CallResult<BigInt> {
+    let result = super.tryCall("dayByToken", [
+      EthereumValue.fromAddress(param0)
+    ]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBigInt());
+  }
+
+  dayLimits(param0: Address): BigInt {
+    let result = super.call("dayLimits", [EthereumValue.fromAddress(param0)]);
+
+    return result[0].toBigInt();
+  }
+
+  try_dayLimits(param0: Address): CallResult<BigInt> {
+    let result = super.tryCall("dayLimits", [
+      EthereumValue.fromAddress(param0)
+    ]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBigInt());
   }
 
   allowedReceiver(param0: Address): boolean {
@@ -321,6 +479,44 @@ export class Wallet extends SmartContract {
 
   try_isToLimited(): CallResult<boolean> {
     let result = super.tryCall("isToLimited", []);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBoolean());
+  }
+
+  isValueLimited(param0: Address): boolean {
+    let result = super.call("isValueLimited", [
+      EthereumValue.fromAddress(param0)
+    ]);
+
+    return result[0].toBoolean();
+  }
+
+  try_isValueLimited(param0: Address): CallResult<boolean> {
+    let result = super.tryCall("isValueLimited", [
+      EthereumValue.fromAddress(param0)
+    ]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBoolean());
+  }
+
+  isDayLimited(param0: Address): boolean {
+    let result = super.call("isDayLimited", [
+      EthereumValue.fromAddress(param0)
+    ]);
+
+    return result[0].toBoolean();
+  }
+
+  try_isDayLimited(param0: Address): CallResult<boolean> {
+    let result = super.tryCall("isDayLimited", [
+      EthereumValue.fromAddress(param0)
+    ]);
     if (result.reverted) {
       return new CallResult();
     }
@@ -451,6 +647,45 @@ export class Wallet extends SmartContract {
     let result = super.tryCall("forwardValue", [
       EthereumValue.fromAddress(_tokenAddress),
       EthereumValue.fromUnsignedBigInt(_amountOrId),
+      EthereumValue.fromAddress(_destination),
+      EthereumValue.fromBytes(_data)
+    ]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBytes());
+  }
+
+  forwardValuePNFT(
+    _tokenAddress: Address,
+    _tokenId: Bytes,
+    _amount: BigInt,
+    _destination: Address,
+    _data: Bytes
+  ): Bytes {
+    let result = super.call("forwardValuePNFT", [
+      EthereumValue.fromAddress(_tokenAddress),
+      EthereumValue.fromFixedBytes(_tokenId),
+      EthereumValue.fromUnsignedBigInt(_amount),
+      EthereumValue.fromAddress(_destination),
+      EthereumValue.fromBytes(_data)
+    ]);
+
+    return result[0].toBytes();
+  }
+
+  try_forwardValuePNFT(
+    _tokenAddress: Address,
+    _tokenId: Bytes,
+    _amount: BigInt,
+    _destination: Address,
+    _data: Bytes
+  ): CallResult<Bytes> {
+    let result = super.tryCall("forwardValuePNFT", [
+      EthereumValue.fromAddress(_tokenAddress),
+      EthereumValue.fromFixedBytes(_tokenId),
+      EthereumValue.fromUnsignedBigInt(_amount),
       EthereumValue.fromAddress(_destination),
       EthereumValue.fromBytes(_data)
     ]);
@@ -805,6 +1040,45 @@ export class Wallet extends SmartContract {
       EthereumValue.fromAddress(_operator),
       EthereumValue.fromAddress(_from),
       EthereumValue.fromUnsignedBigInt(_tokenId),
+      EthereumValue.fromBytes(_data)
+    ]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBytes());
+  }
+
+  onPNFTReceived(
+    _operator: Address,
+    _from: Address,
+    _tokenId: Bytes,
+    _amount: BigInt,
+    _data: Bytes
+  ): Bytes {
+    let result = super.call("onPNFTReceived", [
+      EthereumValue.fromAddress(_operator),
+      EthereumValue.fromAddress(_from),
+      EthereumValue.fromFixedBytes(_tokenId),
+      EthereumValue.fromUnsignedBigInt(_amount),
+      EthereumValue.fromBytes(_data)
+    ]);
+
+    return result[0].toBytes();
+  }
+
+  try_onPNFTReceived(
+    _operator: Address,
+    _from: Address,
+    _tokenId: Bytes,
+    _amount: BigInt,
+    _data: Bytes
+  ): CallResult<Bytes> {
+    let result = super.tryCall("onPNFTReceived", [
+      EthereumValue.fromAddress(_operator),
+      EthereumValue.fromAddress(_from),
+      EthereumValue.fromFixedBytes(_tokenId),
+      EthereumValue.fromUnsignedBigInt(_amount),
       EthereumValue.fromBytes(_data)
     ]);
     if (result.reverted) {
@@ -1477,6 +1751,56 @@ export class TransferNFTRefDomainCall__Outputs {
   }
 }
 
+export class TransferPNFTCall extends EthereumCall {
+  get inputs(): TransferPNFTCall__Inputs {
+    return new TransferPNFTCall__Inputs(this);
+  }
+
+  get outputs(): TransferPNFTCall__Outputs {
+    return new TransferPNFTCall__Outputs(this);
+  }
+}
+
+export class TransferPNFTCall__Inputs {
+  _call: TransferPNFTCall;
+
+  constructor(call: TransferPNFTCall) {
+    this._call = call;
+  }
+
+  get _tokenAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _to(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _tokenId(): Bytes {
+    return this._call.inputValues[2].value.toBytes();
+  }
+
+  get _value(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
+  }
+
+  get _data(): string {
+    return this._call.inputValues[4].value.toString();
+  }
+
+  get _kind(): BigInt {
+    return this._call.inputValues[5].value.toBigInt();
+  }
+}
+
+export class TransferPNFTCall__Outputs {
+  _call: TransferPNFTCall;
+
+  constructor(call: TransferPNFTCall) {
+    this._call = call;
+  }
+}
+
 export class SetDexOrderCall extends EthereumCall {
   get inputs(): SetDexOrderCall__Inputs {
     return new SetDexOrderCall__Inputs(this);
@@ -1581,6 +1905,56 @@ export class ForwardValueCall__Outputs {
   }
 }
 
+export class ForwardValuePNFTCall extends EthereumCall {
+  get inputs(): ForwardValuePNFTCall__Inputs {
+    return new ForwardValuePNFTCall__Inputs(this);
+  }
+
+  get outputs(): ForwardValuePNFTCall__Outputs {
+    return new ForwardValuePNFTCall__Outputs(this);
+  }
+}
+
+export class ForwardValuePNFTCall__Inputs {
+  _call: ForwardValuePNFTCall;
+
+  constructor(call: ForwardValuePNFTCall) {
+    this._call = call;
+  }
+
+  get _tokenAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _tokenId(): Bytes {
+    return this._call.inputValues[1].value.toBytes();
+  }
+
+  get _amount(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get _destination(): Address {
+    return this._call.inputValues[3].value.toAddress();
+  }
+
+  get _data(): Bytes {
+    return this._call.inputValues[4].value.toBytes();
+  }
+}
+
+export class ForwardValuePNFTCall__Outputs {
+  _call: ForwardValuePNFTCall;
+
+  constructor(call: ForwardValuePNFTCall) {
+    this._call = call;
+  }
+
+  get value0(): Bytes {
+    return this._call.outputValues[0].value.toBytes();
+  }
+}
+
 export class ForwardCall extends EthereumCall {
   get inputs(): ForwardCall__Inputs {
     return new ForwardCall__Inputs(this);
@@ -1673,12 +2047,50 @@ export class LimitToCall__Inputs {
   get _receiver(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
+
+  get _isAllowed(): boolean {
+    return this._call.inputValues[1].value.toBoolean();
+  }
 }
 
 export class LimitToCall__Outputs {
   _call: LimitToCall;
 
   constructor(call: LimitToCall) {
+    this._call = call;
+  }
+}
+
+export class LimitDailyCall extends EthereumCall {
+  get inputs(): LimitDailyCall__Inputs {
+    return new LimitDailyCall__Inputs(this);
+  }
+
+  get outputs(): LimitDailyCall__Outputs {
+    return new LimitDailyCall__Outputs(this);
+  }
+}
+
+export class LimitDailyCall__Inputs {
+  _call: LimitDailyCall;
+
+  constructor(call: LimitDailyCall) {
+    this._call = call;
+  }
+
+  get _tokenAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _limit(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+}
+
+export class LimitDailyCall__Outputs {
+  _call: LimitDailyCall;
+
+  constructor(call: LimitDailyCall) {
     this._call = call;
   }
 }
@@ -1698,6 +2110,10 @@ export class UnlimitValueCall__Inputs {
 
   constructor(call: UnlimitValueCall) {
     this._call = call;
+  }
+
+  get _tokenAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
   }
 }
 
@@ -1731,6 +2147,36 @@ export class UnlimitToCall__Outputs {
   _call: UnlimitToCall;
 
   constructor(call: UnlimitToCall) {
+    this._call = call;
+  }
+}
+
+export class UnlimitDailyCall extends EthereumCall {
+  get inputs(): UnlimitDailyCall__Inputs {
+    return new UnlimitDailyCall__Inputs(this);
+  }
+
+  get outputs(): UnlimitDailyCall__Outputs {
+    return new UnlimitDailyCall__Outputs(this);
+  }
+}
+
+export class UnlimitDailyCall__Inputs {
+  _call: UnlimitDailyCall;
+
+  constructor(call: UnlimitDailyCall) {
+    this._call = call;
+  }
+
+  get _tokenAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class UnlimitDailyCall__Outputs {
+  _call: UnlimitDailyCall;
+
+  constructor(call: UnlimitDailyCall) {
     this._call = call;
   }
 }
@@ -1837,6 +2283,56 @@ export class OnERC721ReceivedCall__Outputs {
   _call: OnERC721ReceivedCall;
 
   constructor(call: OnERC721ReceivedCall) {
+    this._call = call;
+  }
+
+  get value0(): Bytes {
+    return this._call.outputValues[0].value.toBytes();
+  }
+}
+
+export class OnPNFTReceivedCall extends EthereumCall {
+  get inputs(): OnPNFTReceivedCall__Inputs {
+    return new OnPNFTReceivedCall__Inputs(this);
+  }
+
+  get outputs(): OnPNFTReceivedCall__Outputs {
+    return new OnPNFTReceivedCall__Outputs(this);
+  }
+}
+
+export class OnPNFTReceivedCall__Inputs {
+  _call: OnPNFTReceivedCall;
+
+  constructor(call: OnPNFTReceivedCall) {
+    this._call = call;
+  }
+
+  get _operator(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _from(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _tokenId(): Bytes {
+    return this._call.inputValues[2].value.toBytes();
+  }
+
+  get _amount(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
+  }
+
+  get _data(): Bytes {
+    return this._call.inputValues[4].value.toBytes();
+  }
+}
+
+export class OnPNFTReceivedCall__Outputs {
+  _call: OnPNFTReceivedCall;
+
+  constructor(call: OnPNFTReceivedCall) {
     this._call = call;
   }
 

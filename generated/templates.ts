@@ -25,3 +25,9 @@ export class ERC721 extends DataSourceTemplate {
     DataSourceTemplate.create("ERC721", [address.toHex()]);
   }
 }
+
+export class PNFTInterface extends DataSourceTemplate {
+  static create(address: Address): void {
+    DataSourceTemplate.create("PNFTInterface", [address.toHex()]);
+  }
+}

@@ -198,13 +198,13 @@ export class Token extends Entity {
     this.set("updated", Value.fromBoolean(value));
   }
 
-  get isNFT(): boolean {
-    let value = this.get("isNFT");
-    return value.toBoolean();
+  get tokenKind(): BigInt {
+    let value = this.get("tokenKind");
+    return value.toBigInt();
   }
 
-  set isNFT(value: boolean) {
-    this.set("isNFT", Value.fromBoolean(value));
+  set tokenKind(value: BigInt) {
+    this.set("tokenKind", Value.fromBigInt(value));
   }
 
   get nftCategory(): BigInt | null {
@@ -221,6 +221,23 @@ export class Token extends Entity {
       this.unset("nftCategory");
     } else {
       this.set("nftCategory", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get pnftCategory(): BigInt | null {
+    let value = this.get("pnftCategory");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set pnftCategory(value: BigInt | null) {
+    if (value === null) {
+      this.unset("pnftCategory");
+    } else {
+      this.set("pnftCategory", Value.fromBigInt(value as BigInt));
     }
   }
 }
@@ -329,6 +346,69 @@ export class Wallet extends Entity {
       this.unset("transactions");
     } else {
       this.set("transactions", Value.fromStringArray(value as Array<string>));
+    }
+  }
+
+  get isToLimited(): boolean {
+    let value = this.get("isToLimited");
+    return value.toBoolean();
+  }
+
+  set isToLimited(value: boolean) {
+    this.set("isToLimited", Value.fromBoolean(value));
+  }
+
+  get allowedDestinations(): Array<string> | null {
+    let value = this.get("allowedDestinations");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set allowedDestinations(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("allowedDestinations");
+    } else {
+      this.set(
+        "allowedDestinations",
+        Value.fromStringArray(value as Array<string>)
+      );
+    }
+  }
+
+  get valueLimits(): Array<string> | null {
+    let value = this.get("valueLimits");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set valueLimits(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("valueLimits");
+    } else {
+      this.set("valueLimits", Value.fromStringArray(value as Array<string>));
+    }
+  }
+
+  get dayLimits(): Array<string> | null {
+    let value = this.get("dayLimits");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set dayLimits(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("dayLimits");
+    } else {
+      this.set("dayLimits", Value.fromStringArray(value as Array<string>));
     }
   }
 }
@@ -478,6 +558,23 @@ export class TokenBalance extends Entity {
       this.unset("commodities");
     } else {
       this.set("commodities", Value.fromStringArray(value as Array<string>));
+    }
+  }
+
+  get packables(): Array<string> | null {
+    let value = this.get("packables");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set packables(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("packables");
+    } else {
+      this.set("packables", Value.fromStringArray(value as Array<string>));
     }
   }
 
@@ -952,6 +1049,82 @@ export class Commodity extends Entity {
   }
 }
 
+export class Packable extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Packable entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Packable entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Packable", id.toString(), this);
+  }
+
+  static load(id: string): Packable | null {
+    return store.get("Packable", id) as Packable | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get wallet(): string {
+    let value = this.get("wallet");
+    return value.toString();
+  }
+
+  set wallet(value: string) {
+    this.set("wallet", Value.fromString(value));
+  }
+
+  get token(): string {
+    let value = this.get("token");
+    return value.toString();
+  }
+
+  set token(value: string) {
+    this.set("token", Value.fromString(value));
+  }
+
+  get tokenKind(): BigInt {
+    let value = this.get("tokenKind");
+    return value.toBigInt();
+  }
+
+  set tokenKind(value: BigInt) {
+    this.set("tokenKind", Value.fromBigInt(value));
+  }
+
+  get tokenId(): string {
+    let value = this.get("tokenId");
+    return value.toString();
+  }
+
+  set tokenId(value: string) {
+    this.set("tokenId", Value.fromString(value));
+  }
+
+  get balance(): BigInt {
+    let value = this.get("balance");
+    return value.toBigInt();
+  }
+
+  set balance(value: BigInt) {
+    this.set("balance", Value.fromBigInt(value));
+  }
+}
+
 export class Gold extends Entity {
   constructor(id: string) {
     super();
@@ -1351,5 +1524,121 @@ export class Official extends Entity {
 
   set description(value: string) {
     this.set("description", Value.fromString(value));
+  }
+}
+
+export class ValueLimit extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save ValueLimit entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save ValueLimit entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("ValueLimit", id.toString(), this);
+  }
+
+  static load(id: string): ValueLimit | null {
+    return store.get("ValueLimit", id) as ValueLimit | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get isActive(): boolean {
+    let value = this.get("isActive");
+    return value.toBoolean();
+  }
+
+  set isActive(value: boolean) {
+    this.set("isActive", Value.fromBoolean(value));
+  }
+
+  get token(): string {
+    let value = this.get("token");
+    return value.toString();
+  }
+
+  set token(value: string) {
+    this.set("token", Value.fromString(value));
+  }
+
+  get limit(): BigInt {
+    let value = this.get("limit");
+    return value.toBigInt();
+  }
+
+  set limit(value: BigInt) {
+    this.set("limit", Value.fromBigInt(value));
+  }
+}
+
+export class DayLimit extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save DayLimit entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save DayLimit entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("DayLimit", id.toString(), this);
+  }
+
+  static load(id: string): DayLimit | null {
+    return store.get("DayLimit", id) as DayLimit | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get isActive(): boolean {
+    let value = this.get("isActive");
+    return value.toBoolean();
+  }
+
+  set isActive(value: boolean) {
+    this.set("isActive", Value.fromBoolean(value));
+  }
+
+  get token(): string {
+    let value = this.get("token");
+    return value.toString();
+  }
+
+  set token(value: string) {
+    this.set("token", Value.fromString(value));
+  }
+
+  get limit(): BigInt {
+    let value = this.get("limit");
+    return value.toBigInt();
+  }
+
+  set limit(value: BigInt) {
+    this.set("limit", Value.fromBigInt(value));
   }
 }
