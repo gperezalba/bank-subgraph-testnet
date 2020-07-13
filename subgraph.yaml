@@ -6,7 +6,7 @@ dataSources:
     name: IdentityFactory
     network: mainnet
     source:
-      address: "0xCe9191DA49e00171A168A6d5Db8d998728F76b92"
+      address: "0xa562B010b346C3E8B0c578A47D62F8a1C66973c9"
       abi: IdentityFactory
     mapping:
       kind: ethereum/events
@@ -25,7 +25,7 @@ dataSources:
     name: NameService
     network: mainnet
     source:
-      address: "0xFeAA9226a6d155fb46a18dAfbde12f4b3EF3c977"
+      address: "0x6eF6DeD453c1e82B0B7ebC082E0Be4b6482F7fdCs"
       abi: NameService
     mapping:
       kind: ethereum/events
@@ -50,7 +50,7 @@ dataSources:
     name: Controller
     network: mainnet
     source:
-      address: "0xb3A5c676647B7adeeF7aE8c24F81aaF5BcF1147C"
+      address: "0x55B165c50AB0824F96B59C9aB369656EF67d7ba2"
       abi: Controller
     mapping:
       kind: ethereum/events
