@@ -25,7 +25,7 @@ dataSources:
     name: NameService
     network: mainnet
     source:
-      address: "0x6eF6DeD453c1e82B0B7ebC082E0Be4b6482F7fdCs"
+      address: "0x6eF6DeD453c1e82B0B7ebC082E0Be4b6482F7fdC"
       abi: NameService
     mapping:
       kind: ethereum/events
