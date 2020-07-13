@@ -119,7 +119,7 @@ export function handleLimitValue(event: LimitValue): void {
     let isNew = false;
 
     if (wallet != null) {
-        let id = event.address.toHexString().concat().concat(event.params.token.toHexString());
+        let id = event.address.toHexString().concat("-").concat(event.params.token.toHexString());
         let limit = ValueLimit.load(id);
 
         if (limit == null) {
@@ -170,7 +170,7 @@ export function handleLimitDaily(event: LimitDaily): void {
     let isNew = false;
 
     if (wallet != null) {
-        let id = event.address.toHexString().concat().concat(event.params.token.toHexString());
+        let id = event.address.toHexString().concat("-").concat(event.params.token.toHexString());
         let limit = DayLimit.load(id);
 
         if (limit == null) {
@@ -198,7 +198,7 @@ export function handleUnlimitValue(event: UnlimitValue): void {
     let isNew = false;
 
     if (wallet != null) {
-        let id = event.address.toHexString().concat().concat(event.params.token.toHexString());
+        let id = event.address.toHexString().concat("-").concat(event.params.token.toHexString());
         let limit = ValueLimit.load(id);
 
         if (limit == null) {
@@ -235,7 +235,7 @@ export function handleUnlimitDaily(event: UnlimitDaily): void {
     let isNew = false;
 
     if (wallet != null) {
-        let id = event.address.toHexString().concat().concat(event.params.token.toHexString());
+        let id = event.address.toHexString().concat("-").concat(event.params.token.toHexString());
         let limit = DayLimit.load(id);
 
         if (limit == null) {
