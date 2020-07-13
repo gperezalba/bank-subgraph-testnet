@@ -19,7 +19,7 @@ const PI_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export function handleTransfer(event: Transfer): void {
     //creo la entidad si no existe, aunque siempre existirá
-    createToken(event.address, 1, BigInt.fromI32(0));
+    createToken(event.address, BigInt.fromI32(1), BigInt.fromI32(0));
     //actualizo los tokenBalance de ambas partes y si no existe lo crea
     updateTokenBalance(event.address, event.params.to.toHexString());
     updateTokenBalance(event.address, event.params.from.toHexString());
@@ -33,7 +33,7 @@ export function handleTransfer(event: Transfer): void {
 // TOKEN
 /***************************************************************/
 
-export function createToken(tokenAddress: Address, tokenKind: number, category: BigInt): void {
+export function createToken(tokenAddress: Address, tokenKind: BigInt, category: BigInt): void {
     let token = Token.load(tokenAddress.toHexString());
   
     if (token == null) {
@@ -59,7 +59,7 @@ export function createToken(tokenAddress: Address, tokenKind: number, category: 
                 token.tokenName = "";
             }
 
-            if (tokenKind != 2) {
+            if (tokenKind != BigInt.fromI32(2)) {
                 let decimals = contract.try_decimals();
                 if (!decimals.reverted) {
                     token.tokenDecimals = decimals.value;
@@ -93,14 +93,14 @@ export function createToken(tokenAddress: Address, tokenKind: number, category: 
             token.updated = true;
         }
 
-        token.tokenKind = BigInt.fromI32(tokenKind);
+        token.tokenKind = tokenKind;
 
-        if (tokenKind == 1) {
+        if (tokenKind == BigInt.fromI32(1)) {
             TokenTemplate.create(tokenAddress);
-        } else if (tokenKind == 2) {
+        } else if (tokenKind == BigInt.fromI32(2)) {
             token.nftCategory = category;    
             ERC721Template.create(tokenAddress);
-        } else if (tokenKind == 3) {
+        } else if (tokenKind == BigInt.fromI32(3)) {
             token.pnftCategory = category;
             //PNFTInterfaceTemplate.create(tokenAddress);
         }

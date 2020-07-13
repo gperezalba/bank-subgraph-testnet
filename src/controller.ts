@@ -5,15 +5,15 @@ import { createToken } from "./token"
 import { Official, Token } from "../generated/schema";
 
 export function handleTokenCreated(event: NewToken): void {
-    createToken(event.params.newToken, 1, BigInt.fromI32(0));
+    createToken(event.params.newToken, BigInt.fromI32(1), BigInt.fromI32(0));
 }
 
 export function handleNewNFToken(event: NewNFToken): void {
-    createToken(event.params.newToken, 2, event.params.category);
+    createToken(event.params.newToken, BigInt.fromI32(2), event.params.category);
 }
 
 export function handleNewPNFToken(event: NewPNFToken): void {
-    createToken(event.params.newToken, 3, event.params.category);
+    createToken(event.params.newToken, BigInt.fromI32(3), event.params.category);
 }
 
 export function handleNewAddress(event: NewAddress): void {
