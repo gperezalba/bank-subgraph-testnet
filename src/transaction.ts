@@ -77,7 +77,7 @@ export function createTransaction(
 
     let token = Token.load(currency);
 
-    if (token.isNFT) {
+    if (token.tokenKind == BigInt.fromI32(2)) {
         let commodityId = currency.concat("-").concat(amount.toString());
         tx.nftCategory = token.nftCategory;
         tx.nftDescription = commodityId;
