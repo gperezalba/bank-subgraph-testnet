@@ -280,15 +280,20 @@ export function pushWalletTransaction(tx: Transaction, walletAddress: string): v
 
 export function pushWalletDestination(walletAddress: string, destination: string): void {
     let wallet = loadWallet(Address.fromString(walletAddress), true);
+    let walletDestination = Wallet.load(destination);
 
-    let destinations = wallet.destinations;
+    if (walletDestination != null) {
+        if (walletDestination.isBankUser) {
+            let destinations = wallet.destinations;
 
-    if (!destinations.includes(destination)) {
-        destinations.push(destination);
-        wallet.destinations = destinations;
+            if (!destinations.includes(destination)) {
+                destinations.push(destination);
+                wallet.destinations = destinations;
+            }
+
+            wallet.save();
+        }
     }
-
-    wallet.save();
 }
 
 export function loadWallet(address: Address, isBankUser: boolean): Wallet {
