@@ -52,6 +52,7 @@ export function handleNewJson(event: NewJson): void {
 
     commodity.isLive = true;
     commodity.isFake = false;
+    commodity.metadata = event.params.json;
 
     let json: Array<BigInt> = event.params.json;
     commodity.key0 = json[0];

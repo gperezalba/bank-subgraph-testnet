@@ -96,6 +96,7 @@ type Commodity @entity {
     reference: String
     isLive: Boolean
     isFake: Boolean
+    metadata: [BigInt!]
     key0: BigInt
     key1: BigInt
     key2: BigInt

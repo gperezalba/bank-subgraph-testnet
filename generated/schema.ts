@@ -1125,6 +1125,23 @@ export class Commodity extends Entity {
     this.set("isFake", Value.fromBoolean(value));
   }
 
+  get metadata(): Array<BigInt> | null {
+    let value = this.get("metadata");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigIntArray();
+    }
+  }
+
+  set metadata(value: Array<BigInt> | null) {
+    if (value === null) {
+      this.unset("metadata");
+    } else {
+      this.set("metadata", Value.fromBigIntArray(value as Array<BigInt>));
+    }
+  }
+
   get key0(): BigInt | null {
     let value = this.get("key0");
     if (value === null) {
