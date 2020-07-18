@@ -33,6 +33,7 @@ type Wallet @entity {
     allowedDestinations: [Wallet!]
     valueLimits: [ValueLimit!]
     dayLimits: [DayLimit!]
+    destinations: [Wallet!]
 }
 
 type Name @entity {

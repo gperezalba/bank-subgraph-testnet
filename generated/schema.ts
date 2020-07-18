@@ -411,6 +411,23 @@ export class Wallet extends Entity {
       this.set("dayLimits", Value.fromStringArray(value as Array<string>));
     }
   }
+
+  get destinations(): Array<string> | null {
+    let value = this.get("destinations");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set destinations(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("destinations");
+    } else {
+      this.set("destinations", Value.fromStringArray(value as Array<string>));
+    }
+  }
 }
 
 export class Name extends Entity {

@@ -73,6 +73,7 @@ export function handleTransfer(event: Transfer): void {
 
     pushWalletTransaction(tx as Transaction, event.params.to.toHexString());
     pushWalletTransaction(tx as Transaction, event.address.toHexString());
+    pushWalletDestination(event.address.toHexString(), event.params.to.toHexString());
 }
 
 export function handleReceive(event: Receive): void {
@@ -277,6 +278,19 @@ export function pushWalletTransaction(tx: Transaction, walletAddress: string): v
     }
 }
 
+export function pushWalletDestination(walletAddress: string, destination: string): void {
+    let wallet = loadWallet(Address.fromString(walletAddress), false);
+
+    let destinations = wallet.destinations;
+
+    if (!destinations.includes(destination)) {
+        destinations.push(destination);
+        wallet.transactions = destinations;
+    }
+
+    wallet.save();
+}
+
 export function loadWallet(address: Address, isBankUser: boolean): Wallet {
     let wallet = Wallet.load(address.toHexString());
 
@@ -288,6 +302,7 @@ export function loadWallet(address: Address, isBankUser: boolean): Wallet {
         wallet.allowedDestinations = [];
         wallet.valueLimits = [];
         wallet.dayLimits = [];
+        wallet.destinations = [];
     }
 
     wallet.save();
