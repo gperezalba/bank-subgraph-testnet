@@ -23,27 +23,48 @@ export function handleNewAddress(event: NewAddress): void {
         official = new Official(event.params.contractAddress.toHexString());
     }
 
-    if (event.params.kind == BigInt.fromI32(7)) {
+    if (event.params.kind == BigInt.fromI32(1)) {
+        official.category = event.params.kind;
+        official.description = "REGISTRY";
+    } else if (event.params.kind == BigInt.fromI32(2)) {
+        official.category = event.params.kind;
+        official.description = "IDENTITY-FACTORY";
+    } else if (event.params.kind == BigInt.fromI32(3)) {
+        official.category = event.params.kind;
+        official.description = "WALLET-FACTORY";
+    } else if (event.params.kind == BigInt.fromI32(4)) {
+        official.category = event.params.kind;
+        official.description = "STATE-CHECKER";
+    } else if (event.params.kind == BigInt.fromI32(5)) {
+        official.category = event.params.kind;
+        official.description = "WALLET-MATH";
+    } else if (event.params.kind == BigInt.fromI32(6)) {
+        official.category = event.params.kind;
+        official.description = "NAME-SERVICE";
+    } else if (event.params.kind == BigInt.fromI32(7)) {
         official.category = event.params.kind;
         official.description = "COMMISSIONS";
+    } else if (event.params.kind == BigInt.fromI32(8)) {
+        official.category = event.params.kind;
+        official.description = "DAY-MANAGER";
     } else if (event.params.kind == BigInt.fromI32(9)) {
         official.category = event.params.kind;
         official.description = "P2P";
     } else if (event.params.kind == BigInt.fromI32(10)) {
         official.category = event.params.kind;
-        official.description = "P2P-COMMODITY";
+        official.description = "P2P-COLLECTABLE";
     } else if (event.params.kind == BigInt.fromI32(11)) {
         official.category = event.params.kind;
-        official.description = "P2P-COMMODITY";
+        official.description = "P2P-PACKABLE";
     } else if (event.params.kind == BigInt.fromI32(12)) {
         official.category = event.params.kind;
-        official.description = "P2P-COMMODITY";
+        official.description = "P2P-PRIMARY";
     } else if (event.params.kind == BigInt.fromI32(13)) {
         official.category = event.params.kind;
-        official.description = "P2P-COMMODITY";
+        official.description = "P2P-COMMODITY-PRIMARY";
     } else if (event.params.kind == BigInt.fromI32(14)) {
         official.category = event.params.kind;
-        official.description = "P2P-COMMODITY";
+        official.description = "P2P-COMMODITY-PRIMARY";
     } else {
         official.category = event.params.kind;
         official.description = "Other";
