@@ -102,6 +102,9 @@ type Commodity @entity {
     key3: BigInt
     key4: BigInt
     nftCategory: BigInt
+    gold: Gold
+    diamond: Diamond
+
 }
 
 type Packable @entity {
@@ -131,4 +134,31 @@ type DayLimit @entity {
     isActive: Boolean!
     token: Token! 
     limit: BigInt!
+}
+
+type Gold @entity {
+  id: ID!
+  owner: Wallet
+  reference: String
+  token: Token
+  weight_brute: BigInt
+  weight_fine: BigInt
+  law: BigInt
+  isLive: Boolean
+  isFake: Boolean
+  commodity: Commodity @derivedFrom(field: "gold")
+}
+
+type Diamond @entity {
+  id: ID!
+  owner: Wallet
+  reference: String
+  token: Token
+  color: BigInt
+  clarity: BigInt #cambiar a BigDecimal para filtrar?
+  cut: BigInt
+  carat_weight: BigInt
+  isLive: Boolean
+  isFake: Boolean
+  commodity: Commodity @derivedFrom(field: "diamond")
 }
