@@ -118,6 +118,18 @@ templates:
           handler: handleTransfer
         - event: Receive(indexed address,indexed address,indexed bytes32,uint256)
           handler: handleReceive
+        - event: LimitDaily(address,uint256)
+          handler: handleLimitDaily
+        - event: LimitTo(address,bool)
+          handler: handleLimitTo
+        - event: LimitValue(address,uint256)
+          handler: handleLimitValue
+        - event: UnlimitDaily(address)
+          handler: handleUnlimitDaily
+        - event: UnlimitTo()
+          handler: handleUnlimitTo
+        - event: UnlimitValue(address)
+          handler: handleUnlimitValue
   - name: Identity
     kind: ethereum/contract
     network: mainnet
