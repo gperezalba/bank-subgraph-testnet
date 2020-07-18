@@ -5,7 +5,7 @@ import { createToken } from "./token"
 import { Official, Token } from "../generated/schema";
 
 export function handleTokenCreated(event: NewToken): void {
-    createToken(event.params.newToken, BigInt.fromI32(1), BigInt.fromI32(0));
+    createToken(event.params.newToken, BigInt.fromI32(1), event.params.category);
 }
 
 export function handleNewNFToken(event: NewNFToken): void {

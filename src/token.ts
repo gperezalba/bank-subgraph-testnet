@@ -96,6 +96,7 @@ export function createToken(tokenAddress: Address, tokenKind: BigInt, category: 
         token.tokenKind = tokenKind;
 
         if (tokenKind == BigInt.fromI32(1)) {
+            token.assetCategory = category;
             TokenTemplate.create(tokenAddress);
         } else if (tokenKind == BigInt.fromI32(2)) {
             token.nftCategory = category;    

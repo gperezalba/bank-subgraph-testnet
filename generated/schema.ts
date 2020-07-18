@@ -207,6 +207,23 @@ export class Token extends Entity {
     this.set("tokenKind", Value.fromBigInt(value));
   }
 
+  get assetCategory(): BigInt | null {
+    let value = this.get("assetCategory");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set assetCategory(value: BigInt | null) {
+    if (value === null) {
+      this.unset("assetCategory");
+    } else {
+      this.set("assetCategory", Value.fromBigInt(value as BigInt));
+    }
+  }
+
   get nftCategory(): BigInt | null {
     let value = this.get("nftCategory");
     if (value === null) {
@@ -1022,17 +1039,59 @@ export class Commodity extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get tokenId(): BigInt {
+  get owner(): string | null {
+    let value = this.get("owner");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set owner(value: string | null) {
+    if (value === null) {
+      this.unset("owner");
+    } else {
+      this.set("owner", Value.fromString(value as string));
+    }
+  }
+
+  get token(): string | null {
+    let value = this.get("token");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set token(value: string | null) {
+    if (value === null) {
+      this.unset("token");
+    } else {
+      this.set("token", Value.fromString(value as string));
+    }
+  }
+
+  get tokenId(): BigInt | null {
     let value = this.get("tokenId");
-    return value.toBigInt();
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set tokenId(value: BigInt) {
-    this.set("tokenId", Value.fromBigInt(value));
+  set tokenId(value: BigInt | null) {
+    if (value === null) {
+      this.unset("tokenId");
+    } else {
+      this.set("tokenId", Value.fromBigInt(value as BigInt));
+    }
   }
 
-  get gold(): string | null {
-    let value = this.get("gold");
+  get reference(): string | null {
+    let value = this.get("reference");
     if (value === null) {
       return null;
     } else {
@@ -1040,28 +1099,131 @@ export class Commodity extends Entity {
     }
   }
 
-  set gold(value: string | null) {
+  set reference(value: string | null) {
     if (value === null) {
-      this.unset("gold");
+      this.unset("reference");
     } else {
-      this.set("gold", Value.fromString(value as string));
+      this.set("reference", Value.fromString(value as string));
     }
   }
 
-  get diamond(): string | null {
-    let value = this.get("diamond");
+  get isLive(): boolean {
+    let value = this.get("isLive");
+    return value.toBoolean();
+  }
+
+  set isLive(value: boolean) {
+    this.set("isLive", Value.fromBoolean(value));
+  }
+
+  get isFake(): boolean {
+    let value = this.get("isFake");
+    return value.toBoolean();
+  }
+
+  set isFake(value: boolean) {
+    this.set("isFake", Value.fromBoolean(value));
+  }
+
+  get key0(): BigInt | null {
+    let value = this.get("key0");
     if (value === null) {
       return null;
     } else {
-      return value.toString();
+      return value.toBigInt();
     }
   }
 
-  set diamond(value: string | null) {
+  set key0(value: BigInt | null) {
     if (value === null) {
-      this.unset("diamond");
+      this.unset("key0");
     } else {
-      this.set("diamond", Value.fromString(value as string));
+      this.set("key0", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get key1(): BigInt | null {
+    let value = this.get("key1");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set key1(value: BigInt | null) {
+    if (value === null) {
+      this.unset("key1");
+    } else {
+      this.set("key1", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get key2(): BigInt | null {
+    let value = this.get("key2");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set key2(value: BigInt | null) {
+    if (value === null) {
+      this.unset("key2");
+    } else {
+      this.set("key2", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get key3(): BigInt | null {
+    let value = this.get("key3");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set key3(value: BigInt | null) {
+    if (value === null) {
+      this.unset("key3");
+    } else {
+      this.set("key3", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get key4(): BigInt | null {
+    let value = this.get("key4");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set key4(value: BigInt | null) {
+    if (value === null) {
+      this.unset("key4");
+    } else {
+      this.set("key4", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get nftCategory(): BigInt | null {
+    let value = this.get("nftCategory");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set nftCategory(value: BigInt | null) {
+    if (value === null) {
+      this.unset("nftCategory");
+    } else {
+      this.set("nftCategory", Value.fromBigInt(value as BigInt));
     }
   }
 }
@@ -1139,359 +1301,6 @@ export class Packable extends Entity {
 
   set balance(value: BigInt) {
     this.set("balance", Value.fromBigInt(value));
-  }
-}
-
-export class Gold extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id !== null, "Cannot save Gold entity without an ID");
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save Gold entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
-    );
-    store.set("Gold", id.toString(), this);
-  }
-
-  static load(id: string): Gold | null {
-    return store.get("Gold", id) as Gold | null;
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get owner(): string | null {
-    let value = this.get("owner");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set owner(value: string | null) {
-    if (value === null) {
-      this.unset("owner");
-    } else {
-      this.set("owner", Value.fromString(value as string));
-    }
-  }
-
-  get reference(): string | null {
-    let value = this.get("reference");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set reference(value: string | null) {
-    if (value === null) {
-      this.unset("reference");
-    } else {
-      this.set("reference", Value.fromString(value as string));
-    }
-  }
-
-  get token(): string | null {
-    let value = this.get("token");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set token(value: string | null) {
-    if (value === null) {
-      this.unset("token");
-    } else {
-      this.set("token", Value.fromString(value as string));
-    }
-  }
-
-  get weight_brute(): BigInt | null {
-    let value = this.get("weight_brute");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set weight_brute(value: BigInt | null) {
-    if (value === null) {
-      this.unset("weight_brute");
-    } else {
-      this.set("weight_brute", Value.fromBigInt(value as BigInt));
-    }
-  }
-
-  get weight_fine(): BigInt | null {
-    let value = this.get("weight_fine");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set weight_fine(value: BigInt | null) {
-    if (value === null) {
-      this.unset("weight_fine");
-    } else {
-      this.set("weight_fine", Value.fromBigInt(value as BigInt));
-    }
-  }
-
-  get law(): BigInt | null {
-    let value = this.get("law");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set law(value: BigInt | null) {
-    if (value === null) {
-      this.unset("law");
-    } else {
-      this.set("law", Value.fromBigInt(value as BigInt));
-    }
-  }
-
-  get isLive(): boolean {
-    let value = this.get("isLive");
-    return value.toBoolean();
-  }
-
-  set isLive(value: boolean) {
-    this.set("isLive", Value.fromBoolean(value));
-  }
-
-  get isFake(): boolean {
-    let value = this.get("isFake");
-    return value.toBoolean();
-  }
-
-  set isFake(value: boolean) {
-    this.set("isFake", Value.fromBoolean(value));
-  }
-
-  get commodity(): string | null {
-    let value = this.get("commodity");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set commodity(value: string | null) {
-    if (value === null) {
-      this.unset("commodity");
-    } else {
-      this.set("commodity", Value.fromString(value as string));
-    }
-  }
-}
-
-export class Diamond extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id !== null, "Cannot save Diamond entity without an ID");
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save Diamond entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
-    );
-    store.set("Diamond", id.toString(), this);
-  }
-
-  static load(id: string): Diamond | null {
-    return store.get("Diamond", id) as Diamond | null;
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get owner(): string | null {
-    let value = this.get("owner");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set owner(value: string | null) {
-    if (value === null) {
-      this.unset("owner");
-    } else {
-      this.set("owner", Value.fromString(value as string));
-    }
-  }
-
-  get reference(): string | null {
-    let value = this.get("reference");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set reference(value: string | null) {
-    if (value === null) {
-      this.unset("reference");
-    } else {
-      this.set("reference", Value.fromString(value as string));
-    }
-  }
-
-  get token(): string | null {
-    let value = this.get("token");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set token(value: string | null) {
-    if (value === null) {
-      this.unset("token");
-    } else {
-      this.set("token", Value.fromString(value as string));
-    }
-  }
-
-  get color(): BigInt | null {
-    let value = this.get("color");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set color(value: BigInt | null) {
-    if (value === null) {
-      this.unset("color");
-    } else {
-      this.set("color", Value.fromBigInt(value as BigInt));
-    }
-  }
-
-  get clarity(): BigInt | null {
-    let value = this.get("clarity");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set clarity(value: BigInt | null) {
-    if (value === null) {
-      this.unset("clarity");
-    } else {
-      this.set("clarity", Value.fromBigInt(value as BigInt));
-    }
-  }
-
-  get cut(): BigInt | null {
-    let value = this.get("cut");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set cut(value: BigInt | null) {
-    if (value === null) {
-      this.unset("cut");
-    } else {
-      this.set("cut", Value.fromBigInt(value as BigInt));
-    }
-  }
-
-  get carat_weight(): BigInt | null {
-    let value = this.get("carat_weight");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set carat_weight(value: BigInt | null) {
-    if (value === null) {
-      this.unset("carat_weight");
-    } else {
-      this.set("carat_weight", Value.fromBigInt(value as BigInt));
-    }
-  }
-
-  get isLive(): boolean {
-    let value = this.get("isLive");
-    return value.toBoolean();
-  }
-
-  set isLive(value: boolean) {
-    this.set("isLive", Value.fromBoolean(value));
-  }
-
-  get isFake(): boolean {
-    let value = this.get("isFake");
-    return value.toBoolean();
-  }
-
-  set isFake(value: boolean) {
-    this.set("isFake", Value.fromBoolean(value));
-  }
-
-  get commodity(): string | null {
-    let value = this.get("commodity");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set commodity(value: string | null) {
-    if (value === null) {
-      this.unset("commodity");
-    } else {
-      this.set("commodity", Value.fromString(value as string));
-    }
   }
 }
 

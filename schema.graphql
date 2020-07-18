@@ -18,6 +18,7 @@ type Token @entity {
     holders: [TokenBalance!]
     updated: Boolean!
     tokenKind: BigInt!
+    assetCategory: BigInt
     nftCategory: BigInt
     pnftCategory: BigInt
 }
@@ -88,10 +89,19 @@ type BankFee @entity {
 }
 
 type Commodity @entity {
-  id: ID!
-  tokenId: BigInt!
-  gold: Gold
-  diamond: Diamond
+    id: ID!
+    owner: Wallet
+    token: Token
+    tokenId: BigInt
+    reference: String
+    isLive: Boolean
+    isFake: Boolean
+    key0: BigInt
+    key1: BigInt
+    key2: BigInt
+    key3: BigInt
+    key4: BigInt
+    nftCategory: BigInt
 }
 
 type Packable @entity {
@@ -101,33 +111,6 @@ type Packable @entity {
     tokenKind: BigInt!
     tokenId: String!
     balance: BigInt!
-}
-
-type Gold @entity {
-  id: ID!
-  owner: Wallet
-  reference: String
-  token: Token
-  weight_brute: BigInt
-  weight_fine: BigInt
-  law: BigInt
-  isLive: Boolean
-  isFake: Boolean
-  commodity: Commodity @derivedFrom(field: "gold")
-}
-
-type Diamond @entity {
-  id: ID!
-  owner: Wallet
-  reference: String
-  token: Token
-  color: BigInt
-  clarity: BigInt #cambiar a BigDecimal para filtrar?
-  cut: BigInt
-  carat_weight: BigInt
-  isLive: Boolean
-  isFake: Boolean
-  commodity: Commodity @derivedFrom(field: "diamond")
 }
 
 type Official @entity {
