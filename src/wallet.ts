@@ -279,12 +279,13 @@ export function pushWalletTransaction(tx: Transaction, walletAddress: string): v
 }
 
 export function pushWalletDestination(walletAddress: string, destination: string): void {
-    let wallet = loadWallet(Address.fromString(walletAddress), false);
+    let wallet = loadWallet(Address.fromString(walletAddress), true);
+    let walletDestination = loadWallet(Address.fromString(walletAddress), false);
 
     let destinations = wallet.destinations;
 
-    if (!destinations.includes(destination)) {
-        destinations.push(destination);
+    if (!destinations.includes(walletDestination.id)) {
+        destinations.push(walletDestination.id);
         wallet.transactions = destinations;
     }
 
