@@ -73,7 +73,7 @@ export function handleTransfer(event: Transfer): void {
 
     pushWalletTransaction(tx as Transaction, event.params.to.toHexString());
     pushWalletTransaction(tx as Transaction, event.address.toHexString());
-    pushWalletDestination(event.address.toHexString(), event.params.to.toHexString());
+    //pushWalletDestination(event.address.toHexString(), event.params.to.toHexString());
 }
 
 export function handleReceive(event: Receive): void {
