@@ -170,8 +170,7 @@ export function updatePackableBalance(walletAddress: string, tokenAddress: strin
         packableBalance.wallet = walletAddress;
         packableBalance.packabeId = packableId;
 
-        let packableIdEntity = PackableId.load(packableId);
-        let packableWallet = PackableWallet.load(packableIdEntity.packable);
+        let packableWallet = PackableWallet.load(walletAddress.concat(tokenAddress));
 
         if (packableWallet != null) {
             let balances = packableWallet.balances;
