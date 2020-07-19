@@ -144,10 +144,9 @@ export function updatePackableTokenBalance(walletAddress: string, tokenAddress: 
         packableWallet = new PackableWallet(packableWalletId);
         let packables = tokenBalance.packables;
 
-        if (!packables.includes(tokenAddress)) {
-            packables.push(tokenAddress);
+        if (!packables.includes(packableWallet.id)) {
+            packables.push(packableWallet.id);
             tokenBalance.packables = packables;
-            tokenBalance.balance = BigInt.fromI32(7);
             tokenBalance.save();
         }
 
