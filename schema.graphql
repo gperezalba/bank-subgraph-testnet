@@ -120,7 +120,7 @@ type Packable @entity {
 
 type PackableId @entity {
     id: ID! #tokenAddress + tokenKind (hacerlo tokenAddress-wallet para usar el start_with?)
-    packable: Packable! @derivedFrom(field: "ids")
+    packable: Packable! 
     tokenId: String!
     metadata: [BigInt!]
 }
