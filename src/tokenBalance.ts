@@ -156,7 +156,7 @@ export function updatePackableTokenBalance(walletAddress: string, tokenAddress: 
         packableWallet.save();
     }
 
-    //updatePackableBalance(walletAddress, tokenAddress, tokenId);
+    updatePackableBalance(walletAddress, tokenAddress, tokenId);
 }
 
 export function updatePackableBalance(walletAddress: string, tokenAddress: string, tokenId: string): void {
