@@ -185,6 +185,7 @@ function newTransaction(event: Transfer): void {
                 event.params._to, 
                 event.address.toHexString(), 
                 event.params._tokenId,
+                "",
                 new Bytes(0), 
                 event.block.timestamp, 
                 event.transaction.gasUsed.times(event.transaction.gasPrice),

@@ -20,6 +20,20 @@
   },
   {
     "constant": true,
+    "inputs": [],
+    "name": "backend",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [
       {
         "name": "",
@@ -76,6 +90,29 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_newDiamondOwner",
+        "type": "address"
+      }
+    ],
+    "name": "setDiamondOwner",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "stopCuts",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "on",
@@ -87,6 +124,43 @@
     ],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
+    "name": "facets",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_addresses",
+        "type": "address[]"
+      }
+    ],
+    "name": "diamondCut",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -128,12 +202,54 @@
   },
   {
     "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isPNFToken",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [],
     "name": "switcher",
     "outputs": [
       {
         "name": "",
         "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "stopUpgrades",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "cuttable",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
       }
     ],
     "payable": false,
@@ -148,6 +264,20 @@
       {
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "diamondOwner",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
       }
     ],
     "payable": false,
@@ -174,6 +304,20 @@
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [],
+    "name": "upgradable",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "name": "_owner",
@@ -182,6 +326,14 @@
       {
         "name": "_switcher",
         "type": "address"
+      },
+      {
+        "name": "_backend",
+        "type": "address"
+      },
+      {
+        "name": "_facets",
+        "type": "address[]"
       }
     ],
     "payable": false,
@@ -203,6 +355,23 @@
       }
     ],
     "name": "NewOwner",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "old",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "current",
+        "type": "address"
+      }
+    ],
+    "name": "NewBackend",
     "type": "event"
   },
   {
@@ -251,6 +420,16 @@
         "indexed": false,
         "name": "newToken",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "category",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "isToken",
+        "type": "bool"
       }
     ],
     "name": "NewToken",
@@ -268,9 +447,36 @@
         "indexed": false,
         "name": "category",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "isNFToken",
+        "type": "bool"
       }
     ],
     "name": "NewNFToken",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "newToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "category",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "isPNFToken",
+        "type": "bool"
+      }
+    ],
+    "name": "NewPNFToken",
     "type": "event"
   },
   {
@@ -308,6 +514,28 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "selector",
+        "type": "bytes4"
+      },
+      {
+        "indexed": true,
+        "name": "oldFacet",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "name": "newFacet",
+        "type": "address"
+      }
+    ],
+    "name": "DiamondCut",
+    "type": "event"
+  },
+  {
     "constant": false,
     "inputs": [
       {
@@ -316,6 +544,20 @@
       }
     ],
     "name": "setOwner",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_new",
+        "type": "address"
+      }
+    ],
+    "name": "setBackend",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -372,6 +614,14 @@
       {
         "name": "_tokenAddress",
         "type": "address"
+      },
+      {
+        "name": "_category",
+        "type": "uint256"
+      },
+      {
+        "name": "_is",
+        "type": "bool"
       }
     ],
     "name": "setNewToken",
@@ -390,9 +640,35 @@
       {
         "name": "_category",
         "type": "uint256"
+      },
+      {
+        "name": "_is",
+        "type": "bool"
       }
     ],
     "name": "setNewNFToken",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_tokenAddress",
+        "type": "address"
+      },
+      {
+        "name": "_category",
+        "type": "uint256"
+      },
+      {
+        "name": "_is",
+        "type": "bool"
+      }
+    ],
+    "name": "setNewPNFToken",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",

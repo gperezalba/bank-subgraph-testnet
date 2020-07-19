@@ -50,7 +50,7 @@ type TokenBalance @entity {
     wallet: Wallet!
     balance: BigInt!
     commodities: [Commodity!]
-    packables: [Packable!]
+    packables: [PackableWallet!]
     updated: Boolean!
 }
 
@@ -69,6 +69,7 @@ type Transaction @entity {
     to: Wallet!
     currency: Token!
     amount: BigInt!
+    packableId: String
     data: Bytes!
     fee: BigInt!
     timestamp: BigInt!
@@ -109,12 +110,31 @@ type Commodity @entity {
 }
 
 type Packable @entity {
-    id: ID! #wallet + tokenAddress + tokenKind (hacerlo tokenAddress-wallet para usar el start_with?)
-    wallet: Wallet!
+    id: ID! #tokenAddress
     token: Token!
     tokenKind: BigInt!
+    ids: [PackableId!]
+}
+
+type PackableId @entity {
+    id: ID! #tokenAddress + tokenKind (hacerlo tokenAddress-wallet para usar el start_with?)
+    packable: Packable! @derivedFrom(field: "ids")
     tokenId: String!
+    metadata: [BigInt!]
+}
+
+type PackableBalance @entity {
+    id: ID! #wallet + tokenAddress + tokenKind (hacerlo tokenAddress-wallet para usar el start_with?)
+    wallet: Wallet!
+    packabeId: PackableId!
     balance: BigInt!
+}
+
+type PackableWallet @entity {
+    id: ID! #wallet-tokenAddress
+    tokenBalance: TokenBalance! @derivedFrom(field: "packables")
+    packable: Packable!
+    balances: [PackableBalance!]
 }
 
 type Official @entity {

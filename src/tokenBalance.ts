@@ -1,12 +1,16 @@
-import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts"
+import { Address, BigDecimal, BigInt, Bytes } from "@graphprotocol/graph-ts"
 
 import { 
     Token,
     TokenBalance, 
-    Wallet
+    Wallet,
+    PackableId,
+    PackableWallet,
+    PackableBalance
 } from "../generated/schema"
 
 import { Token as TokenContract } from "../generated/templates/Token/Token"
+import { PNFTInterface } from "../generated/templates/PNFTInterface/PNFTInterface"
 import { loadWallet, getPiBalance } from "./wallet";
 import { Balance } from '../generated/templates/Balance/Balance'
 
@@ -128,6 +132,57 @@ export function popCommodity(commodityId: string, tokenAddress: Address, walletA
 
     tokenBalance.save();
 }    
+
+export function updatePackableTokenBalance(walletAddress: string, packableId: string): void {
+    let packableIdEntity = PackableId.load(packableId);
+    let tokenBalanceId = packableIdEntity.packable.concat("-").concat(walletAddress);
+    let tokenBalance = TokenBalance.load(tokenBalanceId)
+
+    let packableWallet = PackableWallet.load(packableIdEntity.packable);
+
+    if (packableWallet == null) {
+        packableWallet = new PackableWallet(packableIdEntity.packable);
+        let packables = tokenBalance.packables;
+
+        if (!packables.includes(packableIdEntity.packable)) {
+            packables.push(packableIdEntity.packable);
+            tokenBalance.packables = packables;
+            tokenBalance.save();
+        }
+
+        packableWallet.tokenBalance = tokenBalance.id;
+        packableWallet.packable = packableIdEntity.packable;
+        packableWallet.balances = [];
+
+        packableWallet.save();
+    }
+
+    createTokenBalance(Address.fromHexString(packableIdEntity.packable) as Address, walletAddress);
+    updatePackableBalance(walletAddress, packableIdEntity.packable, packableIdEntity.tokenId);
+}
+
+export function updatePackableBalance(walletAddress: string, tokenAddress: string, tokenId: string): void {
+    let id = walletAddress.concat("-").concat(tokenAddress).concat("-").concat(tokenId);
+
+    let packableBalance = PackableBalance.load(id);
+
+    if (packableBalance == null) {
+        packableBalance = new PackableBalance(id);
+        packableBalance.wallet = walletAddress;
+        packableBalance.packabeId = tokenAddress.concat("-").concat(tokenId);
+    }
+
+    let pnft = PNFTInterface.bind(Address.fromHexString(tokenAddress) as Address);
+    let balance = pnft.try_balanceById(Address.fromHexString(walletAddress) as Address, Bytes.fromHexString(tokenId) as Bytes);
+
+    if (!balance.reverted) {
+        packableBalance.balance = balance.value;
+    } else {
+        packableBalance.balance = BigInt.fromI32(-1);
+    }
+
+    packableBalance.save();
+}
 
 export function getBalance(address: Address): BigInt {
     let contractAddress = "0x5949dfB697785aE91675835dd094386B44d5251f";

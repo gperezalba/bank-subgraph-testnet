@@ -3,6 +3,7 @@ import { NewToken, NewNFToken, NewAddress, NewMarket, NewPNFToken } from "../gen
 
 import { createToken } from "./token"
 import { Official, Token } from "../generated/schema";
+import { createPackable } from "./packable";
 
 export function handleTokenCreated(event: NewToken): void {
     createToken(event.params.newToken, BigInt.fromI32(1), event.params.category);
@@ -14,6 +15,7 @@ export function handleNewNFToken(event: NewNFToken): void {
 
 export function handleNewPNFToken(event: NewPNFToken): void {
     createToken(event.params.newToken, BigInt.fromI32(3), event.params.category);
+    createPackable(event);
 }
 
 export function handleNewAddress(event: NewAddress): void {

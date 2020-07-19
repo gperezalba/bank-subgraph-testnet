@@ -796,6 +796,23 @@ export class Transaction extends Entity {
     this.set("amount", Value.fromBigInt(value));
   }
 
+  get packableId(): string | null {
+    let value = this.get("packableId");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set packableId(value: string | null) {
+    if (value === null) {
+      this.unset("packableId");
+    } else {
+      this.set("packableId", Value.fromString(value as string));
+    }
+  }
+
   get data(): Bytes {
     let value = this.get("data");
     return value.toBytes();
@@ -1309,15 +1326,6 @@ export class Packable extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get wallet(): string {
-    let value = this.get("wallet");
-    return value.toString();
-  }
-
-  set wallet(value: string) {
-    this.set("wallet", Value.fromString(value));
-  }
-
   get token(): string {
     let value = this.get("token");
     return value.toString();
@@ -1336,6 +1344,63 @@ export class Packable extends Entity {
     this.set("tokenKind", Value.fromBigInt(value));
   }
 
+  get ids(): Array<string> | null {
+    let value = this.get("ids");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set ids(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("ids");
+    } else {
+      this.set("ids", Value.fromStringArray(value as Array<string>));
+    }
+  }
+}
+
+export class PackableId extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save PackableId entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save PackableId entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("PackableId", id.toString(), this);
+  }
+
+  static load(id: string): PackableId | null {
+    return store.get("PackableId", id) as PackableId | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get packable(): string {
+    let value = this.get("packable");
+    return value.toString();
+  }
+
+  set packable(value: string) {
+    this.set("packable", Value.fromString(value));
+  }
+
   get tokenId(): string {
     let value = this.get("tokenId");
     return value.toString();
@@ -1345,6 +1410,72 @@ export class Packable extends Entity {
     this.set("tokenId", Value.fromString(value));
   }
 
+  get metadata(): Array<BigInt> | null {
+    let value = this.get("metadata");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigIntArray();
+    }
+  }
+
+  set metadata(value: Array<BigInt> | null) {
+    if (value === null) {
+      this.unset("metadata");
+    } else {
+      this.set("metadata", Value.fromBigIntArray(value as Array<BigInt>));
+    }
+  }
+}
+
+export class PackableBalance extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save PackableBalance entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save PackableBalance entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("PackableBalance", id.toString(), this);
+  }
+
+  static load(id: string): PackableBalance | null {
+    return store.get("PackableBalance", id) as PackableBalance | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get wallet(): string {
+    let value = this.get("wallet");
+    return value.toString();
+  }
+
+  set wallet(value: string) {
+    this.set("wallet", Value.fromString(value));
+  }
+
+  get packabeId(): string {
+    let value = this.get("packabeId");
+    return value.toString();
+  }
+
+  set packabeId(value: string) {
+    this.set("packabeId", Value.fromString(value));
+  }
+
   get balance(): BigInt {
     let value = this.get("balance");
     return value.toBigInt();
@@ -1352,6 +1483,72 @@ export class Packable extends Entity {
 
   set balance(value: BigInt) {
     this.set("balance", Value.fromBigInt(value));
+  }
+}
+
+export class PackableWallet extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save PackableWallet entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save PackableWallet entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("PackableWallet", id.toString(), this);
+  }
+
+  static load(id: string): PackableWallet | null {
+    return store.get("PackableWallet", id) as PackableWallet | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get tokenBalance(): string {
+    let value = this.get("tokenBalance");
+    return value.toString();
+  }
+
+  set tokenBalance(value: string) {
+    this.set("tokenBalance", Value.fromString(value));
+  }
+
+  get packable(): string {
+    let value = this.get("packable");
+    return value.toString();
+  }
+
+  set packable(value: string) {
+    this.set("packable", Value.fromString(value));
+  }
+
+  get balances(): Array<string> | null {
+    let value = this.get("balances");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set balances(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("balances");
+    } else {
+      this.set("balances", Value.fromStringArray(value as Array<string>));
+    }
   }
 }
 

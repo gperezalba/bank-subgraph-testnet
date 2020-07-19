@@ -28,6 +28,7 @@ export function newTransaction(event: Transfer): void {
                 event.params.to, 
                 event.address.toHexString(), 
                 event.params.value, 
+                "",
                 event.params.data, 
                 event.block.timestamp, 
                 event.transaction.gasUsed.times(event.transaction.gasPrice),
@@ -54,6 +55,7 @@ export function createTransaction(
     to: Address,
     currency: string,
     amount: BigInt,
+    packableId: string,
     data: Bytes,
     timestamp: BigInt,
     fee: BigInt,
@@ -70,6 +72,7 @@ export function createTransaction(
     tx.to = toWallet.id;
     tx.currency = currency;
     tx.amount = amount;
+    tx.packableId = packableId;
     tx.data = data;
     tx.timestamp = timestamp;
     tx.fee = fee;

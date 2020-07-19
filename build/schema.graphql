@@ -17,8 +17,10 @@ type Token @entity {
     totalSupply: BigInt!
     holders: [TokenBalance!]
     updated: Boolean!
-    isNFT: Boolean!
+    tokenKind: BigInt!
+    assetCategory: BigInt
     nftCategory: BigInt
+    pnftCategory: BigInt
 }
 
 type Wallet @entity {
@@ -28,6 +30,11 @@ type Wallet @entity {
     isBankUser: Boolean
     balances: [TokenBalance!] @derivedFrom(field: "wallet")
     transactions: [Transaction!]
+    isToLimited: Boolean!
+    allowedDestinations: [Wallet!]
+    valueLimits: [ValueLimit!]
+    dayLimits: [DayLimit!]
+    destinations: [Wallet!]
 }
 
 type Name @entity {
@@ -43,6 +50,7 @@ type TokenBalance @entity {
     wallet: Wallet!
     balance: BigInt!
     commodities: [Commodity!]
+    packables: [PackableWallet!]
     updated: Boolean!
 }
 
@@ -61,6 +69,7 @@ type Transaction @entity {
     to: Wallet!
     currency: Token!
     amount: BigInt!
+    packableId: String
     data: Bytes!
     fee: BigInt!
     timestamp: BigInt!
@@ -81,10 +90,71 @@ type BankFee @entity {
 }
 
 type Commodity @entity {
-  id: ID!
-  tokenId: BigInt!
-  gold: Gold
-  diamond: Diamond
+    id: ID!
+    owner: Wallet
+    token: Token
+    tokenId: BigInt
+    reference: String
+    isLive: Boolean
+    isFake: Boolean
+    metadata: [BigInt!]
+    key0: BigInt
+    key1: BigInt
+    key2: BigInt
+    key3: BigInt
+    key4: BigInt
+    nftCategory: BigInt
+    gold: Gold
+    diamond: Diamond
+
+}
+
+type Packable @entity {
+    id: ID! #tokenAddress
+    token: Token!
+    tokenKind: BigInt!
+    ids: [PackableId!]
+}
+
+type PackableId @entity {
+    id: ID! #tokenAddress + tokenKind (hacerlo tokenAddress-wallet para usar el start_with?)
+    packable: Packable! @derivedFrom(field: "ids")
+    tokenId: String!
+    metadata: [BigInt!]
+}
+
+type PackableBalance @entity {
+    id: ID! #wallet + tokenAddress + tokenKind (hacerlo tokenAddress-wallet para usar el start_with?)
+    wallet: Wallet!
+    packabeId: PackableId!
+    balance: BigInt!
+}
+
+type PackableWallet @entity {
+    id: ID! #wallet-tokenAddress
+    tokenBalance: TokenBalance! @derivedFrom(field: "packables")
+    packable: Packable!
+    balances: [PackableBalance!]
+}
+
+type Official @entity {
+    id: ID!
+    category: BigInt!
+    description: String!
+}
+
+type ValueLimit @entity {
+    id: ID!
+    isActive: Boolean!
+    token: Token! 
+    limit: BigInt!
+}
+
+type DayLimit @entity {
+    id: ID!
+    isActive: Boolean!
+    token: Token! 
+    limit: BigInt!
 }
 
 type Gold @entity {
@@ -112,10 +182,4 @@ type Diamond @entity {
   isLive: Boolean
   isFake: Boolean
   commodity: Commodity @derivedFrom(field: "diamond")
-}
-
-type Official @entity {
-    id: ID!
-    category: BigInt!
-    description: String!
 }

@@ -167,6 +167,27 @@ export class PNFTInterface extends SmartContract {
     return CallResult.fromValue(value[0].toBigInt());
   }
 
+  balanceById(_owner: Address, _tokenId: Bytes): BigInt {
+    let result = super.call("balanceById", [
+      EthereumValue.fromAddress(_owner),
+      EthereumValue.fromFixedBytes(_tokenId)
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_balanceById(_owner: Address, _tokenId: Bytes): CallResult<BigInt> {
+    let result = super.tryCall("balanceById", [
+      EthereumValue.fromAddress(_owner),
+      EthereumValue.fromFixedBytes(_tokenId)
+    ]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBigInt());
+  }
+
   getApproved(_owner: Address, _destination: Address, _tokenId: Bytes): BigInt {
     let result = super.call("getApproved", [
       EthereumValue.fromAddress(_owner),
@@ -210,6 +231,25 @@ export class PNFTInterface extends SmartContract {
     let result = super.tryCall("isApprovedForAll", [
       EthereumValue.fromAddress(_owner),
       EthereumValue.fromAddress(_operator)
+    ]);
+    if (result.reverted) {
+      return new CallResult();
+    }
+    let value = result.value;
+    return CallResult.fromValue(value[0].toBoolean());
+  }
+
+  isExpired(_tokenId: Bytes): boolean {
+    let result = super.call("isExpired", [
+      EthereumValue.fromFixedBytes(_tokenId)
+    ]);
+
+    return result[0].toBoolean();
+  }
+
+  try_isExpired(_tokenId: Bytes): CallResult<boolean> {
+    let result = super.tryCall("isExpired", [
+      EthereumValue.fromFixedBytes(_tokenId)
     ]);
     if (result.reverted) {
       return new CallResult();

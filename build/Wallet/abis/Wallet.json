@@ -91,6 +91,25 @@
   },
   {
     "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "daySpent",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [],
     "name": "facetCategory",
     "outputs": [
@@ -106,11 +125,11 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "isValueLimited",
+    "name": "owner",
     "outputs": [
       {
         "name": "",
-        "type": "bool"
+        "type": "address"
       }
     ],
     "payable": false,
@@ -119,12 +138,36 @@
   },
   {
     "constant": true,
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
+    "inputs": [
       {
         "name": "",
         "type": "address"
+      }
+    ],
+    "name": "dayByToken",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "dayLimits",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
       }
     ],
     "payable": false,
@@ -154,6 +197,44 @@
     "constant": true,
     "inputs": [],
     "name": "isToLimited",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isValueLimited",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isDayLimited",
     "outputs": [
       {
         "name": "",
@@ -247,6 +328,11 @@
       },
       {
         "indexed": false,
+        "name": "tokenId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
         "name": "value",
         "type": "uint256"
       },
@@ -278,12 +364,98 @@
         "type": "address"
       },
       {
+        "indexed": true,
+        "name": "tokenId",
+        "type": "bytes32"
+      },
+      {
         "indexed": false,
         "name": "value",
         "type": "uint256"
       }
     ],
     "name": "Receive",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "LimitValue",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "destination",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "isAllowed",
+        "type": "bool"
+      }
+    ],
+    "name": "LimitTo",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "dayLimit",
+        "type": "uint256"
+      }
+    ],
+    "name": "LimitDaily",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "token",
+        "type": "address"
+      }
+    ],
+    "name": "UnlimitValue",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "UnlimitTo",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "token",
+        "type": "address"
+      }
+    ],
+    "name": "UnlimitDaily",
     "type": "event"
   },
   {
@@ -696,6 +868,40 @@
         "type": "address"
       },
       {
+        "name": "_to",
+        "type": "address"
+      },
+      {
+        "name": "_tokenId",
+        "type": "bytes32"
+      },
+      {
+        "name": "_value",
+        "type": "uint256"
+      },
+      {
+        "name": "_data",
+        "type": "string"
+      },
+      {
+        "name": "_kind",
+        "type": "uint256"
+      }
+    ],
+    "name": "transferPNFT",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_tokenAddress",
+        "type": "address"
+      },
+      {
         "name": "_value",
         "type": "uint256"
       },
@@ -766,6 +972,41 @@
     "constant": false,
     "inputs": [
       {
+        "name": "_tokenAddress",
+        "type": "address"
+      },
+      {
+        "name": "_tokenId",
+        "type": "bytes32"
+      },
+      {
+        "name": "_amount",
+        "type": "uint256"
+      },
+      {
+        "name": "_destination",
+        "type": "address"
+      },
+      {
+        "name": "_data",
+        "type": "bytes"
+      }
+    ],
+    "name": "forwardValuePNFT",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
         "name": "_destination",
         "type": "address"
       },
@@ -809,6 +1050,10 @@
       {
         "name": "_receiver",
         "type": "address"
+      },
+      {
+        "name": "_isAllowed",
+        "type": "bool"
       }
     ],
     "name": "limitTo",
@@ -819,7 +1064,30 @@
   },
   {
     "constant": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "name": "_tokenAddress",
+        "type": "address"
+      },
+      {
+        "name": "_limit",
+        "type": "uint256"
+      }
+    ],
+    "name": "limitDaily",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_tokenAddress",
+        "type": "address"
+      }
+    ],
     "name": "unlimitValue",
     "outputs": [],
     "payable": false,
@@ -830,6 +1098,20 @@
     "constant": false,
     "inputs": [],
     "name": "unlimitTo",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_tokenAddress",
+        "type": "address"
+      }
+    ],
+    "name": "unlimitDaily",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -1151,6 +1433,41 @@
       }
     ],
     "name": "onERC721Received",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_operator",
+        "type": "address"
+      },
+      {
+        "name": "_from",
+        "type": "address"
+      },
+      {
+        "name": "_tokenId",
+        "type": "bytes32"
+      },
+      {
+        "name": "_amount",
+        "type": "uint256"
+      },
+      {
+        "name": "_data",
+        "type": "bytes"
+      }
+    ],
+    "name": "onPNFTReceived",
     "outputs": [
       {
         "name": "",
