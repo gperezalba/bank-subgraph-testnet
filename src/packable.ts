@@ -9,7 +9,7 @@ import { createTransaction } from "./transaction";
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export function handleTransfer(event: Transfer): void {
-    let packableId = event.address.toHexString().concat("-").concat(event.params._tokenId.toString());
+    let packableId = event.address.toHexString().concat("-").concat(event.params._tokenId.toHexString());
 
     updatePackableTokenBalance(event.params._from.toHexString(), packableId)
     updatePackableTokenBalance(event.params._to.toHexString(), packableId)
