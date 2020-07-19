@@ -103,7 +103,7 @@ export function createToken(tokenAddress: Address, tokenKind: BigInt, category: 
             ERC721Template.create(tokenAddress);
         } else if (tokenKind == BigInt.fromI32(3)) {
             token.pnftCategory = category;
-            //PNFTInterfaceTemplate.create(tokenAddress);
+            PNFTInterfaceTemplate.create(tokenAddress);
         }
     }
   
