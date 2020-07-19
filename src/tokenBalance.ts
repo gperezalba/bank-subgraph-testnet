@@ -142,13 +142,13 @@ export function updatePackableTokenBalance(walletAddress: string, tokenAddress: 
 
     if (packableWallet == null) {
         packableWallet = new PackableWallet(packableWalletId);
-        /*let packables = tokenBalance.packables;
+        let packables = tokenBalance.packables;
 
         if (!packables.includes(tokenAddress)) {
             packables.push(tokenAddress);
             tokenBalance.packables = packables;
             tokenBalance.save();
-        }*/
+        }
 
         packableWallet.packable = tokenAddress;
         packableWallet.balances = [];
@@ -156,7 +156,7 @@ export function updatePackableTokenBalance(walletAddress: string, tokenAddress: 
         packableWallet.save();
     }
 
-    updatePackableBalance(walletAddress, tokenAddress, tokenId);
+    //updatePackableBalance(walletAddress, tokenAddress, tokenId);
 }
 
 export function updatePackableBalance(walletAddress: string, tokenAddress: string, tokenId: string): void {
