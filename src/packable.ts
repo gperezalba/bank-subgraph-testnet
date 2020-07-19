@@ -9,8 +9,14 @@ import { createTransaction } from "./transaction";
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export function handleTransfer(event: Transfer): void {
-    //updatePackableTokenBalance(event.params._from.toHexString(), event.address.toHexString(), event.params._tokenId.toHexString())
-    updatePackableTokenBalance(event.params._to.toHexString(), event.address.toHexString(), event.params._tokenId.toHexString())
+
+    if (event.params._from != Address.fromHexString(ZERO_ADDRESS)) {
+        updatePackableTokenBalance(event.params._from.toHexString(), event.address.toHexString(), event.params._tokenId.toHexString())
+    }
+
+    if (event.params._to != Address.fromHexString(ZERO_ADDRESS)) {
+        updatePackableTokenBalance(event.params._to.toHexString(), event.address.toHexString(), event.params._tokenId.toHexString())
+    }
 
     newPackableTransaction(event);
 }
