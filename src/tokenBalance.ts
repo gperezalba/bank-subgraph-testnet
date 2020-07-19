@@ -133,42 +133,42 @@ export function popCommodity(commodityId: string, tokenAddress: Address, walletA
     tokenBalance.save();
 }    
 
-export function updatePackableTokenBalance(walletAddress: string, packableId: string): void {
-    let packableIdEntity = PackableId.load(packableId);
-    createTokenBalance(Address.fromHexString(packableIdEntity.packable) as Address, walletAddress);
-    let tokenBalanceId = packableIdEntity.packable.concat("-").concat(walletAddress);
+export function updatePackableTokenBalance(walletAddress: string, tokenAddress: string, tokenId: string): void {
+    createTokenBalance(Address.fromHexString(tokenAddress) as Address, walletAddress);
+    let tokenBalanceId = tokenAddress.concat("-").concat(walletAddress);
     let tokenBalance = TokenBalance.load(tokenBalanceId);
-
-    let packableWallet = PackableWallet.load(packableIdEntity.packable);
+    let packableWalletId = walletAddress.concat(tokenAddress);
+    let packableWallet = PackableWallet.load(packableWalletId);
 
     if (packableWallet == null) {
-        packableWallet = new PackableWallet(packableIdEntity.packable);
+        packableWallet = new PackableWallet(packableWalletId);
         let packables = tokenBalance.packables;
 
-        if (!packables.includes(packableIdEntity.packable)) {
-            packables.push(packableIdEntity.packable);
+        if (!packables.includes(tokenAddress)) {
+            packables.push(tokenAddress);
             tokenBalance.packables = packables;
             tokenBalance.save();
         }
 
-        packableWallet.packable = packableIdEntity.packable;
+        packableWallet.packable = tokenAddress;
         packableWallet.balances = [];
 
         packableWallet.save();
     }
 
-    updatePackableBalance(walletAddress, packableIdEntity.packable, packableIdEntity.tokenId, packableId);
+    updatePackableBalance(walletAddress, tokenAddress, tokenId);
 }
 
-export function updatePackableBalance(walletAddress: string, tokenAddress: string, tokenId: string, packableId: string): void {
+export function updatePackableBalance(walletAddress: string, tokenAddress: string, tokenId: string): void {
     let id = walletAddress.concat("-").concat(tokenAddress).concat("-").concat(tokenId);
+    let packableId = tokenAddress.concat(tokenId);
 
     let packableBalance = PackableBalance.load(id);
 
     if (packableBalance == null) {
         packableBalance = new PackableBalance(id);
         packableBalance.wallet = walletAddress;
-        packableBalance.packabeId = tokenAddress.concat("-").concat(tokenId);
+        packableBalance.packabeId = packableId;
 
         let packableIdEntity = PackableId.load(packableId);
         let packableWallet = PackableWallet.load(packableIdEntity.packable);
