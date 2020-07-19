@@ -16,7 +16,7 @@ export function handleTransfer(event: Transfer): void {
 }
 
 export function handleNewJson(event: NewJson): void {
-    //createPackableId(event);
+    createPackableId(event);
 }
 
 export function createPackable(event: NewPNFToken): void {
