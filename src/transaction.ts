@@ -85,7 +85,7 @@ export function createTransaction(
         tx.nftCategory = token.nftCategory;
         tx.nftDescription = commodityId;
     } else if (token.tokenKind == BigInt.fromI32(3)) {
-        let id = currency.concat("-").concat(packableId.toString());
+        let id = currency.concat("-").concat(packableId);
         tx.pnftCategory = token.pnftCategory;
         tx.pnftDescription = id;
     }
