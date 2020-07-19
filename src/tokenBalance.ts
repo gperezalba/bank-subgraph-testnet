@@ -152,7 +152,6 @@ export function updatePackableTokenBalance(walletAddress: string, packableId: st
         }
 
         packableWallet.tokenBalance = tokenBalance.id;
-        packableWallet.packable = packableIdEntity.packable;
         packableWallet.balances = [];
 
         packableWallet.save();
