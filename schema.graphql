@@ -128,7 +128,7 @@ type PackableId @entity {
 type PackableBalance @entity {
     id: ID! #wallet + tokenAddress + tokenKind (hacerlo tokenAddress-wallet para usar el start_with?)
     wallet: Wallet!
-    packabeId: PackableId!
+    packableId: PackableId!
     balance: BigInt!
 }
 

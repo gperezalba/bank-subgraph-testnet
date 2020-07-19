@@ -1501,13 +1501,13 @@ export class PackableBalance extends Entity {
     this.set("wallet", Value.fromString(value));
   }
 
-  get packabeId(): string {
-    let value = this.get("packabeId");
+  get packableId(): string {
+    let value = this.get("packableId");
     return value.toString();
   }
 
-  set packabeId(value: string) {
-    this.set("packabeId", Value.fromString(value));
+  set packableId(value: string) {
+    this.set("packableId", Value.fromString(value));
   }
 
   get balance(): BigInt {
