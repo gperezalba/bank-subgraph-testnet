@@ -9,14 +9,14 @@ import { createTransaction } from "./transaction";
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export function handleTransfer(event: Transfer): void {
-    updatePackableTokenBalance(event.params._from.toHexString(), event.address.toHexString(), event.params._tokenId.toHexString())
-    updatePackableTokenBalance(event.params._to.toHexString(), event.address.toHexString(), event.params._tokenId.toHexString())
+    //updatePackableTokenBalance(event.params._from.toHexString(), event.address.toHexString(), event.params._tokenId.toHexString())
+    //updatePackableTokenBalance(event.params._to.toHexString(), event.address.toHexString(), event.params._tokenId.toHexString())
 
-    newPackableTransaction(event);
+    //newPackableTransaction(event);
 }
 
 export function handleNewJson(event: NewJson): void {
-    createPackableId(event);
+    //createPackableId(event);
 }
 
 export function createPackable(event: NewPNFToken): void {
