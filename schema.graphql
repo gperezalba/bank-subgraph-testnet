@@ -77,6 +77,8 @@ type Transaction @entity {
     bankTransaction: BankTransaction @derivedFrom(field: "transaction")
     nftCategory: BigInt
     nftDescription: Commodity
+    pnftCategory: BigInt 
+    pnftDescription: PackableId
     officialCategory: BigInt
     officialDescription: Official
 }

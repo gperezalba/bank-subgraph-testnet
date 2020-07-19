@@ -84,6 +84,10 @@ export function createTransaction(
         let commodityId = currency.concat("-").concat(amount.toString());
         tx.nftCategory = token.nftCategory;
         tx.nftDescription = commodityId;
+    } else if (token.tokenKind == BigInt.fromI32(3)) {
+        let id = currency.concat("-").concat(packableId.toString());
+        tx.pnftCategory = token.pnftCategory;
+        tx.pnftDescription = id;
     }
 
     let officialFrom = Official.load(fromWallet.id);

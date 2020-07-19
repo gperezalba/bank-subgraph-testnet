@@ -900,6 +900,40 @@ export class Transaction extends Entity {
     }
   }
 
+  get pnftCategory(): BigInt | null {
+    let value = this.get("pnftCategory");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set pnftCategory(value: BigInt | null) {
+    if (value === null) {
+      this.unset("pnftCategory");
+    } else {
+      this.set("pnftCategory", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get pnftDescription(): string | null {
+    let value = this.get("pnftDescription");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set pnftDescription(value: string | null) {
+    if (value === null) {
+      this.unset("pnftDescription");
+    } else {
+      this.set("pnftDescription", Value.fromString(value as string));
+    }
+  }
+
   get officialCategory(): BigInt | null {
     let value = this.get("officialCategory");
     if (value === null) {
