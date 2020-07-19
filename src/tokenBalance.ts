@@ -147,6 +147,7 @@ export function updatePackableTokenBalance(walletAddress: string, tokenAddress: 
         if (!packables.includes(tokenAddress)) {
             packables.push(tokenAddress);
             tokenBalance.packables = packables;
+            tokenBalance.balance = BigInt.fromI32(7);
             tokenBalance.save();
         }
 
