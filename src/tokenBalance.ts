@@ -157,10 +157,10 @@ export function updatePackableTokenBalance(walletAddress: string, packableId: st
         packableWallet.save();
     }
 
-    updatePackableBalance(walletAddress, packableIdEntity.packable, packableIdEntity.tokenId);
+    updatePackableBalance(walletAddress, packableIdEntity.packable, packableIdEntity.tokenId, packableId);
 }
 
-export function updatePackableBalance(walletAddress: string, tokenAddress: string, tokenId: string): void {
+export function updatePackableBalance(walletAddress: string, tokenAddress: string, tokenId: string, packableId: string): void {
     let id = walletAddress.concat("-").concat(tokenAddress).concat("-").concat(tokenId);
 
     let packableBalance = PackableBalance.load(id);
@@ -170,14 +170,17 @@ export function updatePackableBalance(walletAddress: string, tokenAddress: strin
         packableBalance.wallet = walletAddress;
         packableBalance.packabeId = tokenAddress.concat("-").concat(tokenId);
 
-        /*let packableWallet = PackableWallet.load(tokenAddress.concat("-").concat(tokenId));
-        let balances = packableWallet.balances;
+        let packableWallet = PackableWallet.load(packableId);
 
-        if (!balances.includes(id)) {
-            balances.push(id);
-            packableWallet.balances = balances;
-            packableWallet.save();
-        }*/
+        if (packableWallet != null) {
+            let balances = packableWallet.balances;
+
+            if (!balances.includes(id)) {
+                balances.push(id);
+                packableWallet.balances = balances;
+                packableWallet.save();
+            }
+        }
     }
 
     let pnft = PNFTInterface.bind(Address.fromHexString(tokenAddress) as Address);
