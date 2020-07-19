@@ -67,11 +67,11 @@ function newPackableTransaction(event: Transfer): void {
     }
 
     if (!fromWallet.isBankUser) {
-        let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
+        let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toHexString();
         let tx = Transaction.load(txId);
 
         if (tx == null) {
-            let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
+            let txId = event.transaction.hash.toHex() + "-" + event.logIndex.toHexString();
             tx = createTransaction(
                 txId, 
                 event.params._from, 
