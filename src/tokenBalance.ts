@@ -135,8 +135,9 @@ export function popCommodity(commodityId: string, tokenAddress: Address, walletA
 
 export function updatePackableTokenBalance(walletAddress: string, packableId: string): void {
     let packableIdEntity = PackableId.load(packableId);
+    createTokenBalance(Address.fromHexString(packableIdEntity.packable) as Address, walletAddress);
     let tokenBalanceId = packableIdEntity.packable.concat("-").concat(walletAddress);
-    let tokenBalance = TokenBalance.load(tokenBalanceId)
+    let tokenBalance = TokenBalance.load(tokenBalanceId);
 
     let packableWallet = PackableWallet.load(packableIdEntity.packable);
 
@@ -157,7 +158,6 @@ export function updatePackableTokenBalance(walletAddress: string, packableId: st
         packableWallet.save();
     }
 
-    createTokenBalance(Address.fromHexString(packableIdEntity.packable) as Address, walletAddress);
     updatePackableBalance(walletAddress, packableIdEntity.packable, packableIdEntity.tokenId);
 }
 
