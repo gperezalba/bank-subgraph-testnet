@@ -170,14 +170,14 @@ export function updatePackableBalance(walletAddress: string, tokenAddress: strin
         packableBalance.wallet = walletAddress;
         packableBalance.packabeId = tokenAddress.concat("-").concat(tokenId);
 
-        let packableWallet = PackableWallet.load(tokenAddress.concat("-").concat(tokenId));
+        /*let packableWallet = PackableWallet.load(tokenAddress.concat("-").concat(tokenId));
         let balances = packableWallet.balances;
 
         if (!balances.includes(id)) {
             balances.push(id);
             packableWallet.balances = balances;
             packableWallet.save();
-        }
+        }*/
     }
 
     let pnft = PNFTInterface.bind(Address.fromHexString(tokenAddress) as Address);
