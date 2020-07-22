@@ -53,10 +53,11 @@ function createPackableId(event: NewJson): void {
 
 function pushPackableId(tokenAddress: string, tokenId: string): void {
     let packable = Packable.load(tokenAddress);
+    let id = tokenAddress.concat("-").concat(tokenId);
     let ids = packable.ids;
 
-    if (!ids.includes(tokenId)) {
-        ids.push(tokenId);
+    if (!ids.includes(id)) {
+        ids.push(id);
         packable.ids = ids;
         packable.save();
     }
