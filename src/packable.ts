@@ -48,16 +48,15 @@ function createPackableId(event: NewJson): void {
 
     packableIdEntity.save();
 
-    pushPackableId(event.address.toHexString(), event.params.tokenId.toHexString());
+    pushPackableId(event.address.toHexString(), packableId);
 }
 
-function pushPackableId(tokenAddress: string, tokenId: string): void {
+function pushPackableId(tokenAddress: string, packableId: string): void {
     let packable = Packable.load(tokenAddress);
-    let id = tokenAddress.concat("-").concat(tokenId);
     let ids = packable.ids;
 
-    if (!ids.includes(id)) {
-        ids.push(id);
+    if (!ids.includes(packableId)) {
+        ids.push(packableId);
         packable.ids = ids;
         packable.save();
     }
