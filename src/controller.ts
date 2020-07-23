@@ -4,6 +4,7 @@ import { NewToken, NewNFToken, NewAddress, NewMarket, NewPNFToken } from "../gen
 import { createToken } from "./token"
 import { Official, Token } from "../generated/schema";
 import { createPackable } from "./packable";
+import { createOfficialName } from "./nameService";
 
 export function handleTokenCreated(event: NewToken): void {
     createToken(event.params.newToken, BigInt.fromI32(1), event.params.category);
@@ -28,6 +29,7 @@ export function handleNewAddress(event: NewAddress): void {
     if (event.params.kind == BigInt.fromI32(1)) {
         official.category = event.params.kind;
         official.description = "REGISTRY";
+        createOfficialName(event.params.contractAddress, "Registro PiMarkets");
     } else if (event.params.kind == BigInt.fromI32(2)) {
         official.category = event.params.kind;
         official.description = "IDENTITY-FACTORY";
@@ -52,21 +54,27 @@ export function handleNewAddress(event: NewAddress): void {
     } else if (event.params.kind == BigInt.fromI32(9)) {
         official.category = event.params.kind;
         official.description = "P2P";
+        createOfficialName(event.params.contractAddress, "Mercado P2P (Secundario)");
     } else if (event.params.kind == BigInt.fromI32(10)) {
         official.category = event.params.kind;
         official.description = "P2P-COLLECTABLE";
+        createOfficialName(event.params.contractAddress, "Mercado P2P (Secundario)");
     } else if (event.params.kind == BigInt.fromI32(11)) {
         official.category = event.params.kind;
-        official.description = "P2P-PACKABLE";
+        official.description = "P2P-PRIMARY";
+        createOfficialName(event.params.contractAddress, "Mercado P2P (Primario)");
     } else if (event.params.kind == BigInt.fromI32(12)) {
         official.category = event.params.kind;
-        official.description = "P2P-PRIMARY";
+        official.description = "P2P-COLLECTABLE-PRIMARY";
+        createOfficialName(event.params.contractAddress, "Mercado P2P (Primario)");
     } else if (event.params.kind == BigInt.fromI32(13)) {
         official.category = event.params.kind;
-        official.description = "P2P-COMMODITY-PRIMARY";
+        official.description = "P2P-PACKABLE";
+        createOfficialName(event.params.contractAddress, "Mercado P2P (Secundario)");
     } else if (event.params.kind == BigInt.fromI32(14)) {
         official.category = event.params.kind;
-        official.description = "P2P-COMMODITY-PRIMARY";
+        official.description = "P2P-PACKABLE-PRIMARY";
+        createOfficialName(event.params.contractAddress, "Mercado P2P (Primario)");
     } else {
         official.category = event.params.kind;
         official.description = "Other";

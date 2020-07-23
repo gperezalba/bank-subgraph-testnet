@@ -18,6 +18,10 @@ export function handleChangeOwner(event: ChangeOwner): void {
     setOwner(event.params.name, event.params.newOwner);
 }
 
+export function createOfficialName(walletAddress: Address, name: string): void {
+    setName(walletAddress, name);
+}
+
 function setWallet(id: string, wallet: string): void {
     let name = Name.load(id);
 
