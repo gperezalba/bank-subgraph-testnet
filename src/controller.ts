@@ -54,27 +54,27 @@ export function handleNewAddress(event: NewAddress): void {
     } else if (event.params.kind == BigInt.fromI32(9)) {
         official.category = event.params.kind;
         official.description = "P2P";
-        //createOfficialName(event.params.contractAddress, "Mercado P2P (Secundario)");
+        createOfficialName(event.params.contractAddress, "Mercado P2P (Secundario)");
     } else if (event.params.kind == BigInt.fromI32(10)) {
         official.category = event.params.kind;
         official.description = "P2P-COLLECTABLE";
-        //createOfficialName(event.params.contractAddress, "Mercado P2P (Secundario)");
+        createOfficialName(event.params.contractAddress, "Mercado P2P (Secundario)");
     } else if (event.params.kind == BigInt.fromI32(11)) {
         official.category = event.params.kind;
         official.description = "P2P-PRIMARY";
-        //createOfficialName(event.params.contractAddress, "Mercado P2P (Primario)");
+        createOfficialName(event.params.contractAddress, "Mercado P2P (Primario)");
     } else if (event.params.kind == BigInt.fromI32(12)) {
         official.category = event.params.kind;
         official.description = "P2P-COLLECTABLE-PRIMARY";
-        //createOfficialName(event.params.contractAddress, "Mercado P2P (Primario)");
+        createOfficialName(event.params.contractAddress, "Mercado P2P (Primario)");
     } else if (event.params.kind == BigInt.fromI32(13)) {
         official.category = event.params.kind;
         official.description = "P2P-PACKABLE";
-        //createOfficialName(event.params.contractAddress, "Mercado P2P (Secundario)");
+        createOfficialName(event.params.contractAddress, "Mercado P2P (Secundario)");
     } else if (event.params.kind == BigInt.fromI32(14)) {
         official.category = event.params.kind;
         official.description = "P2P-PACKABLE-PRIMARY";
-        //createOfficialName(event.params.contractAddress, "Mercado P2P (Primario)");
+        createOfficialName(event.params.contractAddress, "Mercado P2P (Primario)");
     } else if (event.params.kind == BigInt.fromI32(0)) {
         official.category = event.params.kind;
         official.description = "ZERO-ADDRESS";
