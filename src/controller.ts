@@ -75,6 +75,8 @@ export function handleNewAddress(event: NewAddress): void {
         official.category = event.params.kind;
         official.description = "P2P-PACKABLE-PRIMARY";
         createOfficialName(event.params.contractAddress, "Mercado P2P (Primario)");
+    } else if (event.params.kind == BigInt.fromI32(0)) {
+        createOfficialName(event.params.contractAddress, "PiMarkets (Emisión oficial)");
     } else {
         official.category = event.params.kind;
         official.description = "Other";
