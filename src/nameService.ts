@@ -19,6 +19,7 @@ export function handleChangeOwner(event: ChangeOwner): void {
 }
 
 export function createOfficialName(walletAddress: Address, name: string): void {
+    setWallet(name, walletAddress.toHexString());
     setName(walletAddress, name);
 }
 
