@@ -20,7 +20,11 @@ export function handleChangeOwner(event: ChangeOwner): void {
 }
 
 export function handleNewContractName(event: NewContractName): void {
-    createOfficialName(event.params.wallet, event.params.name);
+    let name = Name.load(event.params.name);
+
+    if (name == null) {
+        createOfficialName(event.params.wallet, event.params.name);
+    }
 }
 
 export function createOfficialName(walletAddress: Address, name: string): void {
