@@ -93,7 +93,7 @@ dataSources:
       eventHandlers:
         - event: NewContractName(address,string)
           handler: handleNewContractName
-      file: ./src/controller.ts
+      file: ./src/nameService.ts
 templates:
   - name: Token
     kind: ethereum/contract
