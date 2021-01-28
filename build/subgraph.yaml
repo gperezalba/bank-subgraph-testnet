@@ -6,7 +6,7 @@ dataSources:
     name: IdentityFactory
     network: mainnet
     source:
-      address: "0xAe56CA4D71e7312e8500a601AF08756F74fBE3ef"
+      address: "0xc020d1d2B02674C8de7C9ef47B786C42F692F03C"
       abi: IdentityFactory
     mapping:
       kind: ethereum/events
@@ -26,7 +26,7 @@ dataSources:
     name: NameService
     network: mainnet
     source:
-      address: "0x672af58B94683cBcd2De173c5940d49Deb4cF5E6"
+      address: "0xa235C036b75413e68f373BCa100bF818423Ee5B6"
       abi: NameService
     mapping:
       kind: ethereum/events
@@ -51,7 +51,7 @@ dataSources:
     name: Controller
     network: mainnet
     source:
-      address: "0x846C21ca60f513a101C2Ab8c718Da43C78BD5035"
+      address: "0xd864aD84602FE08492Bd058cD6aBc47e82CcFF0A"
       abi: Controller
     mapping:
       kind: ethereum/events
@@ -75,6 +75,25 @@ dataSources:
           handler: handleNewAddress
         - event: NewMarket(address,address,address)
           handler: handleNewMarket
+      file: Controller\Controller.wasm
+  - kind: ethereum/contract
+    name: ContractName
+    network: mainnet
+    source:
+      address: "0xd864aD84602FE08492Bd058cD6aBc47e82CcFF0A"
+      abi: ContractName
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - NewToken
+      abis:
+        - name: ContractName
+          file: ContractName\abis\ContractName.json
+      eventHandlers:
+        - event: NewContractName(address,string)
+          handler: handleNewContractName
       file: Controller\Controller.wasm
 templates:
   - name: Token

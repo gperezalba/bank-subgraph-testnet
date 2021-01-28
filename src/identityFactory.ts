@@ -3,6 +3,7 @@ import { DeployIdentity } from "../generated/IdentityFactory/IdentityFactory"
 import { Identity, Wallet } from "../generated/schema"
 import { Identity as IdentityTemplate } from "../generated/templates"
 import { Wallet as WalletTemplate } from "../generated/templates"
+import { createOfficialName } from "./nameService"
 
 import { loadWallet } from "./wallet"
 
@@ -24,6 +25,11 @@ export function handleDeployIdentity(event: DeployIdentity): void {
 
   identity.save();
   wallet.save();
+
+  createOfficialName(
+    event.params.owner, 
+    ("Wallet propietario (").concat(event.params.name).concat(")")
+  );
 
   IdentityTemplate.create(event.params.identity);
   WalletTemplate.create(event.params.wallet);

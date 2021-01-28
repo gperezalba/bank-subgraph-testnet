@@ -1,6 +1,7 @@
 import { Address } from "@graphprotocol/graph-ts"
 import { CreateName, ChangeWallet, ChangeOwner } from "../generated/NameService/NameService"
 import { Name, Wallet } from "../generated/schema"
+import { NewContractName } from "../generated/ContractName/ContractName"
 
 import { loadWallet } from "./wallet"
 
@@ -16,6 +17,10 @@ export function handleChangeWallet(event: ChangeWallet): void {
 
 export function handleChangeOwner(event: ChangeOwner): void {
     setOwner(event.params.name, event.params.newOwner);
+}
+
+export function handleNewContractName(event: NewContractName): void {
+    createOfficialName(event.params.wallet, event.params.name);
 }
 
 export function createOfficialName(walletAddress: Address, name: string): void {

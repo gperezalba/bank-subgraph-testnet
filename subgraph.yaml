@@ -75,6 +75,25 @@ dataSources:
         - event: NewMarket(address,address,address)
           handler: handleNewMarket
       file: ./src/controller.ts
+  - kind: ethereum/contract
+    name: ContractName
+    network: mainnet
+    source:
+      address: "0xe8dd42Ab2261e1914Ab23E266Cabd46B62E8CD69"
+      abi: ContractName
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - NewToken
+      abis:
+        - name: ContractName
+          file: ./abis/ContractName.json
+      eventHandlers:
+        - event: NewContractName(address,string)
+          handler: handleNewContractName
+      file: ./src/controller.ts
 templates:
   - name: Token
     kind: ethereum/contract
