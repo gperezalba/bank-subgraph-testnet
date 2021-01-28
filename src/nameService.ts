@@ -21,8 +21,9 @@ export function handleChangeOwner(event: ChangeOwner): void {
 
 export function handleNewContractName(event: NewContractName): void {
     let name = Name.load(event.params.name);
+    let wallet = Wallet.load(event.params.wallet.toHexString());
 
-    if (name == null) {
+    if ((wallet.name == null) && (name == null)) {
         createOfficialName(event.params.wallet, event.params.name);
     }
 }
