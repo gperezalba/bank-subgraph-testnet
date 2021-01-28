@@ -31,3 +31,9 @@ export class PNFTInterface extends DataSourceTemplate {
     DataSourceTemplate.create("PNFTInterface", [address.toHex()]);
   }
 }
+
+export class Balance extends DataSourceTemplate {
+  static create(address: Address): void {
+    DataSourceTemplate.create("Balance", [address.toHex()]);
+  }
+}

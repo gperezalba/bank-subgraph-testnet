@@ -221,3 +221,21 @@ templates:
           handler: handleTransfer 
         - event: NewJson(indexed bytes32,uint256[5])
           handler: handleNewJson
+  - name: Balance
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: Balance
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      file: ./src/balance.ts
+      entities:
+        - Balance
+      abis:
+        - name: Balance
+          file: ./abis/Balance.json
+      callHandlers:
+        - function: f()
+          handler: handleGetBalance
